@@ -4,9 +4,10 @@
   "private": true,
   "dependencies": {
     "flux": "^3.1.2",
-    "font-awesome": "^4.7.0",
+    "material-ui": "^0.18.3",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "flow-bin": "^0.48.0",
@@ -16,7 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "flow": "flow",
+    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\""
   }
 }
