@@ -1,5 +1,4 @@
 import React from 'react';
-import FontIcon from 'material-ui/FontIcon';
 import {
   BottomNavigation,
   BottomNavigationItem,
@@ -11,9 +10,10 @@ import IconToday from 'material-ui/svg-icons/action/today';
 
 const styles = {
   fixedToBottom: {
+    left: 0,
     bottom: 0,
     position: 'fixed',
-    width: '100%',
+    width: '100vw',
   },
 };
 
