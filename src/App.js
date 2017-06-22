@@ -8,6 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SubmitForm from './SubmitForm';
 import Eval from './Eval';
 import Navigation from './Navigation';
+import Upload from './Upload'
 
 const styles = {
   button: {
@@ -27,19 +28,6 @@ const styles = {
 
 export default () =>
   <div>
-    <RaisedButton
-      label="画像を選択してください"
-      icon={<IconPhotoCamera />}
-      containerElement="label"
-      style={styles.button}
-      fullWidth={true}
-    >
-      <input type="file" style={styles.input} />
-    </RaisedButton>
-    <br />
-    <RaisedButton icon={<IconStar />} label="1" style={styles.button} />
-    <RaisedButton icon={<IconStar />} label="2" style={styles.button} />
-    <RaisedButton icon={<IconStar />} label="3" style={styles.button} />
-    <RaisedButton icon={<IconStar />} label="4" style={styles.button} />
+    <Upload />
     <Navigation />
   </div>;
