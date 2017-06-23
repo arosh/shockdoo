@@ -1,26 +1,26 @@
 // @flow
+import React from 'react';
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
-
 import FlatButton from 'material-ui/FlatButton';
 import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
 import IconStar from 'material-ui/svg-icons/toggle/star';
 import IconStarBorder from 'material-ui/svg-icons/toggle/star-border';
-import React from 'react';
-import Slider from 'material-ui/Slider';
+
+// import Slider from 'material-ui/Slider';
 
 const styles = {
   stars: {
     textAlign: 'center',
   },
   largeIcon: {
-    width: "72px",
-    height: "72px"
+    width: '72px',
+    height: '72px',
   },
   card: {
-    maxWidth: "970px",
-    margin: "0 auto"
-  }
-}
+    maxWidth: '970px',
+    margin: '0 auto',
+  },
+};
 
 export default class Preview extends React.Component {
   render = () =>
