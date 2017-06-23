@@ -1,12 +1,15 @@
-import React from 'react';
+// @flow
 import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui/BottomNavigation';
-import Paper from 'material-ui/Paper';
-import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
+
 import IconFavorite from 'material-ui/svg-icons/action/favorite';
+import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
 import IconToday from 'material-ui/svg-icons/action/today';
+import Paper from 'material-ui/Paper';
+
+import React from 'react';
 
 const styles = {
   fixedToBottom: {
