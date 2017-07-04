@@ -4,8 +4,9 @@ import {
   BottomNavigationItem,
 } from 'material-ui/BottomNavigation';
 
-import IconFavorite from 'material-ui/svg-icons/action/favorite';
+import IconHome from 'material-ui/svg-icons/action/home';
 import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
+import IconFavorite from 'material-ui/svg-icons/action/favorite';
 import IconAccountBox from 'material-ui/svg-icons/action/account-box';
 import Paper from 'material-ui/Paper';
 
@@ -27,6 +28,7 @@ export default class Navigation extends React.Component {
     return (
       <Paper zDepth={2} style={styles.paper}>
         <BottomNavigation>
+          <BottomNavigationItem label="Home" icon={<IconHome />} />
           <BottomNavigationItem
             label="Upload Photo"
             icon={<IconPhotoCamera />}
