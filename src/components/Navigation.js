@@ -12,18 +12,19 @@ import Paper from 'material-ui/Paper';
 import React from 'react';
 
 const styles = {
-  fixedToBottom: {
+  paper: {
     left: 0,
     bottom: 0,
     position: 'fixed',
     width: '100vw',
+    zIndex: 2, // そのままだと FlatButton が浮き上がってしまう
   },
 };
 
 export default class Navigation extends React.Component {
   render() {
     return (
-      <Paper zDepth={2} style={styles.fixedToBottom}>
+      <Paper zDepth={2} style={styles.paper}>
         <BottomNavigation>
           <BottomNavigationItem
             label="Upload Photo"
