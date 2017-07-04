@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import 'flexboxgrid/css/flexboxgrid.min.css';
 
@@ -27,6 +26,3 @@ ReactDOM.render(
   </MuiThemeProvider>,
   document.getElementById('react-root')
 );
-
-// PWA用の登録処理
-registerServiceWorker();
