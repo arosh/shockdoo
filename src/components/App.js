@@ -6,7 +6,7 @@ import GridList from './GridList';
 import React from 'react';
 
 export default () =>
-  <div className="row">
+  <div>
     <GridList />
     <Preview />
     <Navigation />
