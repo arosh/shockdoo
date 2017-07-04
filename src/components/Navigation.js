@@ -6,7 +6,7 @@ import {
 
 import IconFavorite from 'material-ui/svg-icons/action/favorite';
 import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
-import IconToday from 'material-ui/svg-icons/action/today';
+import IconAccountBox from 'material-ui/svg-icons/action/account-box';
 import Paper from 'material-ui/Paper';
 
 import React from 'react';
@@ -32,7 +32,7 @@ export default class Navigation extends React.Component {
             icon={<IconPhotoCamera />}
           />
           <BottomNavigationItem label="Favorites" icon={<IconFavorite />} />
-          <BottomNavigationItem label="Today" icon={<IconToday />} />
+          <BottomNavigationItem label="My Page" icon={<IconAccountBox />} />
         </BottomNavigation>
       </Paper>
     );
