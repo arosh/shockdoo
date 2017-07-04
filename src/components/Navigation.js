@@ -13,6 +13,7 @@ import React from 'react';
 
 const styles = {
   paper: {
+    // 画面の下側に固定する
     left: 0,
     bottom: 0,
     position: 'fixed',

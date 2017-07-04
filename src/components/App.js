@@ -1,13 +1,13 @@
 // @flow
 import Navigation from './Navigation';
-import Preview from './Preview';
-import GridList from './GridList';
+import Upload from './Upload';
+import Thumbnails from './Thumbnails';
 
 import React from 'react';
 
 export default () =>
   <div>
-    <GridList />
-    <Preview />
+    <Thumbnails />
+    <Upload />
     <Navigation />
   </div>;
