@@ -4,7 +4,7 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
 
-const imageUrl = 'images/IMG_20170614_181803.jpg';
+const imageUrl = 'images/foods/IMG_20170628_175750.jpg';
 
 const styles = {
   star: {
@@ -17,16 +17,16 @@ const styles = {
 
 const starImageUrl = [
   [
-    'images/star/star1n.png',
-    'images/star/star2n.png',
-    'images/star/star3n.png',
-    'images/star/star4n.png',
+    'images/stars/star1n.png',
+    'images/stars/star2n.png',
+    'images/stars/star3n.png',
+    'images/stars/star4n.png',
   ],
   [
-    'images/star/star1y.png',
-    'images/star/star2y.png',
-    'images/star/star3y.png',
-    'images/star/star4y.png',
+    'images/stars/star1y.png',
+    'images/stars/star2y.png',
+    'images/stars/star3y.png',
+    'images/stars/star4y.png',
   ],
 ];
 

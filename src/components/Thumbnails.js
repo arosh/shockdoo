@@ -14,17 +14,24 @@ const styles = {
   }
 };
 
-const imageUrl = 'images/IMG_20170614_181803.jpg';
+const imageUrls = [
+  'images/foods/IMG_20170311_113428.jpg',
+  'images/foods/IMG_20170425_190325.jpg',
+  'images/foods/IMG_20170517_183600.jpg',
+  'images/foods/IMG_20170607_183134.jpg',
+  'images/foods/IMG_20170614_181803.jpg',
+  'images/foods/IMG_20170628_175750.jpg',
+];
 
 // GridListはイマイチだったので，Cardを並べて実装したい
 export default () =>
   <div className="row">
-    {[1, 2, 3, 4, 5, 6, 7].map(key =>
+    {[0, 1, 2, 3, 4, 5, 6].map(key =>
       <div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <div className="box">
           <Card style={styles.card}>
             <CardMedia>
-              <img src={imageUrl} alt="" />
+              <img src={imageUrls[key % imageUrls.length]} alt="" />
             </CardMedia>
             <CardText style={styles.cardText}>
               by @shora_kujira16
