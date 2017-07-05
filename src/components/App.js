@@ -7,7 +7,9 @@ import React from 'react';
 
 export default () =>
   <div>
-    <Thumbnails />
-    <Upload />
+    <div className="container-fluid">
+      <Thumbnails />
+      <Upload />
+    </div>
     <Navigation />
   </div>;
