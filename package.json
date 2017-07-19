@@ -4,21 +4,23 @@
   "private": true,
   "dependencies": {
     "flexboxgrid": "^6.3.1",
-    "flux": "^3.1.2",
-    "material-ui": "^0.18.5",
+    "material-ui": "^0.18.6",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
-    "flow-bin": "^0.49.1",
-    "prettier": "^1.5.2",
-    "react-scripts": "1.0.10"
+    "flow-bin": "^0.50.0",
+    "prettier": "^1.5.3",
+    "react-scripts": "1.0.10",
+    "@storybook/react": "^3.1.9"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "flow": "flow",
-    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\""
+    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   }
 }
