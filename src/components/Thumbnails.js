@@ -11,7 +11,7 @@ const styles = {
   },
   pullRight: {
     float: 'right',
-  }
+  },
 };
 
 const imageUrls = [
