@@ -23,6 +23,9 @@ const styles = {
   container: {
     paddingBottom: 0,
   },
+  img: {
+    width: '100%',
+  },
 };
 
 function range(n: number) {
@@ -58,7 +61,9 @@ export function ThumbnailItem(props: TProps) {
     <Card containerStyle={styles.container}>
       {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
       <CardMedia>
-        <img src={imageUrl} alt="" />
+        <a href="#">
+          <img style={styles.img} src={imageUrl} />
+        </a>
       </CardMedia>
       <CardText>
         <span style={styles.date}>

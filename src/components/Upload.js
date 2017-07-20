@@ -59,7 +59,7 @@ export class Upload extends React.Component {
           <div className="box">
             <Card>
               <CardMedia>
-                <img src={imageUrl} alt="" />
+                <img src={imageUrl} />
               </CardMedia>
               <CardText>
                 <div style={styles.center}>
@@ -73,7 +73,6 @@ export class Upload extends React.Component {
                     >
                       <img
                         className="upload__star"
-                        alt=""
                         src={
                           this.starHighlight(i)
                             ? starImageUrlYes[i]
