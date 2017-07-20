@@ -7,9 +7,9 @@ import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
 
 const styles = {
   button: {
-    width: 98,
-    height: 109,
-    padding: 10,
+    width: 78,
+    height: 89,
+    padding: 0,
   },
   grade: {
     width: 78,
