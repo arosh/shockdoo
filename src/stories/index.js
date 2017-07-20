@@ -9,6 +9,7 @@ import { action } from '@storybook/addon-actions';
 
 import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
+import { Upload } from '../components/Upload';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -56,3 +57,9 @@ const thumbnails = imageUrls.map(url => ({
 storiesOf('Thumbnails', module)
   .addDecorator(MuiDecorator)
   .add('default', () => <ThumbnailCollection thumbnails={thumbnails} />);
+
+storiesOf('Upload', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () =>
+    <Upload imageUrl={imageUrls[0]} onTouchTap={action('upload')} />
+  );
