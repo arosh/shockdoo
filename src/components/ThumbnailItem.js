@@ -31,6 +31,9 @@ const styles = {
   center: {
     textAlign: 'center',
   },
+  container: {
+    paddingBottom: 0,
+  }
 };
 
 function range(n: number) {
@@ -47,7 +50,8 @@ type TProps = {
 export function ThumbnailItem(props: TProps) {
   const { imageUrl, userId, uploadedAt, star } = props;
   return (
-    <Card>
+    <Card containerStyle={styles.container}>
+      {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
       <CardMedia>
         <img src={imageUrl} alt="" />
       </CardMedia>
