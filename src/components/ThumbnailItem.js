@@ -19,17 +19,22 @@ const starImageUrlNo = [
 ];
 
 const styles = {
-  cardText: {
+  name: {
     fontWeight: 'bold',
+    display: 'block',
   },
-  pullRight: {
+  date: {
     float: 'right',
+    fontWeight: 'bold',
   },
   grade: {
     width: 39,
   },
   center: {
     textAlign: 'center',
+    // 改行文字を入れたときの空白があると下側に謎の空白ができる
+    // http://d.hatena.ne.jp/nug/20070501/1178016623
+    lineHeight: 0,
   },
   container: {
     paddingBottom: 0,
@@ -55,11 +60,11 @@ export function ThumbnailItem(props: TProps) {
       <CardMedia>
         <img src={imageUrl} alt="" />
       </CardMedia>
-      <CardText style={styles.cardText}>
-        <span style={styles.pullRight}>
+      <CardText>
+        <span style={styles.date}>
           {uploadedAt}
         </span>
-        <span>
+        <span style={styles.name}>
           by {userId}
         </span>
         <div style={styles.center}>
