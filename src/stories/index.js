@@ -11,6 +11,9 @@ import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 
+import 'flexboxgrid/css/flexboxgrid.min.css';
+import '../index.css';
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -23,7 +26,9 @@ const muiTheme = getMuiTheme({
 
 const MuiDecorator = story =>
   <MuiThemeProvider muiTheme={muiTheme}>
-    {story()}
+    <div className="container-fluid">
+      {story()}
+    </div>
   </MuiThemeProvider>;
 
 storiesOf('Navigation', module)
@@ -48,10 +53,11 @@ const imageUrls = [
   'images/foods/IMG_20170628_175750.jpg',
 ];
 
-const thumbnails = imageUrls.map(url => ({
+const thumbnails = imageUrls.map((url, index) => ({
   imageUrl: url,
   userId: 'shora_kujira16',
   uploadedAt: '2017/07/20',
+  star: index % 5 + 1,
 }));
 
 storiesOf('Thumbnails', module)

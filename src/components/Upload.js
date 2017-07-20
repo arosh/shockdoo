@@ -6,14 +6,8 @@ import IconButton from 'material-ui/IconButton';
 import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
 
 const styles = {
-  button: {
-    width: 78,
-    height: 89,
-    padding: 0,
-  },
-  grade: {
-    width: 78,
-    height: 89,
+  center: {
+    textAlign: 'center',
   },
 };
 
@@ -47,6 +41,7 @@ export class Upload extends React.Component {
     star: number,
     starHover: number,
   };
+
   constructor(props: TProps) {
     super(props);
     this.state = {
@@ -54,6 +49,7 @@ export class Upload extends React.Component {
       starHover: 0,
     };
   }
+
   render = () => {
     const { imageUrl, onSubmit } = this.props;
     return (
@@ -65,17 +61,17 @@ export class Upload extends React.Component {
                 <img src={imageUrl} alt="" />
               </CardMedia>
               <CardText>
-                <div style={{ textAlign: 'center' }}>
+                <div style={styles.center}>
                   {range(5).map(i =>
                     <IconButton
                       key={i}
-                      style={styles.button}
-                      iconStyle={styles.grade}
+                      className="upload__button"
                       onTouchTap={() => this.onTouchTap(i)}
                       onMouseOver={() => this.onMouseOver(i)}
                       onMouseOut={() => this.onMouseOut()}
                     >
                       <img
+                        className="upload__star"
                         alt=""
                         src={
                           this.starHighlight(i)
@@ -90,6 +86,7 @@ export class Upload extends React.Component {
               <CardActions>
                 <RaisedButton
                   primary
+                  disabled={this.state.star === 0}
                   label="投稿する"
                   icon={<IconFileUpload />}
                   onTouchTap={() => onSubmit(this.state.star)}
@@ -101,21 +98,25 @@ export class Upload extends React.Component {
       </div>
     );
   };
+
   onTouchTap = (n: number) => {
     this.setState({
       star: n + 1,
     });
   };
+
   onMouseOver = (n: number) => {
     this.setState({
       starHover: n + 1,
     });
   };
+
   onMouseOut = () => {
     this.setState({
       starHover: 0,
     });
   };
+
   starHighlight = (n: number) => {
     if (this.state.starHover === 0) {
       return n < this.state.star;

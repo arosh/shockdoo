@@ -8,14 +8,15 @@ const styles = {
   },
 };
 
-type TThumbnail = {
+type TThumbnailItem = {
   imageUrl: string,
   userId: string,
   uploadedAt: string,
+  star: number,
 };
 
 type TProps = {
-  thumbnails: TThumbnail[],
+  thumbnails: TThumbnailItem[],
 };
 
 export function ThumbnailCollection(props: TProps) {
@@ -29,6 +30,7 @@ export function ThumbnailCollection(props: TProps) {
               imageUrl={item.imageUrl}
               userId={item.userId}
               uploadedAt={item.uploadedAt}
+              star={item.star}
             />
           </div>
         </div>
