@@ -55,7 +55,7 @@ const imageUrls = [
 
 const thumbnails = imageUrls.map((url, index) => ({
   imageUrl: url,
-  userId: 'shora_kujira16',
+  userId: '@shora_kujira16',
   uploadedAt: '2017/07/20',
   star: index % 5 + 1,
 }));

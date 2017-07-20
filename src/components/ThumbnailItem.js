@@ -26,6 +26,9 @@ const styles = {
   img: {
     width: '100%',
   },
+  media: {
+    lineHeight: 0,
+  }
 };
 
 function range(n: number) {
@@ -48,6 +51,8 @@ const starImageUrlNo = [
   'images/stars/star5n.png',
 ];
 
+const ClearFix = () => <span style={{display: 'block', clear: 'both'}} />;
+
 type TProps = {
   imageUrl: string,
   userId: string,
@@ -60,7 +65,7 @@ export function ThumbnailItem(props: TProps) {
   return (
     <Card containerStyle={styles.container}>
       {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
-      <CardMedia>
+      <CardMedia style={styles.media}>
         <a href="#">
           <img style={styles.img} src={imageUrl} />
         </a>
@@ -69,9 +74,7 @@ export function ThumbnailItem(props: TProps) {
         <span style={styles.date}>
           {uploadedAt}
         </span>
-        <span style={styles.name}>
-          by {userId}
-        </span>
+        <ClearFix />
         <div style={styles.center}>
           {range(5).map(i =>
             <img
