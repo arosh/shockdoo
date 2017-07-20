@@ -4,13 +4,15 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
 
 const styles = {
-  star: {
-    // 何かの都合で別の画像に差し替えないといけなくなった場合のことなどを考えて
-    // 念のため指定しておく
-    width: 80,
+  button: {
+    width: 98,
+    height: 109,
+    padding: 10,
+  },
+  grade: {
+    width: 78,
     height: 89,
   },
 };
@@ -33,7 +35,7 @@ const starImageUrlNo = [
 
 type TProps = {
   imageUrl: string,
-  onTouchTap: () => void,
+  onSubmit: (star: number) => void,
 };
 
 function range(n: number) {
@@ -43,15 +45,17 @@ function range(n: number) {
 export class Upload extends React.Component {
   state: {
     star: number,
+    starHover: number,
   };
   constructor(props: TProps) {
     super(props);
     this.state = {
-      star: 5,
+      star: 0,
+      starHover: 0,
     };
   }
   render = () => {
-    const { imageUrl, onTouchTap } = this.props;
+    const { imageUrl, onSubmit } = this.props;
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
@@ -61,20 +65,24 @@ export class Upload extends React.Component {
                 <img src={imageUrl} alt="" />
               </CardMedia>
               <CardText>
-                {/*http://www.irasutoya.com/2015/08/5.html*/}
                 <div style={{ textAlign: 'center' }}>
                   {range(5).map(i =>
-                    <IconButton style={styles.star}>
-                    <img
+                    <IconButton
                       key={i}
-                      src={
-                        i < this.state.star
-                          ? starImageUrlYes[i]
-                          : starImageUrlNo[i]
-                      }
-                      alt=""
+                      style={styles.button}
+                      iconStyle={styles.grade}
                       onTouchTap={() => this.onTouchTap(i)}
-                    />
+                      onMouseOver={() => this.onMouseOver(i)}
+                      onMouseOut={() => this.onMouseOut()}
+                    >
+                      <img
+                        alt=""
+                        src={
+                          this.starHighlight(i)
+                            ? starImageUrlYes[i]
+                            : starImageUrlNo[i]
+                        }
+                      />
                     </IconButton>
                   )}
                 </div>
@@ -84,7 +92,7 @@ export class Upload extends React.Component {
                   primary
                   label="投稿する"
                   icon={<IconFileUpload />}
-                  onTouchTap={onTouchTap}
+                  onTouchTap={() => onSubmit(this.state.star)}
                 />
               </CardActions>
             </Card>
@@ -97,5 +105,22 @@ export class Upload extends React.Component {
     this.setState({
       star: n + 1,
     });
+  };
+  onMouseOver = (n: number) => {
+    this.setState({
+      starHover: n + 1,
+    });
+  };
+  onMouseOut = () => {
+    this.setState({
+      starHover: 0,
+    });
+  };
+  starHighlight = (n: number) => {
+    if (this.state.starHover === 0) {
+      return n < this.state.star;
+    } else {
+      return n < this.state.starHover;
+    }
   };
 }

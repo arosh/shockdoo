@@ -61,5 +61,5 @@ storiesOf('Thumbnails', module)
 storiesOf('Upload', module)
   .addDecorator(MuiDecorator)
   .add('default', () =>
-    <Upload imageUrl={imageUrls[0]} onTouchTap={action('upload')} />
+    <Upload imageUrl={imageUrls[0]} onSubmit={action('upload')} />
   );
