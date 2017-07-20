@@ -24,23 +24,41 @@ const styles = {
 
 type TProps = {
   fixedToBottom?: boolean,
+  selectedIndex?: number,
+  onTouchTap: string => void,
 };
 
 // Storybook用にfixedToBottomを可変にしておいたけど，実はfixedToBottomでもStorybookがよろしくやってくれることがわかった。
 // ThumbnailsのzDepthが1なので2にする
 export function Navigation(props: TProps) {
-  const {fixedToBottom} = props;
+  const { fixedToBottom, selectedIndex, onTouchTap } = props;
   const style = fixedToBottom !== undefined ? styles.paper : {};
   return (
     <Paper zDepth={2} style={style}>
-      <BottomNavigation>
-        <BottomNavigationItem label="Home" icon={<IconHome />} />
-        <BottomNavigationItem label="Upload Photo" icon={<IconPhotoCamera />} />
-        <BottomNavigationItem label="Favorites" icon={<IconFavorite />} />
-        <BottomNavigationItem label="My Page" icon={<IconAccountBox />} />
+      <BottomNavigation selectedIndex={selectedIndex}>
+        <BottomNavigationItem
+          label="Home"
+          icon={<IconHome />}
+          onTouchTap={() => onTouchTap('home')}
+        />
+        <BottomNavigationItem
+          label="Upload Photo"
+          icon={<IconPhotoCamera />}
+          onTouchTap={() => onTouchTap('upload')}
+        />
+        <BottomNavigationItem
+          label="Favorites"
+          icon={<IconFavorite />}
+          onTouchTap={() => onTouchTap('favorite')}
+        />
+        <BottomNavigationItem
+          label="My Page"
+          icon={<IconAccountBox />}
+          onTouchTap={() => onTouchTap('profile')}
+        />
       </BottomNavigation>
     </Paper>
   );
-};
+}
 
 export default Navigation;

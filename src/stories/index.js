@@ -6,10 +6,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
-import { Button, Welcome } from '@storybook/react/demo';
 import { Navigation } from '../components/Navigation';
+import { ThumbnailCollection } from '../components/ThumbnailCollection';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -26,19 +25,34 @@ const MuiDecorator = story =>
     {story()}
   </MuiThemeProvider>;
 
-storiesOf('Welcome', module).add('to Storybook', () =>
-  <Welcome showApp={linkTo('Button')} />
-);
-
-storiesOf('Button', module)
-  .add('with text', () =>
-    <Button onClick={action('clicked')}>Hello Button</Button>
-  )
-  .add('with some emoji', () =>
-    <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
-  );
-
 storiesOf('Navigation', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <Navigation />)
-  .add('fixedToBottom', () => <Navigation fixedToBottom={true} />);
+  .add('default', () =>
+    <Navigation selectedIndex={1} onTouchTap={action('tap')} />
+  )
+  .add('fixedToBottom', () =>
+    <Navigation
+      fixedToBottom={true}
+      selectedIndex={1}
+      onTouchTap={action('tap')}
+    />
+  );
+
+const imageUrls = [
+  'images/foods/IMG_20170311_113428.jpg',
+  'images/foods/IMG_20170425_190325.jpg',
+  'images/foods/IMG_20170517_183600.jpg',
+  'images/foods/IMG_20170607_183134.jpg',
+  'images/foods/IMG_20170614_181803.jpg',
+  'images/foods/IMG_20170628_175750.jpg',
+];
+
+const thumbnails = imageUrls.map(url => ({
+  imageUrl: url,
+  userId: 'shora_kujira16',
+  uploadedAt: '2017/07/20',
+}));
+
+storiesOf('Thumbnails', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <ThumbnailCollection thumbnails={thumbnails} />);
