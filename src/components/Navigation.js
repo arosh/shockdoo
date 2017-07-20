@@ -11,7 +11,6 @@ import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
 import IconFavorite from 'material-ui/svg-icons/action/favorite';
 import IconAccountBox from 'material-ui/svg-icons/action/account-box';
 
-// storybookで使うなら，クラスを使う側から指定する方がいいような気がする
 const styles = {
   paper: {
     // 画面の下側に固定する
@@ -23,20 +22,25 @@ const styles = {
   },
 };
 
-export default class Navigation extends React.Component {
-  render() {
-    return (
-      <Paper zDepth={2}>
-        <BottomNavigation>
-          <BottomNavigationItem label="Home" icon={<IconHome />} />
-          <BottomNavigationItem
-            label="Upload Photo"
-            icon={<IconPhotoCamera />}
-          />
-          <BottomNavigationItem label="Favorites" icon={<IconFavorite />} />
-          <BottomNavigationItem label="My Page" icon={<IconAccountBox />} />
-        </BottomNavigation>
-      </Paper>
-    );
-  }
-}
+type TProps = {
+  fixedToBottom?: boolean,
+};
+
+// Storybook用にfixedToBottomを可変にしておいたけど，実はfixedToBottomでもStorybookがよろしくやってくれることがわかった。
+// ThumbnailsのzDepthが1なので2にする
+export function Navigation(props: TProps) {
+  const {fixedToBottom} = props;
+  const style = fixedToBottom !== undefined ? styles.paper : {};
+  return (
+    <Paper zDepth={2} style={style}>
+      <BottomNavigation>
+        <BottomNavigationItem label="Home" icon={<IconHome />} />
+        <BottomNavigationItem label="Upload Photo" icon={<IconPhotoCamera />} />
+        <BottomNavigationItem label="Favorites" icon={<IconFavorite />} />
+        <BottomNavigationItem label="My Page" icon={<IconAccountBox />} />
+      </BottomNavigation>
+    </Paper>
+  );
+};
+
+export default Navigation;

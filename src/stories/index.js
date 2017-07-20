@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Button, Welcome } from '@storybook/react/demo';
-import Navigation from '../components/Navigation';
+import { Navigation } from '../components/Navigation';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -40,4 +40,5 @@ storiesOf('Button', module)
 
 storiesOf('Navigation', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <Navigation />);
+  .add('default', () => <Navigation />)
+  .add('fixedToBottom', () => <Navigation fixedToBottom={true} />);
