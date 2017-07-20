@@ -2,22 +2,6 @@
 import React from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 
-const starImageUrlYes = [
-  'images/stars/star1y.png',
-  'images/stars/star2y.png',
-  'images/stars/star3y.png',
-  'images/stars/star4y.png',
-  'images/stars/star5y.png',
-];
-
-const starImageUrlNo = [
-  'images/stars/star1n.png',
-  'images/stars/star2n.png',
-  'images/stars/star3n.png',
-  'images/stars/star4n.png',
-  'images/stars/star5n.png',
-];
-
 const styles = {
   name: {
     fontWeight: 'bold',
@@ -38,12 +22,28 @@ const styles = {
   },
   container: {
     paddingBottom: 0,
-  }
+  },
 };
 
 function range(n: number) {
   return [...Array(n).keys()];
 }
+
+const starImageUrlYes = [
+  'images/stars/star1y.png',
+  'images/stars/star2y.png',
+  'images/stars/star3y.png',
+  'images/stars/star4y.png',
+  'images/stars/star5y.png',
+];
+
+const starImageUrlNo = [
+  'images/stars/star1n.png',
+  'images/stars/star2n.png',
+  'images/stars/star3n.png',
+  'images/stars/star4n.png',
+  'images/stars/star5n.png',
+];
 
 type TProps = {
   imageUrl: string,

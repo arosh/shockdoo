@@ -8,8 +8,13 @@ import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
 const styles = {
   center: {
     textAlign: 'center',
+    lineHeight: 0,
   },
 };
+
+function range(n: number) {
+  return [...Array(n).keys()];
+}
 
 const starImageUrlYes = [
   'images/stars/star1y.png',
@@ -31,10 +36,6 @@ type TProps = {
   imageUrl: string,
   onSubmit: (star: number) => void,
 };
-
-function range(n: number) {
-  return [...Array(n).keys()];
-}
 
 export class Upload extends React.Component {
   state: {
