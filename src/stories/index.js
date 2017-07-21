@@ -11,6 +11,7 @@ import { action } from '@storybook/addon-actions';
 import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
+import { Detail } from '../components/Detail';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import '../index.css';
@@ -56,7 +57,7 @@ const imageUrls = [
 
 const thumbnails = imageUrls.map((url, index) => ({
   imageUrl: url,
-  userId: '@shora_kujira16',
+  userName: '@shora_kujira16',
   uploadedAt: '2017/07/20',
   starCount: index % 5 + 1,
   favoriteCount: (index * 3 + 1) % 5,
@@ -70,5 +71,24 @@ storiesOf('Thumbnails', module)
 storiesOf('Upload', module)
   .addDecorator(MuiDecorator)
   .add('default', () =>
-    <Upload imageUrl={imageUrls[0]} onSubmit={action('upload')} />
+    <Upload
+      imageUrl={imageUrls[0]}
+      userName="@shora_kujira16"
+      uploadedAt="2017/07/21"
+      onSubmit={action('upload')}
+    />
+  );
+
+storiesOf('Detail', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () =>
+    <Detail
+      imageUrl={imageUrls[1]}
+      userName="@shora_kujira16"
+      uploadedAt="2017/07/21"
+      starCount={4}
+      favoriteCount={3}
+      favoriteMark={true}
+      favoriteUsers={['aoba_suzukaze', 'hifumi_takimoto', 'yun_iijima']}
+    />
   );

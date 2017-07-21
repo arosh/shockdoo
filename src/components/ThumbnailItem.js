@@ -4,6 +4,8 @@ import { Card, CardMedia, CardText } from 'material-ui/Card';
 import IconFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import IconFavorite from 'material-ui/svg-icons/action/favorite';
 import { red500 } from 'material-ui/styles/colors';
+import Clearfix from './Clearfix';
+import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
   name: {
@@ -11,7 +13,7 @@ const styles = {
   },
   date: {
     float: 'right',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   },
   favoriteBox: {
     color: red500,
@@ -23,22 +25,22 @@ const styles = {
   favoriteIcon: {
     marginRight: 6,
   },
-  grade: {
+  starCount: {
     width: 39,
   },
-  center: {
+  starBox: {
     textAlign: 'center',
     // 改行文字を入れたときの空白があると下側に謎の空白ができる
     // http://d.hatena.ne.jp/nug/20070501/1178016623
     lineHeight: 0,
   },
-  container: {
+  cardContainer: {
     paddingBottom: 0,
   },
   img: {
     width: '100%',
   },
-  media: {
+  cardMedia: {
     lineHeight: 0,
   },
 };
@@ -47,27 +49,9 @@ function range(n: number) {
   return [...Array(n).keys()];
 }
 
-const starImageUrlYes = [
-  'images/stars/star1y.png',
-  'images/stars/star2y.png',
-  'images/stars/star3y.png',
-  'images/stars/star4y.png',
-  'images/stars/star5y.png',
-];
-
-const starImageUrlNo = [
-  'images/stars/star1n.png',
-  'images/stars/star2n.png',
-  'images/stars/star3n.png',
-  'images/stars/star4n.png',
-  'images/stars/star5n.png',
-];
-
-const ClearFix = () => <span style={{ display: 'block', clear: 'both' }} />;
-
 export type PropsType = {
   imageUrl: string,
-  userId: string,
+  userName: string,
   uploadedAt: string,
   starCount: number,
   favoriteCount: number,
@@ -77,35 +61,31 @@ export type PropsType = {
 export function ThumbnailItem(props: PropsType) {
   const {
     imageUrl,
-    userId,
+    userName,
     uploadedAt,
     starCount,
     favoriteCount,
     favoriteMark,
   } = props;
   return (
-    <Card containerStyle={styles.container}>
+    <Card containerStyle={styles.cardContainer}>
       {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
-      <CardMedia style={styles.media}>
+      <CardMedia style={styles.cardMedia}>
         <a href="#">
-          <img style={styles.img} src={imageUrl} />
+          <img style={styles.img} src={imageUrl} alt="" />
         </a>
       </CardMedia>
       <CardText>
-        <span style={styles.name}>
-          {userId}
-        </span>
-        <span style={styles.date}>
-          {uploadedAt}
-        </span>
-        <ClearFix />
-        <div style={styles.center}>
+        by <span style={styles.name}>{userName}</span>
+        <span style={styles.date}>{uploadedAt}</span>
+        <Clearfix />
+        <div style={styles.starBox}>
           {range(5).map(i =>
             <img
               key={i}
               alt=""
               src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
-              style={styles.grade}
+              style={styles.starCount}
             />
           )}
         </div>

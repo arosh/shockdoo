@@ -4,8 +4,17 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import IconFileUpload from 'material-ui/svg-icons/file/file-upload';
+import Clearfix from './Clearfix';
+import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
+  name: {
+    fontWeight: 'bold',
+  },
+  date: {
+    float: 'right',
+    // fontWeight: 'bold',
+  },
   center: {
     textAlign: 'center',
     lineHeight: 0,
@@ -16,24 +25,10 @@ function range(n: number) {
   return [...Array(n).keys()];
 }
 
-const starImageUrlYes = [
-  'images/stars/star1y.png',
-  'images/stars/star2y.png',
-  'images/stars/star3y.png',
-  'images/stars/star4y.png',
-  'images/stars/star5y.png',
-];
-
-const starImageUrlNo = [
-  'images/stars/star1n.png',
-  'images/stars/star2n.png',
-  'images/stars/star3n.png',
-  'images/stars/star4n.png',
-  'images/stars/star5n.png',
-];
-
-type TProps = {
+type PropsType = {
   imageUrl: string,
+  userName: string,
+  uploadedAt: string,
   onSubmit: (star: number) => void,
 };
 
@@ -43,7 +38,7 @@ export class Upload extends React.Component {
     starHover: number,
   };
 
-  constructor(props: TProps) {
+  constructor(props: PropsType) {
     super(props);
     this.state = {
       star: 0,
@@ -52,16 +47,19 @@ export class Upload extends React.Component {
   }
 
   render = () => {
-    const { imageUrl, onSubmit } = this.props;
+    const { imageUrl, userName, uploadedAt, onSubmit } = this.props;
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
           <div className="box">
             <Card>
               <CardMedia>
-                <img src={imageUrl} />
+                <img src={imageUrl} alt="" />
               </CardMedia>
               <CardText>
+                by <span style={styles.name}>{userName}</span>
+                <span style={styles.date}>{uploadedAt}</span>
+                <Clearfix />
                 <div style={styles.center}>
                   {range(5).map(i =>
                     <IconButton
