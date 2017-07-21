@@ -70,9 +70,12 @@ export function Detail(props: PropsType) {
                   </IconButton>
                 )}
               </div>
-              <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {favoriteUsers.map(name =>
-                  <Chip labelStyle={{fontWeight: 'bold'}} style={{margin: 4}}>
+                  <Chip
+                    labelStyle={{ fontWeight: 'bold' }}
+                    style={{ margin: 4 }}
+                  >
                     <Avatar icon={<IconFavoriteBorder />} />
                     {name}
                   </Chip>

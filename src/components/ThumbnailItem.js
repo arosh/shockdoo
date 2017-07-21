@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
-import IconFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import IconFavorite from 'material-ui/svg-icons/action/favorite';
-import { red500 } from 'material-ui/styles/colors';
+import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import { blue500 } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
@@ -15,7 +14,6 @@ const styles = {
     float: 'right',
   },
   favoriteBox: {
-    color: red500,
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
@@ -92,12 +90,12 @@ export function ThumbnailItem(props: PropsType) {
         <span style={styles.right}>
           <span style={styles.favoriteBox} onTouchTap={handleFavoriteClick}>
             {favoriteMark
-              ? <IconFavorite color={red500} style={styles.favoriteIcon} />
-              : <IconFavoriteBorder
-                  color={red500}
-                  style={styles.favoriteIcon}
-                />}
-            {favoriteCount > 0 && favoriteCount}
+              ? <IconThumbUp color={blue500} style={styles.favoriteIcon} />
+              : <IconThumbUp style={styles.favoriteIcon} />}
+            {favoriteCount > 0 &&
+              (favoriteMark
+                ? <span style={{ color: blue500 }}>{favoriteCount}</span>
+                : favoriteCount)}
           </span>
         </span>
         <Clearfix />

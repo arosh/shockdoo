@@ -8,7 +8,7 @@ import {
 } from 'material-ui/BottomNavigation';
 import IconHome from 'material-ui/svg-icons/action/home';
 import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
-import IconFavorite from 'material-ui/svg-icons/action/favorite';
+import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import IconAccountBox from 'material-ui/svg-icons/action/account-box';
 
 const styles = {
@@ -47,9 +47,9 @@ export function Navigation(props: TProps) {
           onTouchTap={() => onTouchTap('upload')}
         />
         <BottomNavigationItem
-          label="Favorites"
-          icon={<IconFavorite />}
-          onTouchTap={() => onTouchTap('favorite')}
+          label="Like"
+          icon={<IconThumbUp />}
+          onTouchTap={() => onTouchTap('like')}
         />
         <BottomNavigationItem
           label="My Page"
