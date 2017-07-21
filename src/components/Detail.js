@@ -1,7 +1,12 @@
 // @flow
 import React from 'react';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
+import IconFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import IconFavorite from 'material-ui/svg-icons/action/favorite';
+import { red500 } from 'material-ui/styles/colors';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
@@ -10,7 +15,6 @@ const styles = {
   },
   date: {
     float: 'right',
-    // fontWeight: 'bold',
   },
   center: {
     textAlign: 'center',
@@ -64,6 +68,14 @@ export function Detail(props: PropsType) {
                       alt=""
                     />
                   </IconButton>
+                )}
+              </div>
+              <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                {favoriteUsers.map(name =>
+                  <Chip labelStyle={{fontWeight: 'bold'}} style={{margin: 4}}>
+                    <Avatar icon={<IconFavoriteBorder />} />
+                    {name}
+                  </Chip>
                 )}
               </div>
             </CardText>

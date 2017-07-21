@@ -8,18 +8,16 @@ import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
-  name: {
+  bold: {
     fontWeight: 'bold',
   },
-  date: {
+  right: {
     float: 'right',
-    // fontWeight: 'bold',
   },
   favoriteBox: {
     color: red500,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
     cursor: 'pointer',
   },
   favoriteIcon: {
@@ -56,6 +54,7 @@ export type PropsType = {
   starCount: number,
   favoriteCount: number,
   favoriteMark: boolean,
+  handleFavoriteClick: () => void,
 };
 
 export function ThumbnailItem(props: PropsType) {
@@ -66,6 +65,7 @@ export function ThumbnailItem(props: PropsType) {
     starCount,
     favoriteCount,
     favoriteMark,
+    handleFavoriteClick,
   } = props;
   return (
     <Card containerStyle={styles.cardContainer}>
@@ -76,8 +76,8 @@ export function ThumbnailItem(props: PropsType) {
         </a>
       </CardMedia>
       <CardText>
-        by <span style={styles.name}>{userName}</span>
-        <span style={styles.date}>{uploadedAt}</span>
+        by <span style={styles.bold}>{userName}</span>
+        <span style={styles.right}>{uploadedAt}</span>
         <Clearfix />
         <div style={styles.starBox}>
           {range(5).map(i =>
@@ -89,12 +89,18 @@ export function ThumbnailItem(props: PropsType) {
             />
           )}
         </div>
-        <span style={styles.favoriteBox}>
-          {favoriteMark
-            ? <IconFavorite color={red500} style={styles.favoriteIcon} />
-            : <IconFavoriteBorder color={red500} style={styles.favoriteIcon} />}
-          {favoriteCount > 0 && favoriteCount}
+        <span style={styles.right}>
+          <span style={styles.favoriteBox} onTouchTap={handleFavoriteClick}>
+            {favoriteMark
+              ? <IconFavorite color={red500} style={styles.favoriteIcon} />
+              : <IconFavoriteBorder
+                  color={red500}
+                  style={styles.favoriteIcon}
+                />}
+            {favoriteCount > 0 && favoriteCount}
+          </span>
         </span>
+        <Clearfix />
       </CardText>
     </Card>
   );

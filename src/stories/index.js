@@ -62,6 +62,7 @@ const thumbnails = imageUrls.map((url, index) => ({
   starCount: index % 5 + 1,
   favoriteCount: (index * 3 + 1) % 5,
   favoriteMark: index % 2 === 0,
+  handleFavoriteClick: () => action('favorite')(index),
 }));
 
 storiesOf('Thumbnails', module)
@@ -89,6 +90,6 @@ storiesOf('Detail', module)
       starCount={4}
       favoriteCount={3}
       favoriteMark={true}
-      favoriteUsers={['aoba_suzukaze', 'hifumi_takimoto', 'yun_iijima']}
+      favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
     />
   );
