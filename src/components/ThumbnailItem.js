@@ -14,15 +14,15 @@ const styles = {
   right: {
     float: 'right',
   },
-  favoriteBox: {
+  likeBox: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
   },
-  favoriteIcon: {
+  likeIcon: {
     marginRight: 6,
   },
-  starCount: {
+  starImage: {
     width: 39,
   },
   starBox: {
@@ -84,18 +84,18 @@ export function ThumbnailItem(props: PropsType) {
               key={i}
               alt=""
               src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
-              style={styles.starCount}
+              style={styles.starImage}
             />
           )}
         </div>
         <span style={styles.right}>
-          <span style={styles.favoriteBox} onTouchTap={handleFavoriteClick}>
+          <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
             <Avatar
               size={28}
               backgroundColor={favoriteMark ? blue500 : gray500}
               color={white}
               icon={<IconThumbUp />}
-              style={styles.favoriteIcon}
+              style={styles.likeIcon}
             />
             {favoriteCount > 0 &&
               <span style={favoriteMark ? { color: blue500 } : {}}>
