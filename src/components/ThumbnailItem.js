@@ -18,10 +18,10 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    cursor: 'pointer',
   },
   favoriteIcon: {
     marginRight: 6,
-    cursor: 'pointer',
   },
   grade: {
     width: 39,
@@ -109,12 +109,12 @@ export function ThumbnailItem(props: PropsType) {
             />
           )}
         </div>
-        <div style={styles.favoriteBox}>
+        <span style={styles.favoriteBox}>
           {favoriteMark
             ? <IconFavorite color={red500} style={styles.favoriteIcon} />
             : <IconFavoriteBorder color={red500} style={styles.favoriteIcon} />}
           {favoriteCount > 0 && favoriteCount}
-        </div>
+        </span>
       </CardText>
     </Card>
   );
