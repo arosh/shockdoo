@@ -1,15 +1,27 @@
 // @flow
 import React from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
+import IconFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import IconFavorite from 'material-ui/svg-icons/action/favorite';
+import { red500 } from 'material-ui/styles/colors';
 
 const styles = {
   name: {
     fontWeight: 'bold',
-    display: 'block',
   },
   date: {
     float: 'right',
     fontWeight: 'bold',
+  },
+  favoriteBox: {
+    color: red500,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  favoriteIcon: {
+    marginRight: 6,
+    cursor: 'pointer',
   },
   grade: {
     width: 39,
@@ -28,7 +40,7 @@ const styles = {
   },
   media: {
     lineHeight: 0,
-  }
+  },
 };
 
 function range(n: number) {
@@ -51,17 +63,26 @@ const starImageUrlNo = [
   'images/stars/star5n.png',
 ];
 
-const ClearFix = () => <span style={{display: 'block', clear: 'both'}} />;
+const ClearFix = () => <span style={{ display: 'block', clear: 'both' }} />;
 
-type TProps = {
+export type PropsType = {
   imageUrl: string,
   userId: string,
   uploadedAt: string,
-  star: number,
+  starCount: number,
+  favoriteCount: number,
+  favoriteMark: boolean,
 };
 
-export function ThumbnailItem(props: TProps) {
-  const { imageUrl, userId, uploadedAt, star } = props;
+export function ThumbnailItem(props: PropsType) {
+  const {
+    imageUrl,
+    userId,
+    uploadedAt,
+    starCount,
+    favoriteCount,
+    favoriteMark,
+  } = props;
   return (
     <Card containerStyle={styles.container}>
       {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
@@ -71,6 +92,9 @@ export function ThumbnailItem(props: TProps) {
         </a>
       </CardMedia>
       <CardText>
+        <span style={styles.name}>
+          {userId}
+        </span>
         <span style={styles.date}>
           {uploadedAt}
         </span>
@@ -80,10 +104,16 @@ export function ThumbnailItem(props: TProps) {
             <img
               key={i}
               alt=""
-              src={i < star ? starImageUrlYes[i] : starImageUrlNo[i]}
+              src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
               style={styles.grade}
             />
           )}
+        </div>
+        <div style={styles.favoriteBox}>
+          {favoriteMark
+            ? <IconFavorite color={red500} style={styles.favoriteIcon} />
+            : <IconFavoriteBorder color={red500} style={styles.favoriteIcon} />}
+          {favoriteCount > 0 && favoriteCount}
         </div>
       </CardText>
     </Card>

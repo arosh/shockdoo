@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -57,7 +58,9 @@ const thumbnails = imageUrls.map((url, index) => ({
   imageUrl: url,
   userId: '@shora_kujira16',
   uploadedAt: '2017/07/20',
-  star: index % 5 + 1,
+  starCount: index % 5 + 1,
+  favoriteCount: (index * 3 + 1) % 5,
+  favoriteMark: index % 2 === 0,
 }));
 
 storiesOf('Thumbnails', module)
