@@ -2,7 +2,8 @@
 import React from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import { blue500 } from 'material-ui/styles/colors';
+import Avatar from 'material-ui/Avatar';
+import { blue500, white, gray500 } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
@@ -89,13 +90,17 @@ export function ThumbnailItem(props: PropsType) {
         </div>
         <span style={styles.right}>
           <span style={styles.favoriteBox} onTouchTap={handleFavoriteClick}>
-            {favoriteMark
-              ? <IconThumbUp color={blue500} style={styles.favoriteIcon} />
-              : <IconThumbUp style={styles.favoriteIcon} />}
+            <Avatar
+              size={28}
+              backgroundColor={favoriteMark ? blue500 : gray500}
+              color={white}
+              icon={<IconThumbUp />}
+              style={styles.favoriteIcon}
+            />
             {favoriteCount > 0 &&
-              (favoriteMark
-                ? <span style={{ color: blue500 }}>{favoriteCount}</span>
-                : favoriteCount)}
+              <span style={favoriteMark ? { color: blue500 } : {}}>
+                {favoriteCount}
+              </span>}
           </span>
         </span>
         <Clearfix />

@@ -4,9 +4,8 @@ import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
-import IconFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import IconFavorite from 'material-ui/svg-icons/action/favorite';
-import { red500 } from 'material-ui/styles/colors';
+import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import { blue500, white } from 'material-ui/styles/colors';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
@@ -71,12 +70,17 @@ export function Detail(props: PropsType) {
                 )}
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {favoriteUsers.map(name =>
+                {favoriteUsers.map((name, index) =>
                   <Chip
+                    key={index}
                     labelStyle={{ fontWeight: 'bold' }}
                     style={{ margin: 4 }}
                   >
-                    <Avatar icon={<IconFavoriteBorder />} />
+                    <Avatar
+                      backgroundColor={blue500}
+                      color={white}
+                      icon={<IconThumbUp />}
+                    />
                     {name}
                   </Chip>
                 )}
