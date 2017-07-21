@@ -93,4 +93,16 @@ storiesOf('Detail', module)
       favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
       handleFavoriteClick={action('like')}
     />
+  )
+  .add('not popular', () =>
+    <Detail
+      imageUrl={imageUrls[2]}
+      userName="@shora_kujira16"
+      uploadedAt="2017/07/21"
+      starCount={2}
+      favoriteCount={0}
+      favoriteMark={false}
+      favoriteUsers={[]}
+      handleFavoriteClick={action('like')}
+    />
   );

@@ -33,7 +33,7 @@ const styles = {
   chipBox: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginTop: 10,
+    paddingTop: 6,
   },
 };
 
