@@ -4,7 +4,7 @@ import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import { blue500, gray500, white } from 'material-ui/styles/colors';
+import { blue500, grey400, white } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
@@ -34,6 +34,9 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     paddingTop: 6,
+  },
+  cardContainer: {
+    paddingBottom: 0,
   },
 };
 
@@ -67,7 +70,7 @@ export function Detail(props: PropsType) {
     <div className="row">
       <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
         <div className="box">
-          <Card>
+          <Card containerStyle={styles.cardContainer}>
             <CardMedia>
               <img src={imageUrl} alt="" />
             </CardMedia>
@@ -88,13 +91,13 @@ export function Detail(props: PropsType) {
                 <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
                   <Avatar
                     size={28}
-                    backgroundColor={favoriteMark ? blue500 : gray500}
+                    backgroundColor={favoriteMark ? blue500 : grey400}
                     color={white}
                     icon={<IconThumbUp />}
                     style={styles.likeIcon}
                   />
                   {favoriteCount > 0 &&
-                    <span style={favoriteMark ? { color: blue500 } : {}}>
+                    <span style={{ color: favoriteMark ? blue500 : grey400 }}>
                       {favoriteCount}
                     </span>}
                 </span>
