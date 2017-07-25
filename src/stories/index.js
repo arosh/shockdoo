@@ -110,4 +110,19 @@ storiesOf('Detail', module)
 
 storiesOf('AppBar', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <AppBar />);
+  .add('logged', () =>
+    <AppBar
+      logged={true}
+      onLeftIconButtonTouchTap={action('left-icon')}
+      onSignIn={action('sign-in')}
+      onSignOut={action('sign-out')}
+    />
+  )
+  .add('not logged', () =>
+    <AppBar
+      logged={false}
+      onLeftIconButtonTouchTap={action('left-icon')}
+      onSignIn={action('sign-in')}
+      onSignOut={action('sign-out')}
+    />
+  );

@@ -42,7 +42,7 @@ export function Navigation(props: TProps) {
           onTouchTap={() => onTouchTap('home')}
         />
         <BottomNavigationItem
-          label="Upload Photo"
+          label="Upload"
           icon={<IconPhotoCamera />}
           onTouchTap={() => onTouchTap('upload')}
         />
@@ -52,7 +52,7 @@ export function Navigation(props: TProps) {
           onTouchTap={() => onTouchTap('like')}
         />
         <BottomNavigationItem
-          label="My Page"
+          label="Profile"
           icon={<IconAccountBox />}
           onTouchTap={() => onTouchTap('profile')}
         />

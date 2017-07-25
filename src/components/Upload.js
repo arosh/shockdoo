@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
@@ -32,7 +32,7 @@ type PropsType = {
   onSubmit: (star: number) => void,
 };
 
-export class Upload extends React.Component {
+export class Upload extends Component {
   state: {
     star: number,
     starHover: number,
