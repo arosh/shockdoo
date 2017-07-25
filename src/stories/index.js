@@ -12,6 +12,7 @@ import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
+import { AppBar } from '../components/AppBar';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import '../index.css';
@@ -47,12 +48,12 @@ storiesOf('Navigation', module)
   );
 
 const imageUrls = [
-  'images/foods/IMG_20170311_113428.jpg',
-  'images/foods/IMG_20170425_190325.jpg',
-  'images/foods/IMG_20170517_183600.jpg',
-  'images/foods/IMG_20170607_183134.jpg',
-  'images/foods/IMG_20170614_181803.jpg',
-  'images/foods/IMG_20170628_175750.jpg',
+  'images/thumb/IMG_20170311_113428.jpg',
+  'images/thumb/IMG_20170425_190325.jpg',
+  'images/thumb/IMG_20170517_183600.jpg',
+  'images/thumb/IMG_20170607_183134.jpg',
+  'images/thumb/IMG_20170614_181803.jpg',
+  'images/thumb/IMG_20170628_175750.jpg',
 ];
 
 const thumbnails = imageUrls.map((url, index) => ({
@@ -106,3 +107,7 @@ storiesOf('Detail', module)
       handleFavoriteClick={action('like')}
     />
   );
+
+storiesOf('AppBar', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <AppBar />);
