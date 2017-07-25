@@ -9,7 +9,9 @@ import MenuItem from 'material-ui/MenuItem';
 
 const styles = {
   appbar: {
+    left: 0,
     top: 0,
+    width: '100vw',
     position: 'fixed',
   },
 };
@@ -50,11 +52,12 @@ class SignIn extends Component {
   }
 
   render() {
+    const {onSignIn, ...otherProps} = this.props;
     // AppBar向けのスタイルを適用するためにFlatButtonにpropsを渡す必要がある
     return (
       <div>
         <FlatButton
-          {...this.props}
+          {...otherProps}
           label="ログイン"
           onTouchTap={e => this.openPopover(e)}
         />
@@ -68,11 +71,11 @@ class SignIn extends Component {
           <Menu>
             <MenuItem
               primaryText="Googleでログイン"
-              onTouchTap={() => this.props.onSignIn('google')}
+              onTouchTap={() => onSignIn('google')}
             />
             <MenuItem
               primaryText="Twitterでログイン"
-              onTouchTap={() => this.props.onSignIn('twitter')}
+              onTouchTap={() => onSignIn('twitter')}
             />
           </Menu>
         </Popover>
@@ -86,9 +89,9 @@ type SignOutPropTypes = {
 };
 
 function SignOut(props: SignOutPropTypes) {
-  const { onSignOut } = props;
+  const { onSignOut, ...otherProps } = props;
   // AppBar向けのスタイルを適用するためにpropsを渡す必要がある
-  return <FlatButton {...props} label="ログアウト" onTouchTap={onSignOut} />;
+  return <FlatButton {...otherProps} label="ログアウト" onTouchTap={onSignOut} />;
 }
 
 // https://github.com/callemall/material-ui/issues/5053

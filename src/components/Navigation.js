@@ -12,12 +12,12 @@ import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import IconAccountBox from 'material-ui/svg-icons/action/account-box';
 
 const styles = {
-  paper: {
+  navigation: {
     // 画面の下側に固定する
     left: 0,
     bottom: 0,
-    position: 'fixed',
     width: '100vw',
+    position: 'fixed',
     zIndex: 2, // そのままだと FlatButton が浮き上がってしまう
   },
 };
@@ -32,7 +32,7 @@ type TProps = {
 // ThumbnailsのzDepthが1なので2にする
 export function Navigation(props: TProps) {
   const { fixedToBottom, selectedIndex, onTouchTap } = props;
-  const style = fixedToBottom !== undefined ? styles.paper : {};
+  const style = fixedToBottom !== undefined ? styles.navigation : {};
   return (
     <Paper zDepth={2} style={style}>
       <BottomNavigation selectedIndex={selectedIndex}>
