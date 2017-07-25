@@ -7,6 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { linkTo } from '@storybook/addon-links';
 
 import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
@@ -110,19 +111,19 @@ storiesOf('Detail', module)
 
 storiesOf('AppBar', module)
   .addDecorator(MuiDecorator)
-  .add('logged', () =>
-    <AppBar
-      logged={true}
-      onLeftIconButtonTouchTap={action('left-icon')}
-      onSignIn={action('sign-in')}
-      onSignOut={action('sign-out')}
-    />
-  )
   .add('not logged', () =>
     <AppBar
       logged={false}
       onLeftIconButtonTouchTap={action('left-icon')}
-      onSignIn={action('sign-in')}
-      onSignOut={action('sign-out')}
+      onSignIn={linkTo('AppBar', 'logged')}
+      onSignOut={linkTo('AppBar', 'not logged')}
+    />
+  )
+  .add('logged', () =>
+    <AppBar
+      logged={true}
+      onLeftIconButtonTouchTap={action('left-icon')}
+      onSignIn={linkTo('AppBar', 'logged')}
+      onSignOut={linkTo('AppBar', 'not logged')}
     />
   );

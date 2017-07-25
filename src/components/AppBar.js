@@ -52,7 +52,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const {onSignIn, ...otherProps} = this.props;
+    const { onSignIn, ...otherProps } = this.props;
     // AppBar向けのスタイルを適用するためにFlatButtonにpropsを渡す必要がある
     return (
       <div>
