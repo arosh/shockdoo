@@ -2,8 +2,10 @@
 import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
-import { Card, CardMedia, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import IconDelete from 'material-ui/svg-icons/action/delete';
 import { blue500, grey400, white } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
@@ -19,17 +21,20 @@ const styles = {
     textAlign: 'center',
     lineHeight: 0,
   },
+  // お気に入り登録のためのボタンと登録数を表示するdiv
   likeBox: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
   },
+  // お気に入り登録のためのボタンのアイコン
   likeIcon: {
     marginRight: 6,
   },
   chip: {
     margin: 4,
   },
+  // お気に入り登録をしている人一覧を収納するdiv
   chipBox: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -53,6 +58,8 @@ type PropsType = {
   favoriteMark: boolean,
   favoriteUsers: string[],
   handleFavoriteClick: () => void,
+  deleteButton: boolean,
+  onDelete?: () => void,
 };
 
 export function Detail(props: PropsType) {
@@ -65,6 +72,8 @@ export function Detail(props: PropsType) {
     favoriteMark,
     favoriteUsers,
     handleFavoriteClick,
+    deleteButton,
+    onDelete,
   } = props;
   return (
     <div className="row">
@@ -120,6 +129,15 @@ export function Detail(props: PropsType) {
                 )}
               </div>
             </CardText>
+            {deleteButton &&
+              <CardActions>
+                <RaisedButton
+                  secondary
+                  label="削除する"
+                  icon={<IconDelete />}
+                  onTouchTap={() => onDelete && onDelete()}
+                />
+              </CardActions>}
           </Card>
         </div>
       </div>

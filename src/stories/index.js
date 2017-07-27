@@ -62,7 +62,7 @@ const thumbUrls = [
   'images/thumb/vertical-small.jpg',
 ];
 
-const thumbnails = imageUrls.map((url, index) => ({
+const thumbnails = thumbUrls.map((url, index) => ({
   imageUrl: url,
   userName: '@shora_kujira16',
   uploadedAt: '2017/07/20',
@@ -99,6 +99,7 @@ storiesOf('Detail', module)
       favoriteMark={true}
       favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
       handleFavoriteClick={action('like')}
+      deleteButton={false}
     />
   )
   .add('not popular', () =>
@@ -111,6 +112,21 @@ storiesOf('Detail', module)
       favoriteMark={false}
       favoriteUsers={[]}
       handleFavoriteClick={action('like')}
+      deleteButton={false}
+    />
+  )
+  .add('delete button', () =>
+    <Detail
+      imageUrl={imageUrls[1]}
+      userName="@shora_kujira16"
+      uploadedAt="2017/07/21"
+      starCount={4}
+      favoriteCount={3}
+      favoriteMark={true}
+      favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
+      handleFavoriteClick={action('like')}
+      deleteButton={true}
+      onDelete={action('delete-photo')}
     />
   );
 
