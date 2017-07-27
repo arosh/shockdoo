@@ -14,6 +14,7 @@ import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
 import { AppBar } from '../components/AppBar';
+import { AddPhotoButton } from '../components/AddPhotoButton';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import '../index.css';
@@ -148,3 +149,7 @@ storiesOf('AppBar', module)
       onSignOut={linkTo('AppBar', 'not logged')}
     />
   );
+
+storiesOf('AppPhotoButton', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <AddPhotoButton onTouchTap={action('touch')} />);
