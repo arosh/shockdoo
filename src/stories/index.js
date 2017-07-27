@@ -9,7 +9,6 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import { Navigation } from '../components/Navigation';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
@@ -35,19 +34,6 @@ const MuiDecorator = story =>
       {story()}
     </div>
   </MuiThemeProvider>;
-
-storiesOf('Navigation', module)
-  .addDecorator(MuiDecorator)
-  .add('default', () =>
-    <Navigation selectedIndex={1} onTouchTap={action('tap')} />
-  )
-  .add('fixedToBottom', () =>
-    <Navigation
-      fixedToBottom={true}
-      selectedIndex={1}
-      onTouchTap={action('tap')}
-    />
-  );
 
 const imageUrls = [
   'images/samples/horizontal-large.jpg',
