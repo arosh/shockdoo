@@ -49,12 +49,17 @@ storiesOf('Navigation', module)
   );
 
 const imageUrls = [
-  'images/thumb/IMG_20170311_113428.jpg',
-  'images/thumb/IMG_20170425_190325.jpg',
-  'images/thumb/IMG_20170517_183600.jpg',
-  'images/thumb/IMG_20170607_183134.jpg',
-  'images/thumb/IMG_20170614_181803.jpg',
-  'images/thumb/IMG_20170628_175750.jpg',
+  'images/samples/horizontal-large.jpg',
+  'images/samples/horizontal-small.jpg',
+  'images/samples/vertical-large.jpg',
+  'images/samples/vertical-small.jpg',
+];
+
+const thumbUrls = [
+  'images/thumb/horizontal-large.jpg',
+  'images/thumb/horizontal-small.jpg',
+  'images/thumb/vertical-large.jpg',
+  'images/thumb/vertical-small.jpg',
 ];
 
 const thumbnails = imageUrls.map((url, index) => ({
@@ -75,7 +80,7 @@ storiesOf('Upload', module)
   .addDecorator(MuiDecorator)
   .add('default', () =>
     <Upload
-      imageUrl={imageUrls[0]}
+      imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       onSubmit={action('upload')}

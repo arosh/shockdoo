@@ -1,3 +1,4 @@
 #!/bin/bash
-ls foods/*.jpg | xargs -I{} basename {} | xargs -I{} convert foods/{} -thumbnail '768x768^' -gravity center -extent 768x768 thumb/{}
-
+DIR=samples
+OUT=thumb
+ls ${DIR}/*.jpg | xargs -I{} basename {} | xargs -I{} convert ${DIR}/{} -thumbnail '768x768^' -gravity center -extent 768x768 ${OUT}/{}
