@@ -18,6 +18,8 @@ import { Drawer } from '../components/Drawer';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'typeface-roboto';
+import 'typeface-noto-sans'
 import '../index.css';
 
 // Needed for onTouchTap

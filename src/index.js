@@ -9,6 +9,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './components/App';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import 'typeface-roboto';
+import 'typeface-noto-sans'
 import './index.css';
 
 // Needed for onTouchTap
