@@ -1,10 +1,12 @@
 // @flow
 import React from 'react';
+
 import { Card, CardMedia, CardText } from 'material-ui/Card';
-import { IconThumbUp } from './icon';
 import Avatar from 'material-ui/Avatar';
 import { blue500, white, grey400 } from 'material-ui/styles/colors';
+
 import Clearfix from './Clearfix';
+import { IconThumbUp } from './icon';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {

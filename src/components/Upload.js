@@ -1,8 +1,10 @@
 // @flow
 import React, { Component } from 'react';
+
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
+
 import { IconFileUpload } from './icon';
 import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';

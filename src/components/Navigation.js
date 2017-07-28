@@ -1,11 +1,12 @@
 // @flow
-
 import React from 'react';
+
 import Paper from 'material-ui/Paper';
 import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui/BottomNavigation';
+
 import { IconHome, IconPhotoCamera, IconThumbUp, IconAccountBox } from './icon';
 
 const styles = {
