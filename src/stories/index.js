@@ -14,8 +14,10 @@ import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
 import { AppBar } from '../components/AppBar';
 import { AddPhotoButton } from '../components/AddPhotoButton';
+import { Drawer } from '../components/Drawer';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import '../index.css';
 
 // Needed for onTouchTap
@@ -139,3 +141,22 @@ storiesOf('AppBar', module)
 storiesOf('AppPhotoButton', module)
   .addDecorator(MuiDecorator)
   .add('default', () => <AddPhotoButton onTouchTap={action('touch')} />);
+
+storiesOf('Drawer', module)
+  .addDecorator(MuiDecorator)
+  .add('not logged', () =>
+    <Drawer
+      open={true}
+      onRequestChange={action('change')}
+      logged={false}
+      onTouchTap={action('touch')}
+    />
+  )
+  .add('logged', () =>
+    <Drawer
+      open={true}
+      onRequestChange={action('change')}
+      logged={true}
+      onTouchTap={action('touch')}
+    />
+  );

@@ -6,10 +6,7 @@ import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui/BottomNavigation';
-import IconHome from 'material-ui/svg-icons/action/home';
-import IconPhotoCamera from 'material-ui/svg-icons/image/photo-camera';
-import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import IconAccountBox from 'material-ui/svg-icons/action/account-box';
+import { IconHome, IconPhotoCamera, IconThumbUp, IconAccountBox } from './icon';
 
 const styles = {
   navigation: {

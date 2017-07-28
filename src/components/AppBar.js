@@ -7,6 +7,8 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
+import { IconSignIn, IconSignOut, IconGoogle, IconTwitter } from './icon';
+
 const styles = {
   appbar: {
     left: 0,
@@ -58,8 +60,9 @@ class SignIn extends Component {
       <div>
         <FlatButton
           {...otherProps}
-          label="ログイン"
+          label="Sign in"
           onTouchTap={e => this.openPopover(e)}
+          icon={<IconSignIn />}
         />
         <Popover
           open={this.state.open}
@@ -70,12 +73,14 @@ class SignIn extends Component {
         >
           <Menu>
             <MenuItem
-              primaryText="Googleでログイン"
-              onTouchTap={() => onSignIn('google')}
+              primaryText="Sign in with Twitter"
+              onTouchTap={() => onSignIn('twitter')}
+              leftIcon={<IconTwitter />}
             />
             <MenuItem
-              primaryText="Twitterでログイン"
-              onTouchTap={() => onSignIn('twitter')}
+              primaryText="Sign in with Google"
+              onTouchTap={() => onSignIn('google')}
+              leftIcon={<IconGoogle />}
             />
           </Menu>
         </Popover>
@@ -91,7 +96,14 @@ type SignOutPropTypes = {
 function SignOut(props: SignOutPropTypes) {
   const { onSignOut, ...otherProps } = props;
   // AppBar向けのスタイルを適用するためにpropsを渡す必要がある
-  return <FlatButton {...otherProps} label="ログアウト" onTouchTap={onSignOut} />;
+  return (
+    <FlatButton
+      {...otherProps}
+      label="Sign out"
+      onTouchTap={onSignOut}
+      icon={<IconSignOut />}
+    />
+  );
 }
 
 // https://github.com/callemall/material-ui/issues/5053

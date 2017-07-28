@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import IconAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
+import { IconAddPhoto } from './icon';
 
 const styles = {
   floatingButton: {

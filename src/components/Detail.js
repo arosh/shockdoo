@@ -4,10 +4,9 @@ import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import IconThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import IconDelete from 'material-ui/svg-icons/action/delete';
 import { blue500, grey400, white } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
+import { IconThumbUp, IconDelete } from './icon';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
