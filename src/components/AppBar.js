@@ -116,7 +116,7 @@ type PropTypes = {
   logged: boolean,
 };
 
-export function AppBar(props: PropTypes) {
+export default function AppBar(props: PropTypes) {
   const { onLeftIconButtonTouchTap, onSignIn, onSignOut, logged } = props;
   return (
     <MaterialAppBar

@@ -21,7 +21,7 @@ type PropTypes = {
   onTouchTap: string => void,
 };
 
-export function Drawer(props: PropTypes) {
+export default function Drawer(props: PropTypes) {
   const { open, onRequestChange, logged, onTouchTap } = props;
   return (
     <MaterialDrawer
@@ -36,20 +36,20 @@ export function Drawer(props: PropTypes) {
         ? <div>
             <MenuItem
               leftIcon={<IconAccountCircle />}
-              onTouchTap={() => onTouchTap('logout')}
+              onTouchTap={() => onTouchTap('profile')}
             >
               Profile
             </MenuItem>
             <MenuItem
               leftIcon={<IconThumbUp />}
-              onTouchTap={() => onTouchTap('logout')}
+              onTouchTap={() => onTouchTap('like')}
             >
               Like
             </MenuItem>
             <Divider />
             <MenuItem
               leftIcon={<IconSignOut />}
-              onTouchTap={() => onTouchTap('logout')}
+              onTouchTap={() => onTouchTap('signout')}
             >
               Sign out
             </MenuItem>
@@ -58,13 +58,13 @@ export function Drawer(props: PropTypes) {
             <Divider />
             <MenuItem
               leftIcon={<IconTwitter />}
-              onTouchTap={() => onTouchTap('login-twitter')}
+              onTouchTap={() => onTouchTap('signin-twitter')}
             >
               Sign in with Twitter
             </MenuItem>
             <MenuItem
               leftIcon={<IconGoogle />}
-              onTouchTap={() => onTouchTap('login-google')}
+              onTouchTap={() => onTouchTap('signin-google')}
             >
               Sign in with Google
             </MenuItem>

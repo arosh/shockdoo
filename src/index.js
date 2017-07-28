@@ -1,17 +1,19 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import App from './components/App';
+import App from './containers/App';
+import store from './flux/store';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'typeface-roboto';
-import 'typeface-noto-sans'
+import 'typeface-noto-sans';
 import './index.css';
 
 // Needed for onTouchTap
@@ -25,8 +27,10 @@ const muiTheme = getMuiTheme({
 });
 
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={muiTheme}>
-    <App />
-  </MuiThemeProvider>,
+  <Provider store={store}>
+    <MuiThemeProvider muiTheme={muiTheme}>
+      <App />
+    </MuiThemeProvider>
+  </Provider>,
   document.getElementById('react-root')
 );
