@@ -1,15 +1,20 @@
 // @flow
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+import AppBar from './AppBar';
+import AddPhotoButton from './AddPhotoButton';
 // import Navigation from './Navigation';
 // import Upload from './Upload';
 // import Thumbnails from './Thumbnails';
 
-import React from 'react';
-
 export default () =>
-  <div>
-    {/* <div className="container-fluid">
-      <Thumbnails />
-      <Upload />
+  <Router>
+    <div className="container-fluid">
+      
     </div>
-    <Navigation /> */}
-  </div>;
+  </Router>;
