@@ -12,9 +12,9 @@ import { linkTo } from '@storybook/addon-links';
 import { ThumbnailCollection } from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
-import { AppBar } from '../components/AppBar';
-import { AddPhotoButton } from '../components/AddPhotoButton';
-import { Drawer } from '../components/Drawer';
+import AppBar from '../components/AppBar';
+import AddPhotoButton from '../components/AddPhotoButton';
+import Drawer from '../components/Drawer';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import 'font-awesome/css/font-awesome.min.css';
