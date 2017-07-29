@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {
   IconHome,
   IconAccountCircle,
+  IconPhotoCamera,
   IconThumbUp,
   IconSignOut,
   IconGoogle,
@@ -40,6 +41,12 @@ export default function Drawer(props: PropTypes) {
               onTouchTap={() => onTouchTap('profile', userId)}
             >
               Profile
+            </MenuItem>
+            <MenuItem
+              leftIcon={<IconPhotoCamera />}
+              onTouchTap={() => onTouchTap('photos', userId)}
+            >
+              Photos
             </MenuItem>
             <MenuItem
               leftIcon={<IconThumbUp />}
