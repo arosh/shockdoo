@@ -10,8 +10,7 @@ const signInAction = createAction('LOGIN', userId => ({
 
 export function signIn(providerName: string) {
   return async (dispatch: any) => {
-    const result = await firebase.signIn(providerName);
-    console.log(result);
+    const userId = await firebase.signIn(providerName);
     return dispatch(signInAction(123));
   };
 }
@@ -20,8 +19,7 @@ const signOutAction = createAction('LOGOUT');
 
 export function signOut() {
   return async (dispatch: any) => {
-    const result = await firebase.signOut();
-    console.log(result);
+    await firebase.signOut();
     return dispatch(signOutAction());
   };
 }
