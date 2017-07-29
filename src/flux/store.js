@@ -16,9 +16,12 @@ const initialState: StoreType = {
 
 const rootReducer = handleActions(
   {
-    LOGIN: state => ({ logged: true }),
-    LOGOUT: state => ({ logged: false }),
-    TOGGLE_DRAWER: (state, { payload }) => ({ drawerOpened: payload.open }),
+    LOGIN: state => ({ ...state, logged: true }),
+    LOGOUT: state => ({ ...state, logged: false }),
+    TOGGLE_DRAWER: (state, { payload }) => ({
+      ...state,
+      drawerOpened: payload.open,
+    }),
   },
   initialState
 );

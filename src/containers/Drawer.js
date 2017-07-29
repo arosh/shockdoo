@@ -11,7 +11,14 @@ export default connect(
   dispatch => ({
     onRequestChange: open => dispatch(toggleDrawer(open)),
     onTouchTap: (tag: string) => {
+      dispatch(toggleDrawer(false));
       switch (tag) {
+        case 'profile':
+          break;
+        case 'like':
+          break;
+        case 'home':
+          break;
         case 'signin-twitter':
           dispatch(signIn('twitter'));
           break;
