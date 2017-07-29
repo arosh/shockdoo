@@ -1,12 +1,17 @@
 // @flow
 import { createAction } from 'redux-actions';
+import FirebaseUtils from '../infra/FirebaseUtils';
+
+const firebase = new FirebaseUtils();
 
 const signInAction = createAction('LOGIN', userId => ({
   userId,
 }));
 
 export function signIn(providerName: string) {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
+    const result = await firebase.signIn(providerName);
+    console.log(result);
     return dispatch(signInAction(123));
   };
 }
@@ -14,7 +19,9 @@ export function signIn(providerName: string) {
 const signOutAction = createAction('LOGOUT');
 
 export function signOut() {
-  return (dispatch: any) => {
+  return async (dispatch: any) => {
+    const result = await firebase.signOut();
+    console.log(result);
     return dispatch(signOutAction());
   };
 }
