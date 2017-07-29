@@ -31,6 +31,7 @@
     "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy": "yarn build && firebase deploy"
+    "deploy": "yarn build && firebase deploy",
+    "deploy:functions": "firebase deploy --only functions"
   }
 }
