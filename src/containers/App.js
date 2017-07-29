@@ -43,15 +43,6 @@ const Photos = ({ match }) =>
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>}
       />
-      <Route
-        exact
-        path={match.url + '/:id/edit'}
-        render={({ match }) =>
-          <div>
-            photos#edit ({match.params.id})
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
-      />
       <Route render={() => <div>Not Found</div>} />
     </Switch>
   </div>;
@@ -112,9 +103,6 @@ const Sitemap = () =>
     </li>
     <li>
       <Link to="/photos/123">photos#show</Link>
-    </li>
-    <li>
-      <Link to="/photos/123/edit">photos#edit</Link>
     </li>
     <li>
       <Link to="/users/123">users#show</Link>
