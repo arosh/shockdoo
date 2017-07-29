@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 type StoreType = {
   logged: boolean,
   drawerOpened: boolean,
+  userId?: number,
 };
 
 const initialState: StoreType = {
@@ -16,7 +17,11 @@ const initialState: StoreType = {
 
 const rootReducer = handleActions(
   {
-    LOGIN: state => ({ ...state, logged: true }),
+    LOGIN: (state, { payload }) => ({
+      ...state,
+      logged: true,
+      userId: payload.userId,
+    }),
     LOGOUT: state => ({ ...state, logged: false }),
     TOGGLE_DRAWER: (state, { payload }) => ({
       ...state,

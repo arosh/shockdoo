@@ -18,11 +18,12 @@ type PropTypes = {
   open: boolean,
   onRequestChange: boolean => void,
   logged: boolean,
-  onTouchTap: string => void,
+  onTouchTap: (name: string, userId?: number) => void,
+  userId: number,
 };
 
 export default function Drawer(props: PropTypes) {
-  const { open, onRequestChange, logged, onTouchTap } = props;
+  const { open, onRequestChange, logged, onTouchTap, userId } = props;
   return (
     <MaterialDrawer
       open={open}
@@ -36,20 +37,20 @@ export default function Drawer(props: PropTypes) {
         ? <div>
             <MenuItem
               leftIcon={<IconAccountCircle />}
-              onTouchTap={() => onTouchTap('profile')}
+              onTouchTap={() => onTouchTap('profile', userId)}
             >
               Profile
             </MenuItem>
             <MenuItem
               leftIcon={<IconThumbUp />}
-              onTouchTap={() => onTouchTap('like')}
+              onTouchTap={() => onTouchTap('like', userId)}
             >
               Like
             </MenuItem>
             <Divider />
             <MenuItem
               leftIcon={<IconSignOut />}
-              onTouchTap={() => onTouchTap('signout')}
+              onTouchTap={() => onTouchTap('signout', userId)}
             >
               Sign out
             </MenuItem>

@@ -152,6 +152,7 @@ storiesOf('Drawer', module)
       onRequestChange={action('change')}
       logged={false}
       onTouchTap={action('touch')}
+      userId={123}
     />
   )
   .add('logged', () =>
@@ -160,5 +161,6 @@ storiesOf('Drawer', module)
       onRequestChange={action('change')}
       logged={true}
       onTouchTap={action('touch')}
+      userId={123}
     />
   );

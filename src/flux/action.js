@@ -1,11 +1,13 @@
 // @flow
 import { createAction } from 'redux-actions';
 
-const signInAction = createAction('LOGIN');
+const signInAction = createAction('LOGIN', userId => ({
+  userId,
+}));
 
 export function signIn(providerName: string) {
   return (dispatch: any) => {
-    return dispatch(signInAction());
+    return dispatch(signInAction(123));
   };
 }
 
