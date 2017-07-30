@@ -105,16 +105,16 @@ const Sitemap = () =>
       <Link to="/photos/123">photos#show</Link>
     </li>
     <li>
-      <Link to="/users/123">users#show</Link>
+      <Link to="/users/456">users#show</Link>
     </li>
     <li>
-      <Link to="/users/123/edit">users#edit</Link>
+      <Link to="/users/456/edit">users#edit</Link>
     </li>
     <li>
-      <Link to="/users/123/photos">users#photos_index</Link>
+      <Link to="/users/456/photos">users#photos_index</Link>
     </li>
     <li>
-      <Link to="/users/123/like">users#like_index</Link>
+      <Link to="/users/456/like">users#like_index</Link>
     </li>
   </ul>;
 
