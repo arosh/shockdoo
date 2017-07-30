@@ -3,7 +3,6 @@ import React from 'react';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -16,14 +15,7 @@ import AppBar from '../components/AppBar';
 import AddPhotoButton from '../components/AddPhotoButton';
 import Drawer from '../components/Drawer';
 
-import 'flexboxgrid/css/flexboxgrid.min.css';
-import 'font-awesome/css/font-awesome.min.css';
-import 'typeface-roboto';
-import '../index.css';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+import '../bootstrap';
 
 const muiTheme = getMuiTheme({});
 
