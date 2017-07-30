@@ -9,11 +9,15 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './containers/App';
 import store from './flux/store';
+import * as action from './flux/action';
 
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'typeface-roboto';
 import './index.css';
+
+store.dispatch(action.setOnSignIn());
+store.dispatch(action.setOnSignOut());
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941

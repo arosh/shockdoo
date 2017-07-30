@@ -56,6 +56,29 @@ export default class FirebaseUtils {
     };
   }
 
+  setOnSignIn(observer: (userId: number, userName: string) => void) {
+    this.auth.onAuthStateChanged(async user => {
+      if (user) {
+        // User is signed in.
+        const uid = user.uid;
+        const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
+        const userNamePromise = this.waitValue(`users/${uid}`, 'name');
+        const userId: number = await userIdPromise;
+        const userName: string = await userNamePromise;
+        observer(userId, userName);
+      }
+    });
+  }
+
+  setOnSignOut(observer: () => void) {
+    this.auth.onAuthStateChanged(async user => {
+      if (!user) {
+        // User is signed out.
+        observer();
+      }
+    });
+  }
+
   signOut() {
     return this.auth.signOut();
   }

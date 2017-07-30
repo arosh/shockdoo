@@ -9,21 +9,33 @@ const signInAction = createAction('SIGN_IN', (userId: number) => ({
 }));
 
 export function signIn(providerName: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: any => void) => {
     const user = await firebase.signIn(providerName);
     console.log(user);
-    return dispatch(signInAction(user.userId));
   };
 }
 
-export function signInIfLogged() {}
+export function setOnSignIn() {
+  return (dispatch: any => void) => {
+    firebase.setOnSignIn((userId, userName) => {
+      dispatch(signInAction(userId));
+    });
+  };
+}
 
 const signOutAction = createAction('SIGN_OUT');
 
 export function signOut() {
-  return async (dispatch: any) => {
+  return async (dispatch: any => void) => {
     await firebase.signOut();
-    return dispatch(signOutAction());
+  };
+}
+
+export function setOnSignOut() {
+  return (dispatch: any => void) => {
+    firebase.setOnSignOut(() => {
+      dispatch(signOutAction());
+    });
   };
 }
 
