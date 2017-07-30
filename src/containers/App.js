@@ -21,7 +21,7 @@ const Photos = ({ match }) =>
       <Route
         exact
         path={match.url}
-        render={() =>
+        render={({ match }) =>
           <div>
             photos#index<pre>{JSON.stringify(match, null, 2)}</pre>
           </div>}
@@ -29,7 +29,7 @@ const Photos = ({ match }) =>
       <Route
         exact
         path={match.url + '/new'}
-        render={() =>
+        render={({ match }) =>
           <div>
             photos#new<pre>{JSON.stringify(match, null, 2)}</pre>
           </div>}
