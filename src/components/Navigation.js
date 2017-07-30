@@ -7,7 +7,12 @@ import {
   BottomNavigationItem,
 } from 'material-ui/BottomNavigation';
 
-import { IconHome, IconPhotoCamera, IconThumbUp, IconAccountBox } from './icon';
+import {
+  IconHome,
+  IconPhotoCamera,
+  IconThumbUp,
+  IconAccountBox,
+} from '../icons';
 
 const styles = {
   navigation: {
