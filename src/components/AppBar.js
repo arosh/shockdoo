@@ -60,7 +60,7 @@ class SignIn extends Component {
       <div>
         <FlatButton
           {...otherProps}
-          label="Sign in"
+          label="ログイン"
           onTouchTap={e => this.openPopover(e)}
           icon={<IconSignIn />}
         />
@@ -73,12 +73,12 @@ class SignIn extends Component {
         >
           <Menu>
             <MenuItem
-              primaryText="Sign in with Twitter"
+              primaryText="Twitterでログイン"
               onTouchTap={() => onSignIn('twitter')}
               leftIcon={<IconTwitter />}
             />
             <MenuItem
-              primaryText="Sign in with Google"
+              primaryText="Googleでログイン"
               onTouchTap={() => onSignIn('google')}
               leftIcon={<IconGoogle />}
             />
@@ -99,7 +99,7 @@ function SignOut(props: SignOutPropTypes) {
   return (
     <FlatButton
       {...otherProps}
-      label="Sign out"
+      label="ログアウト"
       onTouchTap={onSignOut}
       icon={<IconSignOut />}
     />

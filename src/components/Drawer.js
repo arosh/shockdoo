@@ -32,7 +32,7 @@ export default function Drawer(props: PropTypes) {
       onRequestChange={op => onRequestChange(op)}
     >
       <MenuItem leftIcon={<IconHome />} onTouchTap={() => onTouchTap('home')}>
-        Home
+        ホーム
       </MenuItem>
       {logged
         ? <div>
@@ -40,26 +40,26 @@ export default function Drawer(props: PropTypes) {
               leftIcon={<IconAccountCircle />}
               onTouchTap={() => onTouchTap('profile', userId)}
             >
-              Profile
+              マイページ
             </MenuItem>
             <MenuItem
               leftIcon={<IconPhotoCamera />}
               onTouchTap={() => onTouchTap('photos', userId)}
             >
-              Photos
+              写真
             </MenuItem>
             <MenuItem
               leftIcon={<IconThumbUp />}
               onTouchTap={() => onTouchTap('like', userId)}
             >
-              Like
+              お気に入り
             </MenuItem>
             <Divider />
             <MenuItem
               leftIcon={<IconSignOut />}
               onTouchTap={() => onTouchTap('signout', userId)}
             >
-              Sign out
+              ログアウト
             </MenuItem>
           </div>
         : <div>
@@ -68,13 +68,13 @@ export default function Drawer(props: PropTypes) {
               leftIcon={<IconTwitter />}
               onTouchTap={() => onTouchTap('signin-twitter')}
             >
-              Sign in with Twitter
+              Twitterでログイン
             </MenuItem>
             <MenuItem
               leftIcon={<IconGoogle />}
               onTouchTap={() => onTouchTap('signin-google')}
             >
-              Sign in with Google
+              Googleでログイン
             </MenuItem>
           </div>}
     </MaterialDrawer>
