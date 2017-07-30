@@ -28,7 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "flow": "flow",
-    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
+    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\" \"functions/index.js\"",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy": "yarn build && firebase deploy",

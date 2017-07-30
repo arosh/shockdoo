@@ -4,18 +4,21 @@ import FirebaseUtils from '../infra/FirebaseUtils';
 
 const firebase = new FirebaseUtils();
 
-const signInAction = createAction('LOGIN', userId => ({
+const signInAction = createAction('SIGN_IN', (userId: number) => ({
   userId,
 }));
 
 export function signIn(providerName: string) {
   return async (dispatch: any) => {
-    const userId = await firebase.signIn(providerName);
-    return dispatch(signInAction(123));
+    const user = await firebase.signIn(providerName);
+    console.log(user);
+    return dispatch(signInAction(user.userId));
   };
 }
 
-const signOutAction = createAction('LOGOUT');
+export function signInIfLogged() {}
+
+const signOutAction = createAction('SIGN_OUT');
 
 export function signOut() {
   return async (dispatch: any) => {

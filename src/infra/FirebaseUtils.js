@@ -42,7 +42,9 @@ export default class FirebaseUtils {
     // functionsにユーザー追加時のイベントを追加してIDの作成とnewcomer=trueをセット
     // ユーザー名がセットされるときにnewcomer=falseをセット
     // 問題は作成されたIDの読み取り
-    const credential: firebase.auth.UserCredential = await this.auth.signInWithPopup(provider);
+    const credential: firebase.auth.UserCredential = await this.auth.signInWithPopup(
+      provider
+    );
     const uid = credential.user.uid;
     const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
     const userNamePromise = this.waitValue(`users/${uid}`, 'name');
@@ -51,7 +53,7 @@ export default class FirebaseUtils {
     return {
       userId,
       userName,
-    }
+    };
   }
 
   signOut() {
