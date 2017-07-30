@@ -25,11 +25,7 @@ import '../index.css';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-const muiTheme = getMuiTheme({
-  // 日本語用にNotoフォントを入れておく
-  // https://blog.rudolph-miller.com/2016/01/11/theme-of-material-ui/
-  fontFamily: "'Roboto', 'Noto Sans JP', 'sans-serif'",
-});
+const muiTheme = getMuiTheme({});
 
 const MuiDecorator = story =>
   <MuiThemeProvider muiTheme={muiTheme}>
