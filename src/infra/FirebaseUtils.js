@@ -42,26 +42,38 @@ export default class FirebaseUtils {
     // functionsにユーザー追加時のイベントを追加してIDの作成とnewcomer=trueをセット
     // ユーザー名がセットされるときにnewcomer=falseをセット
     // 問題は作成されたIDの読み取り
-    const credential = await this.auth.signInWithPopup(provider);
-    console.log(credential);
-    while (true) {
-      const dataSnapshot = await this.database.ref('/foo').once('value');
-      if (dataSnapshot.exists()) {
-        console.log(dataSnapshot.val());
-        return dataSnapshot;
-      }
-      console.log('wait')
-      await waitFor(1000);
+    const credential: firebase.auth.UserCredential = await this.auth.signInWithPopup(provider);
+    const uid = credential.user.uid;
+    const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
+    const userNamePromise = this.waitValue(`users/${uid}`, 'name');
+    const userId: number = await userIdPromise;
+    const userName: string = await userNamePromise;
+    return {
+      userId,
+      userName,
     }
   }
 
   signOut() {
     return this.auth.signOut();
   }
+
+  waitValue(path: string, childName: string) {
+    return new Promise(resolve => {
+      const ref = this.database.ref(path);
+      const callback = (childSnapshot: firebase.database.DataSnapshot) => {
+        if (childSnapshot.key === childName) {
+          ref.off('child_added', callback);
+          resolve(childSnapshot.val());
+        }
+      };
+      ref.on('child_added', callback);
+    });
+  }
 }
 
-function waitFor(milliSecond): Promise<void> {
-  return new Promise(resolve => {
-    setTimeout(resolve, milliSecond);
-  });
-}
+// function waitFor(milliSecond): Promise<void> {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, milliSecond);
+//   });
+// }
