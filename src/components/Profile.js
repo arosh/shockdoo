@@ -23,12 +23,12 @@ export default function Profile(props: PropsType) {
   const { userName, recentPhotos, recentLikes } = props;
   return (
     <div>
-      <h1>
+      <h2>
         {userName}
-      </h1>
-      <h2>投稿した写真</h2>
+      </h2>
+      <h3>投稿した写真</h3>
       <ThumbnailCollection thumbnails={recentPhotos} />
-      <h2>お気に入り</h2>
+      <h3>お気に入り</h3>
       <ThumbnailCollection thumbnails={recentLikes} />
     </div>
   );
