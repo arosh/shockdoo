@@ -39,21 +39,18 @@ exports.makeUppercase = functions.database
 exports.setSerialUserId = functions.auth.user().onCreate(event => {
   const uid = event.data.uid;
   console.log(`uid = ${uid}`);
-  const usersRef = admin.database().ref('users');
-  return usersRef.transaction(users => {
-    if (users === null) {
-      users = {};
-    }
-    let maxSerial = 0;
-    Object.keys(users).forEach(key => {
-      const user = users[key];
-      maxSerial = Math.max(maxSerial, user.serial);
+  const metaRef = admin.database().ref('meta/users/autoincrement');
+  const userRef = admin.database().ref(`users/${uid}`);
+  return metaRef
+    .transaction(currentValue => {
+      return (currentValue || 0) + 1;
+    })
+    .then(({ snapshot }) => {
+      const serial = snapshot.val();
+      console.log(`serial = ${serial}`);
+      return userRef.set({
+        serial,
+        name: '',
+      });
     });
-    console.log(`maxSerial = ${maxSerial}`);
-    users[uid] = {
-      serial: maxSerial + 1,
-      name: '',
-    };
-    return users;
-  });
 });
