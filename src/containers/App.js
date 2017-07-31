@@ -9,6 +9,12 @@ import Drawer from './Drawer';
 // import Upload from './Upload';
 // import Thumbnails from './Thumbnails';
 
+const styles = {
+  appbarPadding: {
+    paddingTop: 64,
+  },
+};
+
 const Root = ({ match }) =>
   <div>
     root
@@ -123,7 +129,7 @@ export default () =>
     <div>
       <AppBar />
       <Drawer />
-      <div className="container-fluid">
+      <div className="container-fluid" style={styles.appbarPadding}>
         <Sitemap />
         <hr />
         <Switch>
