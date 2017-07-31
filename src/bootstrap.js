@@ -1,7 +1,7 @@
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import 'material-design-lite/src/resets/_resets.scss'
-import 'material-design-lite/src/typography/_typography.scss'
+import './assets/material-design-lite/_resets.css'
+import './assets/material-design-lite/_typography.css'
 import 'flexboxgrid/css/flexboxgrid.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'typeface-roboto';
