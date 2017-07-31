@@ -50,7 +50,7 @@ export default function Drawer(props: PropTypes) {
             </MenuItem>
             <MenuItem
               leftIcon={<IconThumbUp />}
-              onTouchTap={() => onTouchTap('like', userId)}
+              onTouchTap={() => onTouchTap('likes', userId)}
             >
               お気に入り
             </MenuItem>

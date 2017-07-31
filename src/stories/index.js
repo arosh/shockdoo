@@ -8,7 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import { ThumbnailCollection } from '../components/ThumbnailCollection';
+import ThumbnailCollection from '../components/ThumbnailCollection';
 import { Upload } from '../components/Upload';
 import { Detail } from '../components/Detail';
 import AppBar from '../components/AppBar';

@@ -14,7 +14,7 @@ type PropsType = {
   thumbnails: ItemType[],
 };
 
-export function ThumbnailCollection(props: PropsType) {
+export default function ThumbnailCollection(props: PropsType) {
   const { thumbnails } = props;
   return (
     <div className="row">

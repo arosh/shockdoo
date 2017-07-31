@@ -32,11 +32,11 @@ export default withRouter(
             }
             history.push(`/users/${userId}/photos`);
             break;
-          case 'like':
+          case 'likes':
             if (userId === undefined) {
               throw new Error('userId is undefined');
             }
-            history.push(`/users/${userId}/like`);
+            history.push(`/users/${userId}/likes`);
             break;
           case 'signin-twitter':
             dispatch(signIn('twitter'));

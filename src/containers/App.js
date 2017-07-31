@@ -85,10 +85,10 @@ const Users = ({ match }) =>
       />
       <Route
         exact
-        path={match.url + '/:id/like'}
+        path={match.url + '/:id/likes'}
         render={({ match }) =>
           <div>
-            users#like ({match.params.id})
+            users#likes ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>}
       />
@@ -120,7 +120,7 @@ const Sitemap = () =>
       <Link to="/users/456/photos">users#photos_index</Link>
     </li>
     <li>
-      <Link to="/users/456/like">users#like_index</Link>
+      <Link to="/users/456/likes">users#likes_index</Link>
     </li>
   </ul>;
 
