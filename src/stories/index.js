@@ -156,5 +156,9 @@ storiesOf('Drawer', module)
 storiesOf('Profile', module)
   .addDecorator(MuiDecorator)
   .add('default', () =>
-    <Profile userName="@shora_kujira16" />
+    <Profile
+      userName="@shora_kujira16"
+      recentPhotos={thumbnails}
+      recentLikes={thumbnails}
+    />
   );
