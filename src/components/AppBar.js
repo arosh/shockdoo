@@ -13,7 +13,6 @@ const styles = {
   appbar: {
     left: 0,
     top: 0,
-    width: '100vw',
     position: 'fixed',
   },
 };

@@ -10,15 +10,17 @@ import Clearfix from './Clearfix';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
-  name: {
+  bold: {
     fontWeight: 'bold',
   },
-  date: {
+  right: {
     float: 'right',
-    // fontWeight: 'bold',
   },
   center: {
+    // flexで実現しようとするとなぜかimgが縦長になる
     textAlign: 'center',
+    // 改行文字を入れると下側に謎の余白ができる
+    // http://d.hatena.ne.jp/nug/20070501/1178016623
     lineHeight: 0,
   },
 };
@@ -59,8 +61,8 @@ export class Upload extends Component {
                 <img src={imageUrl} alt="" />
               </CardMedia>
               <CardText>
-                by <span style={styles.name}>{userName}</span>
-                <span style={styles.date}>{uploadedAt}</span>
+                by <span style={styles.bold}>{userName}</span>
+                <span style={styles.right}>{uploadedAt}</span>
                 <Clearfix />
                 <div style={styles.center}>
                   {range(5).map(i =>

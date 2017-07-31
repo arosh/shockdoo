@@ -19,7 +19,9 @@ const styles = {
     float: 'right',
   },
   center: {
+    // flexだとうまくいかない
     textAlign: 'center',
+    // 改行文字による余白防止
     lineHeight: 0,
   },
   // お気に入り登録のためのボタンと登録数を表示するdiv
@@ -42,6 +44,7 @@ const styles = {
     paddingTop: 6,
   },
   cardContainer: {
+    // CardActionsを設定していないと謎の空白ができてしまう
     paddingBottom: 0,
   },
 };

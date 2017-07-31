@@ -17,7 +17,9 @@ const styles = {
     float: 'right',
   },
   likeBox: {
+    // alignItemsを使いたいので
     display: 'flex',
+    // アイコンとテキストの縦方向の位置を合わせるために上下中央揃えにする
     alignItems: 'center',
     cursor: 'pointer',
   },
@@ -28,18 +30,21 @@ const styles = {
     width: 39,
   },
   starBox: {
+    // flexで実現しようとするとなぜかimgが縦長になる
     textAlign: 'center',
-    // 改行文字を入れたときの空白があると下側に謎の空白ができる
+    // 改行文字を入れると下側に謎の余白ができる
     // http://d.hatena.ne.jp/nug/20070501/1178016623
     lineHeight: 0,
   },
   cardContainer: {
+    // CardActionsを設定していないと謎の空白ができてしまう
     paddingBottom: 0,
   },
   img: {
     width: '100%',
   },
   cardMedia: {
+    // 改行文字による余白防止
     lineHeight: 0,
   },
 };
@@ -70,7 +75,6 @@ export function ThumbnailItem(props: PropsType) {
   } = props;
   return (
     <Card containerStyle={styles.cardContainer}>
-      {/*謎の padding-bottom: 8px; が存在するので打ち消す*/}
       <CardMedia style={styles.cardMedia}>
         <a href="#">
           <img style={styles.img} src={imageUrl} alt="" />
