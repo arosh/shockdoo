@@ -17,11 +17,11 @@
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "typeface-roboto": "^0.0.31"
+    "typeface-roboto": "^0.0.33"
   },
   "devDependencies": {
-    "@storybook/react": "^3.1.9",
-    "flow-bin": "^0.51.1",
+    "@storybook/react": "^3.2.3",
+    "flow-bin": "^0.52.0",
     "node-sass": "^4.5.3",
     "prettier": "^1.5.3",
     "react-scripts": "1.0.10"
