@@ -17,7 +17,7 @@ export function signIn(providerName: string) {
 
 export function setOnSignIn() {
   return (dispatch: any => void) => {
-    firebase.setOnSignIn((userId, userName) => {
+    firebase.setOnSignInHandler((userId, userName) => {
       dispatch(signInAction(userId));
     });
   };
@@ -33,7 +33,7 @@ export function signOut() {
 
 export function setOnSignOut() {
   return (dispatch: any => void) => {
-    firebase.setOnSignOut(() => {
+    firebase.setOnSignOutHandler(() => {
       dispatch(signOutAction());
     });
   };

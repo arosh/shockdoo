@@ -56,7 +56,7 @@ export default class FirebaseUtils {
     };
   }
 
-  setOnSignIn(observer: (userId: number, userName: string) => void) {
+  setOnSignInHandler(observer: (userId: number, userName: string) => void) {
     this.auth.onAuthStateChanged(async user => {
       if (user) {
         // User is signed in.
@@ -70,7 +70,7 @@ export default class FirebaseUtils {
     });
   }
 
-  setOnSignOut(observer: () => void) {
+  setOnSignOutHandler(observer: () => void) {
     this.auth.onAuthStateChanged(async user => {
       if (!user) {
         // User is signed out.
