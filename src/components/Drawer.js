@@ -34,49 +34,51 @@ export default function Drawer(props: PropTypes) {
       <MenuItem leftIcon={<IconHome />} onTouchTap={() => onTouchTap('home')}>
         ホーム
       </MenuItem>
-      {logged
-        ? <div>
-            <MenuItem
-              leftIcon={<IconAccountCircle />}
-              onTouchTap={() => onTouchTap('profile', userId)}
-            >
-              マイページ
-            </MenuItem>
-            <MenuItem
-              leftIcon={<IconPhotoCamera />}
-              onTouchTap={() => onTouchTap('photos', userId)}
-            >
-              写真
-            </MenuItem>
-            <MenuItem
-              leftIcon={<IconThumbUp />}
-              onTouchTap={() => onTouchTap('likes', userId)}
-            >
-              お気に入り
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              leftIcon={<IconSignOut />}
-              onTouchTap={() => onTouchTap('signout', userId)}
-            >
-              ログアウト
-            </MenuItem>
-          </div>
-        : <div>
-            <Divider />
-            <MenuItem
-              leftIcon={<IconTwitter />}
-              onTouchTap={() => onTouchTap('signin-twitter')}
-            >
-              Twitterでログイン
-            </MenuItem>
-            <MenuItem
-              leftIcon={<IconGoogle />}
-              onTouchTap={() => onTouchTap('signin-google')}
-            >
-              Googleでログイン
-            </MenuItem>
-          </div>}
+      {logged ? (
+        <div>
+          <MenuItem
+            leftIcon={<IconAccountCircle />}
+            onTouchTap={() => onTouchTap('profile', userId)}
+          >
+            マイページ
+          </MenuItem>
+          <MenuItem
+            leftIcon={<IconPhotoCamera />}
+            onTouchTap={() => onTouchTap('photos', userId)}
+          >
+            写真
+          </MenuItem>
+          <MenuItem
+            leftIcon={<IconThumbUp />}
+            onTouchTap={() => onTouchTap('likes', userId)}
+          >
+            お気に入り
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            leftIcon={<IconSignOut />}
+            onTouchTap={() => onTouchTap('signout', userId)}
+          >
+            ログアウト
+          </MenuItem>
+        </div>
+      ) : (
+        <div>
+          <Divider />
+          <MenuItem
+            leftIcon={<IconTwitter />}
+            onTouchTap={() => onTouchTap('signin-twitter')}
+          >
+            Twitterでログイン
+          </MenuItem>
+          <MenuItem
+            leftIcon={<IconGoogle />}
+            onTouchTap={() => onTouchTap('signin-google')}
+          >
+            Googleでログイン
+          </MenuItem>
+        </div>
+      )}
     </MaterialDrawer>
   );
 }

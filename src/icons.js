@@ -19,11 +19,15 @@ export const IconAccountCircle = iconAccountCircle;
 export const IconAddPhoto = iconAddPhoto;
 export const IconDelete = iconDelete;
 export const IconFileUpload = iconFileUpload;
-export const IconSignIn = (props: any) =>
-  <FontIcon {...props} className="fa fa-sign-in" />;
-export const IconSignOut = (props: any) =>
-  <FontIcon {...props} className="fa fa-sign-out" />;
-export const IconGoogle = (props: any) =>
-  <FontIcon {...props} className="fa fa-google" />;
-export const IconTwitter = (props: any) =>
-  <FontIcon {...props} className="fa fa-twitter" />;
+export const IconSignIn = (props: any) => (
+  <FontIcon {...props} className="fa fa-sign-in" />
+);
+export const IconSignOut = (props: any) => (
+  <FontIcon {...props} className="fa fa-sign-out" />
+);
+export const IconGoogle = (props: any) => (
+  <FontIcon {...props} className="fa fa-google" />
+);
+export const IconTwitter = (props: any) => (
+  <FontIcon {...props} className="fa fa-twitter" />
+);

@@ -122,9 +122,11 @@ export default function AppBar(props: PropTypes) {
       title="Shockdoo"
       onLeftIconButtonTouchTap={onLeftIconButtonTouchTap}
       iconElementRight={
-        logged
-          ? <SignOut onSignOut={onSignOut} />
-          : <SignIn onSignIn={onSignIn} />
+        logged ? (
+          <SignOut onSignOut={onSignOut} />
+        ) : (
+          <SignIn onSignIn={onSignIn} />
+        )
       }
       style={styles.appbar}
     />

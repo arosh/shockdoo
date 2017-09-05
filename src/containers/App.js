@@ -15,88 +15,98 @@ const styles = {
   },
 };
 
-const Root = ({ match }) =>
+const Root = ({ match }) => (
   <div>
     root
     <pre>{JSON.stringify(match, null, 2)}</pre>
-  </div>;
+  </div>
+);
 
-const Photos = ({ match }) =>
+const Photos = ({ match }) => (
   <div>
     <Switch>
       <Route
         exact
         path={match.url}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             photos#index<pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route
         exact
         path={match.url + '/new'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             photos#new<pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route
         exact
         path={match.url + '/:id'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             photos#show ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route render={() => <div>Not Found</div>} />
     </Switch>
-  </div>;
+  </div>
+);
 
-const Users = ({ match }) =>
+const Users = ({ match }) => (
   <div>
     <Switch>
       <Route
         exact
         path={match.url + '/:id'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             users#show ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route
         exact
         path={match.url + '/:id/edit'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             users#edit ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route
         exact
         path={match.url + '/:id/photos'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             users#photos ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route
         exact
         path={match.url + '/:id/likes'}
-        render={({ match }) =>
+        render={({ match }) => (
           <div>
             users#likes ({match.params.id})
             <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>}
+          </div>
+        )}
       />
       <Route render={() => <div>Not Found</div>} />
     </Switch>
-  </div>;
+  </div>
+);
 
-const Sitemap = () =>
+const Sitemap = () => (
   <ul>
     <li>
       <Link to="/">root</Link>
@@ -122,9 +132,10 @@ const Sitemap = () =>
     <li>
       <Link to="/users/456/likes">users#likes_index</Link>
     </li>
-  </ul>;
+  </ul>
+);
 
-export default () =>
+export default () => (
   <Router>
     <div>
       <AppBar />
@@ -140,4 +151,5 @@ export default () =>
         </Switch>
       </div>
     </div>
-  </Router>;
+  </Router>
+);

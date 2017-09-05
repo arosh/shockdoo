@@ -91,14 +91,14 @@ export function Detail(props: PropsType) {
               by <span style={styles.bold}>{userName}</span>
               <span style={styles.right}>{uploadedAt}</span>
               <div style={styles.center}>
-                {range(5).map(i =>
+                {range(5).map(i => (
                   <img
                     key={i}
                     className="upload__star"
                     src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
                     alt=""
                   />
-                )}
+                ))}
               </div>
               <span style={styles.right}>
                 <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
@@ -109,15 +109,16 @@ export function Detail(props: PropsType) {
                     icon={<IconThumbUp />}
                     style={styles.likeIcon}
                   />
-                  {favoriteCount > 0 &&
+                  {favoriteCount > 0 && (
                     <span style={{ color: favoriteMark ? blue500 : grey400 }}>
                       {favoriteCount}
-                    </span>}
+                    </span>
+                  )}
                 </span>
               </span>
               <Clearfix />
               <div style={styles.chipBox}>
-                {favoriteUsers.map((name, index) =>
+                {favoriteUsers.map((name, index) => (
                   <Chip
                     key={index}
                     labelStyle={styles.bold}
@@ -130,10 +131,10 @@ export function Detail(props: PropsType) {
                     />
                     {name}
                   </Chip>
-                )}
+                ))}
               </div>
             </CardText>
-            {deleteButton &&
+            {deleteButton && (
               <CardActions>
                 <RaisedButton
                   secondary
@@ -141,7 +142,8 @@ export function Detail(props: PropsType) {
                   icon={<IconDelete />}
                   onTouchTap={() => onDelete && onDelete()}
                 />
-              </CardActions>}
+              </CardActions>
+            )}
           </Card>
         </div>
       </div>

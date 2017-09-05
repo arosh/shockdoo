@@ -65,7 +65,7 @@ export class Upload extends Component {
                 <span style={styles.right}>{uploadedAt}</span>
                 <Clearfix />
                 <div style={styles.center}>
-                  {range(5).map(i =>
+                  {range(5).map(i => (
                     <IconButton
                       key={i}
                       className="upload__button"
@@ -76,13 +76,15 @@ export class Upload extends Component {
                       <img
                         className="upload__star"
                         src={
-                          this.starHighlight(i)
-                            ? starImageUrlYes[i]
-                            : starImageUrlNo[i]
+                          this.starHighlight(i) ? (
+                            starImageUrlYes[i]
+                          ) : (
+                            starImageUrlNo[i]
+                          )
                         }
                       />
                     </IconButton>
-                  )}
+                  ))}
                 </div>
               </CardText>
               <CardActions>

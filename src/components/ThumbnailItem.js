@@ -85,14 +85,14 @@ export function ThumbnailItem(props: PropsType) {
         <span style={styles.right}>{uploadedAt}</span>
         <Clearfix />
         <div style={styles.starBox}>
-          {range(5).map(i =>
+          {range(5).map(i => (
             <img
               key={i}
               alt=""
               src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
               style={styles.starImage}
             />
-          )}
+          ))}
         </div>
         <span style={styles.right}>
           <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
@@ -103,10 +103,11 @@ export function ThumbnailItem(props: PropsType) {
               icon={<IconThumbUp />}
               style={styles.likeIcon}
             />
-            {favoriteCount > 0 &&
+            {favoriteCount > 0 && (
               <span style={{ color: favoriteMark ? blue500 : grey400 }}>
                 {favoriteCount}
-              </span>}
+              </span>
+            )}
           </span>
         </span>
         <Clearfix />

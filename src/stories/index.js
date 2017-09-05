@@ -20,12 +20,11 @@ import '../bootstrap';
 
 const muiTheme = getMuiTheme({});
 
-const MuiDecorator = story =>
+const MuiDecorator = story => (
   <MuiThemeProvider muiTheme={muiTheme}>
-    <div className="container-fluid">
-      {story()}
-    </div>
-  </MuiThemeProvider>;
+    <div className="container-fluid">{story()}</div>
+  </MuiThemeProvider>
+);
 
 const imageUrls = [
   'images/samples/horizontal-large.jpg',
@@ -57,18 +56,18 @@ storiesOf('Thumbnails', module)
 
 storiesOf('Upload', module)
   .addDecorator(MuiDecorator)
-  .add('default', () =>
+  .add('default', () => (
     <Upload
       imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       onSubmit={action('upload')}
     />
-  );
+  ));
 
 storiesOf('Detail', module)
   .addDecorator(MuiDecorator)
-  .add('default', () =>
+  .add('default', () => (
     <Detail
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
@@ -80,8 +79,8 @@ storiesOf('Detail', module)
       handleFavoriteClick={action('like')}
       deleteButton={false}
     />
-  )
-  .add('not popular', () =>
+  ))
+  .add('not popular', () => (
     <Detail
       imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
@@ -93,8 +92,8 @@ storiesOf('Detail', module)
       handleFavoriteClick={action('like')}
       deleteButton={false}
     />
-  )
-  .add('delete button', () =>
+  ))
+  .add('delete button', () => (
     <Detail
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
@@ -107,26 +106,26 @@ storiesOf('Detail', module)
       deleteButton={true}
       onDelete={action('delete-photo')}
     />
-  );
+  ));
 
 storiesOf('AppBar', module)
   .addDecorator(MuiDecorator)
-  .add('not logged', () =>
+  .add('not logged', () => (
     <AppBar
       logged={false}
       onLeftIconButtonTouchTap={action('left-icon')}
       onSignIn={linkTo('AppBar', 'logged')}
       onSignOut={linkTo('AppBar', 'not logged')}
     />
-  )
-  .add('logged', () =>
+  ))
+  .add('logged', () => (
     <AppBar
       logged={true}
       onLeftIconButtonTouchTap={action('left-icon')}
       onSignIn={linkTo('AppBar', 'logged')}
       onSignOut={linkTo('AppBar', 'not logged')}
     />
-  );
+  ));
 
 storiesOf('AppPhotoButton', module)
   .addDecorator(MuiDecorator)
@@ -134,7 +133,7 @@ storiesOf('AppPhotoButton', module)
 
 storiesOf('Drawer', module)
   .addDecorator(MuiDecorator)
-  .add('not logged', () =>
+  .add('not logged', () => (
     <Drawer
       open={true}
       onRequestChange={action('change')}
@@ -142,8 +141,8 @@ storiesOf('Drawer', module)
       onTouchTap={action('touch')}
       userId={123}
     />
-  )
-  .add('logged', () =>
+  ))
+  .add('logged', () => (
     <Drawer
       open={true}
       onRequestChange={action('change')}
@@ -151,14 +150,14 @@ storiesOf('Drawer', module)
       onTouchTap={action('touch')}
       userId={123}
     />
-  );
+  ));
 
 storiesOf('Profile', module)
   .addDecorator(MuiDecorator)
-  .add('default', () =>
+  .add('default', () => (
     <Profile
       userName="@shora_kujira16"
       recentPhotos={thumbnails}
       recentLikes={thumbnails}
     />
-  );
+  ));
