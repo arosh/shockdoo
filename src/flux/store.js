@@ -22,7 +22,10 @@ const rootReducer = handleActions(
       logged: true,
       userId: payload.userId,
     }),
-    SIGN_OUT: state => ({ ...state, logged: false }),
+    SIGN_OUT: state => ({
+      ...state,
+      logged: false,
+    }),
     TOGGLE_DRAWER: (state, { payload }) => ({
       ...state,
       drawerOpened: payload.open,
