@@ -76,11 +76,9 @@ export class Upload extends Component {
                       <img
                         className="upload__star"
                         src={
-                          this.starHighlight(i) ? (
-                            starImageUrlYes[i]
-                          ) : (
-                            starImageUrlNo[i]
-                          )
+                          this.starHighlight(i)
+                            ? starImageUrlYes[i]
+                            : starImageUrlNo[i]
                         }
                       />
                     </IconButton>

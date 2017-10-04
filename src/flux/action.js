@@ -39,6 +39,6 @@ export function setOnSignOut() {
   };
 }
 
-export const toggleDrawer = createAction('TOGGLE_DRAWER', open => ({
+export const toggleDrawer = createAction('TOGGLE_DRAWER', (open: boolean) => ({
   open,
 }));

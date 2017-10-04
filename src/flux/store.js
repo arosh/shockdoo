@@ -4,13 +4,13 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { handleActions } from 'redux-actions';
 import thunk from 'redux-thunk';
 
-type StoreType = {
+type State = {
   logged: boolean,
   drawerOpened: boolean,
   userId?: number,
 };
 
-const initialState: StoreType = {
+const initialState: State = {
   logged: false,
   drawerOpened: false,
 };
