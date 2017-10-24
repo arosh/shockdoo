@@ -1,6 +1,31 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    ".read": "true",
+    "meta": {
+    },
+    "users": {
+      "$uid": {
+        ".write": "$uid === auth.uid",
+        "serial": {
+          ".write": "false"
+        }
+      }
+    },
+    "photos": {
+      "$photo_id": {
+        ".write": "$uid === auth.uid",
+          "serial": {
+            ".write": "false"
+          }
+      }
+    },
+    "likes": {
+      "$like_id": {
+        ".write": "$uid === auth.uid",
+          "serial": {
+            ".write": "false"
+          }
+      }
+    }
   }
 }
