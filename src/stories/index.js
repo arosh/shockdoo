@@ -14,7 +14,6 @@ import { Detail } from '../components/Detail';
 import AppBar from '../components/AppBar';
 import AddPhotoButton from '../components/AddPhotoButton';
 import Drawer from '../components/Drawer';
-import Profile from '../components/Profile';
 
 import '../bootstrap';
 
@@ -148,15 +147,5 @@ storiesOf('Drawer', module)
       logged={true}
       onTouchTap={action('touch')}
       userId={123}
-    />
-  ));
-
-storiesOf('Profile', module)
-  .addDecorator(MuiDecorator)
-  .add('default', () => (
-    <Profile
-      userName="@shora_kujira16"
-      recentPhotos={thumbnails}
-      recentLikes={thumbnails}
     />
   ));
