@@ -23,7 +23,7 @@ type SignInProps = {
 
 type SignInState = {
   open: boolean,
-  anchorEl?: any,
+  anchorEl: ?any,
 };
 
 class SignIn extends React.Component<SignInProps, SignInState> {
@@ -34,6 +34,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     super(props);
     this.state = {
       open: false,
+      anchorEl: null,
     };
   }
 
@@ -109,14 +110,14 @@ function SignOut(props: SignOutPropTypes) {
 SignOut.muiName = 'FlatButton';
 
 type PropTypes = {
+  logged: boolean,
   onLeftIconButtonTouchTap: () => void,
   onSignIn: (providerName: string) => void,
   onSignOut: () => void,
-  logged: boolean,
 };
 
 export default function AppBar(props: PropTypes) {
-  const { onLeftIconButtonTouchTap, onSignIn, onSignOut, logged } = props;
+  const { logged, onLeftIconButtonTouchTap, onSignIn, onSignOut } = props;
   return (
     <MaterialAppBar
       title="Shockdoo"

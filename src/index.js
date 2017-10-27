@@ -11,12 +11,13 @@ import createStore from './createStore';
 import * as action from './reducer';
 import './bootstrap';
 
-window.addEventListener('load', async function() {
-  const store = createStore();
-  store.dispatch(action.setOnSignIn());
-  store.dispatch(action.setOnSignOut());
+const store = createStore();
+store.dispatch(action.setOnSignIn());
+store.dispatch(action.setOnSignOut());
 
-  const muiTheme = getMuiTheme({});
+const muiTheme = getMuiTheme({});
+
+window.addEventListener('load', async function() {
   const reactRootEl = document.getElementById('react-root');
   if (reactRootEl) {
     ReactDOM.render(
