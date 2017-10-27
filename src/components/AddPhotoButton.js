@@ -19,7 +19,10 @@ type PropTypes = {
 export default function AddPhotoButton(props: PropTypes) {
   const { onTouchTap } = props;
   return (
-    <FloatingActionButton onTouchTap={() => onTouchTap()} style={styles.floatingButton}>
+    <FloatingActionButton
+      onTouchTap={() => onTouchTap()}
+      style={styles.floatingButton}
+    >
       <IconAddPhoto />
     </FloatingActionButton>
   );

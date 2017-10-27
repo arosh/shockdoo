@@ -99,7 +99,10 @@ export function Detail(props: PropsType) {
                 ))}
               </div>
               <span style={styles.right}>
-                <span style={styles.likeBox} onTouchTap={() => handleFavoriteClick()}>
+                <span
+                  style={styles.likeBox}
+                  onTouchTap={() => handleFavoriteClick()}
+                >
                   <Avatar
                     size={28}
                     backgroundColor={favoriteMark ? blue500 : grey400}
