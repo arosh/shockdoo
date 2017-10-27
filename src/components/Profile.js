@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+
 import ThumbnailCollection from './ThumbnailCollection';
 import type { PropsType as ItemType } from './ThumbnailItem';
 

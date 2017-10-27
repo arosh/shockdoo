@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import AppBarComponent from '../components/AppBar';
-import { signIn, signOut, toggleDrawer } from '../flux/action';
+import { signIn, signOut, toggleDrawer } from '../reducer';
 
 export default connect(
   state => ({

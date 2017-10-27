@@ -83,7 +83,7 @@ export default class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  waitValue(path: string, childName: string) {
+  waitValue(path: string, childName: string): Promise<any> {
     return new Promise(resolve => {
       const ref = this.database.ref(path);
       const callback = (childSnapshot: firebase.database.DataSnapshot) => {

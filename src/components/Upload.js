@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -29,20 +29,20 @@ function range(n: number) {
   return [...Array(n).keys()];
 }
 
-type PropsType = {
+type UploadProps = {
   imageUrl: string,
   userName: string,
   uploadedAt: string,
   onSubmit: (star: number) => void,
 };
 
-export class Upload extends Component {
-  state: {
-    star: number,
-    starHover: number,
-  };
+type UploadState = {
+  star: number,
+  starHover: number,
+};
 
-  constructor(props: PropsType) {
+export class Upload extends React.Component<UploadProps, UploadState> {
+  constructor(props: UploadProps) {
     super(props);
     this.state = {
       star: 0,
@@ -75,6 +75,7 @@ export class Upload extends Component {
                     >
                       <img
                         className="upload__star"
+                        alt="star"
                         src={
                           this.starHighlight(i)
                             ? starImageUrlYes[i]

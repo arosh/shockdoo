@@ -1,12 +1,14 @@
 // @flow
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
 import DrawerComponent from '../components/Drawer';
-import { toggleDrawer, signIn, signOut } from '../flux/action';
+import { toggleDrawer, signIn, signOut } from '../reducer';
+import type { State } from '../reducer';
 
 export default withRouter(
   connect(
-    state => ({
+    (state: State) => ({
       logged: state.logged,
       open: state.drawerOpened,
       userId: state.userId,
@@ -48,7 +50,7 @@ export default withRouter(
             dispatch(signOut());
             break;
           default:
-            console.log(name);
+            console.log(`name = ${name}`);
             break;
         }
       },

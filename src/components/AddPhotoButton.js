@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+
 import { IconAddPhoto } from '../icons';
 
 const styles = {
@@ -18,7 +19,7 @@ type PropTypes = {
 export default function AddPhotoButton(props: PropTypes) {
   const { onTouchTap } = props;
   return (
-    <FloatingActionButton onTouchTap={onTouchTap} style={styles.floatingButton}>
+    <FloatingActionButton onTouchTap={() => onTouchTap()} style={styles.floatingButton}>
       <IconAddPhoto />
     </FloatingActionButton>
   );

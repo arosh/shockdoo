@@ -58,7 +58,6 @@ type PropsType = {
   userName: string,
   uploadedAt: string,
   starCount: number,
-  favoriteCount: number,
   favoriteMark: boolean,
   favoriteUsers: string[],
   handleFavoriteClick: () => void,
@@ -72,7 +71,6 @@ export function Detail(props: PropsType) {
     userName,
     uploadedAt,
     starCount,
-    favoriteCount,
     favoriteMark,
     favoriteUsers,
     handleFavoriteClick,
@@ -101,7 +99,7 @@ export function Detail(props: PropsType) {
                 ))}
               </div>
               <span style={styles.right}>
-                <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
+                <span style={styles.likeBox} onTouchTap={() => handleFavoriteClick()}>
                   <Avatar
                     size={28}
                     backgroundColor={favoriteMark ? blue500 : grey400}
@@ -109,9 +107,9 @@ export function Detail(props: PropsType) {
                     icon={<IconThumbUp />}
                     style={styles.likeIcon}
                   />
-                  {favoriteCount > 0 && (
+                  {favoriteUsers.length > 0 && (
                     <span style={{ color: favoriteMark ? blue500 : grey400 }}>
-                      {favoriteCount}
+                      {favoriteUsers.length}
                     </span>
                   )}
                 </span>

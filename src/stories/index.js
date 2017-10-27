@@ -73,7 +73,6 @@ storiesOf('Detail', module)
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
-      favoriteCount={3}
       favoriteMark={true}
       favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
       handleFavoriteClick={action('like')}

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
 
 import MaterialAppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -17,20 +17,20 @@ const styles = {
   },
 };
 
-type SignInPropTypes = {
+type SignInProps = {
   onSignIn: (providerName: string) => void,
 };
 
-class SignIn extends Component {
+type SignInState = {
+  open: boolean,
+  anchorEl?: any,
+};
+
+class SignIn extends React.Component<SignInProps, SignInState> {
   // https://github.com/callemall/material-ui/issues/5053
   static muiName = 'FlatButton';
 
-  state: {
-    open: boolean,
-    anchorEl?: any,
-  };
-
-  constructor(props: SignInPropTypes) {
+  constructor(props: SignInProps) {
     super(props);
     this.state = {
       open: false,
@@ -120,7 +120,7 @@ export default function AppBar(props: PropTypes) {
   return (
     <MaterialAppBar
       title="Shockdoo"
-      onLeftIconButtonTouchTap={onLeftIconButtonTouchTap}
+      onLeftIconButtonTouchTap={() => onLeftIconButtonTouchTap()}
       iconElementRight={
         logged ? (
           <SignOut onSignOut={onSignOut} />
