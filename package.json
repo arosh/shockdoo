@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@storybook/react": "^3.2.13",
+    "firebase-tools": "^3.13.1",
     "flow-bin": "^0.57.3",
     "node-sass": "^4.5.3",
     "prettier": "^1.7.4",

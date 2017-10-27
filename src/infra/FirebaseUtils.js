@@ -1,9 +1,10 @@
 // @flow
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 export default class FirebaseUtils {
   auth: firebase.auth.Auth;
-  database: firebase.database.Database;
+  db: firebase.firestore.Firestore;
 
   constructor() {
     this.initializeApp();
@@ -14,14 +15,12 @@ export default class FirebaseUtils {
     const config = {
       apiKey: 'AIzaSyAkjmUZfCpKYP6i5OLhYlxBBHeJvF05OMQ',
       authDomain: 'shockdoo-9e83d.firebaseapp.com',
-      databaseURL: 'https://shockdoo-9e83d.firebaseio.com',
       projectId: 'shockdoo-9e83d',
       storageBucket: 'shockdoo-9e83d.appspot.com',
-      messagingSenderId: '1071573176486',
     };
     firebase.initializeApp(config);
     this.auth = firebase.auth();
-    this.database = firebase.database();
+    this.db = firebase.firestore();
   }
 
   createProvider(providerName: string) {
@@ -37,35 +36,39 @@ export default class FirebaseUtils {
 
   async signIn(providerName: string) {
     const provider = this.createProvider(providerName);
-    // ユーザーIDを返すようにしないとやばい
-    // ついでに新規ユーザーかどうかのチェックが必要
-    // functionsにユーザー追加時のイベントを追加してIDの作成とnewcomer=trueをセット
-    // ユーザー名がセットされるときにnewcomer=falseをセット
-    // 問題は作成されたIDの読み取り
     const credential: firebase.auth.UserCredential = await this.auth.signInWithPopup(
       provider
     );
-    const uid = credential.user.uid;
-    const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
-    const userNamePromise = this.waitValue(`users/${uid}`, 'name');
-    const userId: number = await userIdPromise;
-    const userName: string = await userNamePromise;
+    // credential.additionalUserInfo.{username,isNewUser} を使ってユーザー名をセットする
+    console.log(credential);
     return {
-      userId,
-      userName,
+      userId: -1,
+      userName: 'fizzbuzz',
     };
+    // const uid = credential.user.uid;
+    // const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
+    // const userNamePromise = this.waitValue(`users/${uid}`, 'name');
+    // const userId: number = await userIdPromise;
+    // const userName: string = await userNamePromise;
+    // return {
+    //   userId,
+    //   userName,
+    // };
   }
 
   setOnSignInHandler(observer: (userId: number, userName: string) => void) {
     this.auth.onAuthStateChanged(async user => {
       if (user) {
+        console.log(user);
+        observer(-1, 'fizzbuzz');
         // User is signed in.
-        const uid = user.uid;
-        const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
-        const userNamePromise = this.waitValue(`users/${uid}`, 'name');
-        const userId: number = await userIdPromise;
-        const userName: string = await userNamePromise;
-        observer(userId, userName);
+        // const uid = user.uid;
+        // const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
+        // const userNamePromise = this.waitValue(`users/${uid}`, 'name');
+        // const userId: number = await userIdPromise;
+        // const userName: string = await userNamePromise;
+        // console.log(user);
+        // observer(userId, userName);
       }
     });
   }
@@ -83,18 +86,18 @@ export default class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  waitValue(path: string, childName: string): Promise<any> {
-    return new Promise(resolve => {
-      const ref = this.database.ref(path);
-      const callback = (childSnapshot: firebase.database.DataSnapshot) => {
-        if (childSnapshot.key === childName) {
-          ref.off('child_added', callback);
-          resolve(childSnapshot.val());
-        }
-      };
-      ref.on('child_added', callback);
-    });
-  }
+  // waitValue(path: string, childName: string): Promise<any> {
+  //   return new Promise(resolve => {
+  //     const ref = this.database.ref(path);
+  //     const callback = (childSnapshot: firebase.database.DataSnapshot) => {
+  //       if (childSnapshot.key === childName) {
+  //         ref.off('child_added', callback);
+  //         resolve(childSnapshot.val());
+  //       }
+  //     };
+  //     ref.on('child_added', callback);
+  //   });
+  // }
 }
 
 // function waitFor(milliSecond): Promise<void> {
