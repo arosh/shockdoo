@@ -22,7 +22,7 @@ export type State = {
   userName: ?string,
   nameDialogOpen: boolean,
   submit: {
-    fileName: ?string,
+    fileType: ?string,
     imageURL: ?string,
     createdAt: ?string,
   },
@@ -35,7 +35,7 @@ const initialState: State = {
   userName: null,
   nameDialogOpen: false,
   submit: {
-    fileName: '',
+    fileType: null,
     imageURL: null,
     createdAt: null,
   },
@@ -101,6 +101,7 @@ export function uploadImage(star: number) {
   return (dispatch: Dispatch, getState: () => State) => {
     const { submit } = getState();
     if (!submit.imageURL) {
+      console.log('submit.imageURL is null.');
       return;
     }
     // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
@@ -108,10 +109,11 @@ export function uploadImage(star: number) {
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
       const result: ArrayBuffer = xhr.response;
-      if (!submit.fileName) {
+      if (!submit.fileType) {
+        console.log('submit.fileType is null.');
         return;
       }
-      firebase.uploadImage(submit.fileName, result, star);
+      firebase.uploadImage(submit.fileType, result, star);
     };
     xhr.responseType = 'arraybuffer';
     xhr.open('GET', submit.imageURL);
@@ -120,14 +122,14 @@ export function uploadImage(star: number) {
 }
 
 export function setSubmit(
-  fileName: string,
+  fileType: string,
   imageURL: string,
   createdAt: string
 ): Action {
   return {
     type: SET_SUBMIT,
     payload: {
-      fileName,
+      fileType,
       imageURL,
       createdAt,
     },
@@ -184,7 +186,7 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         submit: {
           ...state.submit,
-          fileName: payload.fileName,
+          fileType: payload.fileType,
           imageURL: payload.imageURL,
           createdAt: payload.createdAt,
         },

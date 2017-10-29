@@ -2,6 +2,7 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import * as crypto from 'crypto';
+import * as mime from 'mime/lite';
 
 export default class FirebaseUtils {
   auth: firebase.auth.Auth;
@@ -79,19 +80,40 @@ export default class FirebaseUtils {
       .set({ name: userName });
   }
 
-  async uploadImage(fileName: string, image: ArrayBuffer, star: number) {
+  hashCode(image: ArrayBuffer): string {
     const buf = new Buffer(image);
     const hash = crypto.createHash('sha256');
     hash.update(buf);
-    const hashCode = hash.digest('hex');
+    return hash.digest('hex');
+  }
+
+  async uploadImage(fileType: string, image: ArrayBuffer, star: number) {
     const uid = this.auth.currentUser.uid;
-    const ext = fileName.split('.').pop();
+    const hashCode = this.hashCode(image);
+    const ext = mime.getExtension(fileType);
     const ref = this.storage
       .ref()
       .child(uid)
+      .child('origin')
       .child(`${hashCode}.${ext}`);
-    const snapshot = await ref.put(image);
-    console.log(snapshot);
+    const metadata = {
+      contentType: fileType,
+    };
+    await ref.put(image, metadata);
+    const imageURL = await ref.getDownloadURL();
+    const thumbnailRef = this.storage
+      .ref()
+      .child(uid)
+      .child('thumb')
+      .child(`${hashCode}.${ext}`);
+    const thumbnailURL = await thumbnailRef.getDownloadURL();
+    await this.db.collection('photos').add({
+      userID: uid,
+      star: star,
+      imagePath: ref.fullPath,
+      imageURL,
+      thumbnailURL,
+    });
   }
 
   async waitUserSerial(uid: string): Promise<number> {

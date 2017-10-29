@@ -20,7 +20,7 @@ export default withRouter(
       }
       const today = createTodayString();
       const blobURL = URL.createObjectURL(file);
-      dispatch(setSubmit(file.name, blobURL, today));
+      dispatch(setSubmit(file.type, blobURL, today));
       const { history } = ownProps;
       history.push('/submit');
     },
