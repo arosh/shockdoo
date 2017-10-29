@@ -1,10 +1,12 @@
 // @flow
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import * as crypto from 'crypto';
 
 export default class FirebaseUtils {
   auth: firebase.auth.Auth;
   db: firebase.firestore.Firestore;
+  storage: firebase.storage.Storage;
 
   constructor() {
     this.initializeApp();
@@ -21,6 +23,7 @@ export default class FirebaseUtils {
     firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.db = firebase.firestore();
+    this.storage = firebase.storage();
   }
 
   createProvider(providerName: string) {
@@ -36,39 +39,27 @@ export default class FirebaseUtils {
 
   async signIn(providerName: string) {
     const provider = this.createProvider(providerName);
-    const credential: firebase.auth.UserCredential = await this.auth.signInWithPopup(
+    type UserCredential = firebase.auth.UserCredential;
+    const credential: UserCredential = await this.auth.signInWithPopup(
       provider
     );
-    // credential.additionalUserInfo.{username,isNewUser} を使ってユーザー名をセットする
-    console.log(credential);
-    return {
-      userId: -1,
-      userName: 'fizzbuzz',
-    };
-    // const uid = credential.user.uid;
-    // const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
-    // const userNamePromise = this.waitValue(`users/${uid}`, 'name');
-    // const userId: number = await userIdPromise;
-    // const userName: string = await userNamePromise;
-    // return {
-    //   userId,
-    //   userName,
-    // };
+    const uid = credential.user.uid;
+    const { isNewUser, username } = credential.additionalUserInfo;
+    if (isNewUser) {
+      await this.db
+        .collection('users')
+        .doc(uid)
+        .set({ name: username });
+    }
   }
 
   setOnSignInHandler(observer: (userId: number, userName: string) => void) {
     this.auth.onAuthStateChanged(async user => {
       if (user) {
-        console.log(user);
-        observer(-1, 'fizzbuzz');
-        // User is signed in.
-        // const uid = user.uid;
-        // const userIdPromise = this.waitValue(`users/${uid}`, 'serial');
-        // const userNamePromise = this.waitValue(`users/${uid}`, 'name');
-        // const userId: number = await userIdPromise;
-        // const userName: string = await userNamePromise;
-        // console.log(user);
-        // observer(userId, userName);
+        const { uid } = user;
+        const userID = await this.waitUserSerial(uid);
+        const userName = await this.waitUserName(uid);
+        observer(userID, userName);
       }
     });
   }
@@ -86,22 +77,46 @@ export default class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  // waitValue(path: string, childName: string): Promise<any> {
-  //   return new Promise(resolve => {
-  //     const ref = this.database.ref(path);
-  //     const callback = (childSnapshot: firebase.database.DataSnapshot) => {
-  //       if (childSnapshot.key === childName) {
-  //         ref.off('child_added', callback);
-  //         resolve(childSnapshot.val());
-  //       }
-  //     };
-  //     ref.on('child_added', callback);
-  //   });
-  // }
-}
+  async uploadImage(fileName: string, image: ArrayBuffer, star: number) {
+    const buf = new Buffer(image);
+    const hash = crypto.createHash('sha256');
+    hash.update(buf);
+    const hashCode = hash.digest('hex');
+    const uid = this.auth.currentUser.uid;
+    const ext = fileName.split('.').pop();
+    const ref = this.storage
+      .ref()
+      .child(uid)
+      .child(`${hashCode}.${ext}`);
+    const snapshot = await ref.put(image);
+    console.log(snapshot);
+  }
 
-// function waitFor(milliSecond): Promise<void> {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, milliSecond);
-//   });
-// }
+  async waitUserSerial(uid: string): Promise<number> {
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('_users')
+        .doc(uid)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot.get('serial'));
+          }
+        });
+    });
+  }
+
+  async waitUserName(uid: string): Promise<string> {
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('users')
+        .doc(uid)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot.get('name'));
+          }
+        });
+    });
+  }
+}

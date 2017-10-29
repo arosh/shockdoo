@@ -20,11 +20,11 @@ type PropTypes = {
   onRequestChange: boolean => void,
   logged: boolean,
   onTouchTap: (name: string, userId?: number) => void,
-  userId: number,
+  userID: number,
 };
 
 export default function Drawer(props: PropTypes) {
-  const { open, onRequestChange, logged, onTouchTap, userId } = props;
+  const { open, onRequestChange, logged, onTouchTap, userID } = props;
   return (
     <MaterialDrawer
       open={open}
@@ -38,26 +38,26 @@ export default function Drawer(props: PropTypes) {
         <div>
           <MenuItem
             leftIcon={<IconAccountCircle />}
-            onTouchTap={() => onTouchTap('profile', userId)}
+            onTouchTap={() => onTouchTap('profile', userID)}
           >
             マイページ
           </MenuItem>
           <MenuItem
             leftIcon={<IconPhotoCamera />}
-            onTouchTap={() => onTouchTap('photos', userId)}
+            onTouchTap={() => onTouchTap('photos', userID)}
           >
             写真
           </MenuItem>
           <MenuItem
             leftIcon={<IconThumbUp />}
-            onTouchTap={() => onTouchTap('likes', userId)}
+            onTouchTap={() => onTouchTap('likes', userID)}
           >
             お気に入り
           </MenuItem>
           <Divider />
           <MenuItem
             leftIcon={<IconSignOut />}
-            onTouchTap={() => onTouchTap('signout', userId)}
+            onTouchTap={() => onTouchTap('signout', userID)}
           >
             ログアウト
           </MenuItem>
@@ -71,12 +71,12 @@ export default function Drawer(props: PropTypes) {
           >
             Twitterでログイン
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             leftIcon={<IconGoogle />}
             onTouchTap={() => onTouchTap('signin-google')}
           >
             Googleでログイン
-          </MenuItem>
+          </MenuItem> */}
         </div>
       )}
     </MaterialDrawer>

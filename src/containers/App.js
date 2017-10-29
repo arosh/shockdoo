@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import AppBar from './AppBar';
 import Drawer from './Drawer';
-// import AddPhotoButton from '../components/AddPhotoButton';
+import AddPhotoButton from './AddPhotoButton';
+import SubmitForm from './SubmitForm';
 // import Navigation from './Navigation';
-// import Upload from './Upload';
 // import Thumbnails from './Thumbnails';
 
 const styles = {
@@ -19,6 +19,14 @@ const Root = ({ match }) => (
   <div>
     root
     <pre>{JSON.stringify(match, null, 2)}</pre>
+  </div>
+);
+
+const Submit = ({ match }) => (
+  <div>
+    submit
+    <pre>{JSON.stringify(match, null, 2)}</pre>
+    <SubmitForm />
   </div>
 );
 
@@ -140,11 +148,13 @@ export default () => (
     <div>
       <AppBar />
       <Drawer />
+      <AddPhotoButton />
       <div className="container-fluid" style={styles.appbarPadding}>
         <Sitemap />
         <hr />
         <Switch>
           <Route exact path="/" component={Root} />
+          <Route exact path="/submit" component={Submit} />
           <Route path="/photos" component={Photos} />
           <Route path="/users" component={Users} />
           <Route render={() => <div>Not Found</div>} />

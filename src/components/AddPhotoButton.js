@@ -6,24 +6,36 @@ import { IconAddPhoto } from '../icons';
 
 const styles = {
   floatingButton: {
-    right: 10,
-    bottom: 10,
+    right: 20,
+    bottom: 20,
     position: 'fixed',
+  },
+  displayNone: {
+    display: 'none',
   },
 };
 
 type PropTypes = {
-  onTouchTap: () => void,
+  onFileSelect: any => void,
 };
 
-export default function AddPhotoButton(props: PropTypes) {
-  const { onTouchTap } = props;
-  return (
-    <FloatingActionButton
-      onTouchTap={() => onTouchTap()}
-      style={styles.floatingButton}
-    >
-      <IconAddPhoto />
-    </FloatingActionButton>
+export default class AddPhotoButton extends React.Component<PropTypes, {}> {
+  render = () => (
+    <div>
+      <input
+        type="file"
+        ref="theUpload"
+        accept="image/*,.png,.jpg,.jpeg,.gif"
+        style={styles.displayNone}
+        onChange={() => this.props.onFileSelect(this.refs.theUpload)}
+      />
+      <FloatingActionButton
+        onTouchTap={() => this.refs.theUpload.click()}
+        style={styles.floatingButton}
+        secondary
+      >
+        <IconAddPhoto />
+      </FloatingActionButton>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import ThumbnailCollection from '../components/ThumbnailCollection';
-import { Upload } from '../components/Upload';
+import SubmitForm from '../components/SubmitForm';
 import { Detail } from '../components/Detail';
 import AppBar from '../components/AppBar';
 import AddPhotoButton from '../components/AddPhotoButton';
@@ -56,10 +56,10 @@ storiesOf('Thumbnails', module)
 storiesOf('Upload', module)
   .addDecorator(MuiDecorator)
   .add('default', () => (
-    <Upload
+    <SubmitForm
       imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
-      uploadedAt="2017/07/21"
+      createdAt="2017/07/21"
       onSubmit={action('upload')}
     />
   ));
@@ -127,7 +127,7 @@ storiesOf('AppBar', module)
 
 storiesOf('AppPhotoButton', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <AddPhotoButton onTouchTap={action('touch')} />);
+  .add('default', () => <AddPhotoButton onFileSelect={action('touch')} />);
 
 storiesOf('Drawer', module)
   .addDecorator(MuiDecorator)
@@ -137,7 +137,7 @@ storiesOf('Drawer', module)
       onRequestChange={action('change')}
       logged={false}
       onTouchTap={action('touch')}
-      userId={123}
+      userID={123}
     />
   ))
   .add('logged', () => (
@@ -146,6 +146,6 @@ storiesOf('Drawer', module)
       onRequestChange={action('change')}
       logged={true}
       onTouchTap={action('touch')}
-      userId={123}
+      userID={123}
     />
   ));

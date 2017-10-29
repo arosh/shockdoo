@@ -29,20 +29,23 @@ function range(n: number) {
   return [...Array(n).keys()];
 }
 
-type UploadProps = {
+type SubmitFormProps = {
   imageUrl: string,
   userName: string,
-  uploadedAt: string,
+  createdAt: string,
   onSubmit: (star: number) => void,
 };
 
-type UploadState = {
+type SubmitFormState = {
   star: number,
   starHover: number,
 };
 
-export class Upload extends React.Component<UploadProps, UploadState> {
-  constructor(props: UploadProps) {
+export default class SubmitForm extends React.Component<
+  SubmitFormProps,
+  SubmitFormState
+> {
+  constructor(props: SubmitFormProps) {
     super(props);
     this.state = {
       star: 0,
@@ -51,7 +54,7 @@ export class Upload extends React.Component<UploadProps, UploadState> {
   }
 
   render = () => {
-    const { imageUrl, userName, uploadedAt, onSubmit } = this.props;
+    const { imageUrl, userName, createdAt, onSubmit } = this.props;
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
@@ -62,7 +65,7 @@ export class Upload extends React.Component<UploadProps, UploadState> {
               </CardMedia>
               <CardText>
                 by <span style={styles.bold}>{userName}</span>
-                <span style={styles.right}>{uploadedAt}</span>
+                <span style={styles.right}>{createdAt}</span>
                 <Clearfix />
                 <div style={styles.center}>
                   {range(5).map(i => (

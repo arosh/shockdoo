@@ -77,11 +77,11 @@ class SignIn extends React.Component<SignInProps, SignInState> {
               onTouchTap={() => onSignIn('twitter')}
               leftIcon={<IconTwitter />}
             />
-            <MenuItem
+            {/* <MenuItem
               primaryText="Googleでログイン"
               onTouchTap={() => onSignIn('google')}
               leftIcon={<IconGoogle />}
-            />
+            /> */}
           </Menu>
         </Popover>
       </div>
