@@ -10,10 +10,11 @@ import { linkTo } from '@storybook/addon-links';
 
 import ThumbnailCollection from '../components/ThumbnailCollection';
 import SubmitForm from '../components/SubmitForm';
-import { Detail } from '../components/Detail';
+import Detail from '../components/Detail';
 import AppBar from '../components/AppBar';
 import AddPhotoButton from '../components/AddPhotoButton';
 import Drawer from '../components/Drawer';
+import NameDialog from '../components/NameDialog';
 
 import '../bootstrap';
 
@@ -149,3 +150,7 @@ storiesOf('Drawer', module)
       userID={123}
     />
   ));
+
+storiesOf('NameDialog', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <NameDialog open={true} onSubmit={action('submit')} />);

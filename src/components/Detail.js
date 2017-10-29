@@ -65,7 +65,7 @@ type PropsType = {
   onDelete?: () => void,
 };
 
-export function Detail(props: PropsType) {
+export default function Detail(props: PropsType) {
   const {
     imageUrl,
     userName,
