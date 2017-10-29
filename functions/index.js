@@ -1,7 +1,9 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 admin.initializeApp(functions.config().firebase);
-const gcs = require('@google-cloud/storage')();
+const gcs = require('@google-cloud/storage')({
+  keyFilename: 'shockdoo-9e83d-firebase-adminsdk-avb1v-d5c1b8ab7b.json',
+});
 const spawn = require('child-process-promise').spawn;
 const path = require('path');
 const os = require('os');
@@ -69,7 +71,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   }
 
   const [uid, type, basename] = split;
-  if (type !== 'origin') {
+  if (type !== 'image') {
     console.log(`filePath = ${filePath}`);
     return null;
   }
@@ -81,6 +83,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
 
   const bucket = gcs.bucket(fileBucket);
   const tempFilePath = path.join(os.tmpdir(), basename);
+  const thumbFilePath = path.join(uid, 'thumb', basename);
   return bucket
     .file(filePath)
     .download({
@@ -101,8 +104,48 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
     })
     .then(() => {
       console.log('Thumbnail created at', tempFilePath);
-      const thumbFilePath = path.join(uid, 'thumb', basename);
       return bucket.upload(tempFilePath, { destination: thumbFilePath });
     })
-    .then(() => fs.unlinkSync(tempFilePath));
+    .then(() => fs.unlinkSync(tempFilePath))
+    .then(() => {
+      const imageFile = bucket.file(filePath);
+      const thumbFile = bucket.file(thumbFilePath);
+      const config = {
+        action: 'read',
+        expires: '03-09-2491',
+      };
+      return Promise.all([
+        imageFile.getSignedUrl(config),
+        thumbFile.getSignedUrl(config),
+      ]);
+    })
+    .then(results => {
+      const [imageURL, thumbURL] = results;
+      const counterRef = db.collection('_counters').doc('photos');
+      const photoRef = db.collection('_photos').doc(basename);
+      return db.runTransaction(transaction => {
+        return transaction
+          .get(counterRef)
+          .then(photosDoc => {
+            let count;
+            if (photosDoc.exists) {
+              count = photosDoc.get('count') || 0;
+            } else {
+              count = 0;
+              transaction.set(counterRef, { count: count });
+            }
+            return count + 1;
+          })
+          .then(count => {
+            console.log(`count = ${count}`);
+            transaction.update(counterRef, { count: count });
+            transaction.set(photoRef, {
+              imageURL,
+              thumbURL,
+              serial: count,
+              createdAt: FieldValue.serverTimestamp(),
+            });
+          });
+      });
+    });
 });

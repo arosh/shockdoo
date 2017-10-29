@@ -91,29 +91,23 @@ export default class FirebaseUtils {
     const uid = this.auth.currentUser.uid;
     const hashCode = this.hashCode(image);
     const ext = mime.getExtension(fileType);
+    const fileName = `${hashCode}.${ext}`;
     const ref = this.storage
       .ref()
       .child(uid)
-      .child('origin')
-      .child(`${hashCode}.${ext}`);
+      .child('image')
+      .child(fileName);
     const metadata = {
       contentType: fileType,
     };
     await ref.put(image, metadata);
-    const imageURL = await ref.getDownloadURL();
-    const thumbnailRef = this.storage
-      .ref()
-      .child(uid)
-      .child('thumb')
-      .child(`${hashCode}.${ext}`);
-    const thumbnailURL = await thumbnailRef.getDownloadURL();
-    await this.db.collection('photos').add({
-      userID: uid,
-      star: star,
-      imagePath: ref.fullPath,
-      imageURL,
-      thumbnailURL,
-    });
+    await this.db
+      .collection('photos')
+      .doc(fileName)
+      .set({
+        userID: uid,
+        star: star,
+      });
   }
 
   async waitUserSerial(uid: string): Promise<number> {
