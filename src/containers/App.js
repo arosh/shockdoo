@@ -6,6 +6,7 @@ import AppBar from './AppBar';
 import Drawer from './Drawer';
 import AddPhotoButton from './AddPhotoButton';
 import SubmitForm from './SubmitForm';
+import NameDialog from './NameDialog';
 // import Navigation from './Navigation';
 // import Thumbnails from './Thumbnails';
 
@@ -149,6 +150,7 @@ export default () => (
       <AppBar />
       <Drawer />
       <AddPhotoButton />
+      <NameDialog />
       <div className="container-fluid" style={styles.appbarPadding}>
         <Sitemap />
         <hr />

@@ -112,6 +112,7 @@ storiesOf('AppBar', module)
   .add('not logged', () => (
     <AppBar
       logged={false}
+      onTitleTouchTap={action('title')}
       onLeftIconButtonTouchTap={action('left-icon')}
       onSignIn={linkTo('AppBar', 'logged')}
       onSignOut={linkTo('AppBar', 'not logged')}
@@ -120,6 +121,7 @@ storiesOf('AppBar', module)
   .add('logged', () => (
     <AppBar
       logged={true}
+      onTitleTouchTap={action('title')}
       onLeftIconButtonTouchTap={action('left-icon')}
       onSignIn={linkTo('AppBar', 'logged')}
       onSignOut={linkTo('AppBar', 'not logged')}

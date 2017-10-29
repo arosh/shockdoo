@@ -15,6 +15,9 @@ const styles = {
     top: 0,
     position: 'fixed',
   },
+  title: {
+    cursor: 'pointer',
+  },
 };
 
 type SignInProps = {
@@ -77,11 +80,11 @@ class SignIn extends React.Component<SignInProps, SignInState> {
               onTouchTap={() => onSignIn('twitter')}
               leftIcon={<IconTwitter />}
             />
-            {/* <MenuItem
+            <MenuItem
               primaryText="Googleでログイン"
               onTouchTap={() => onSignIn('google')}
               leftIcon={<IconGoogle />}
-            /> */}
+            />
           </Menu>
         </Popover>
       </div>
@@ -111,16 +114,24 @@ SignOut.muiName = 'FlatButton';
 
 type PropTypes = {
   logged: boolean,
+  onTitleTouchTap: () => void,
   onLeftIconButtonTouchTap: () => void,
   onSignIn: (providerName: string) => void,
   onSignOut: () => void,
 };
 
 export default function AppBar(props: PropTypes) {
-  const { logged, onLeftIconButtonTouchTap, onSignIn, onSignOut } = props;
+  const {
+    logged,
+    onTitleTouchTap,
+    onLeftIconButtonTouchTap,
+    onSignIn,
+    onSignOut,
+  } = props;
   return (
     <MaterialAppBar
-      title="Shockdoo"
+      title={<span style={styles.title}>Shockdoo</span>}
+      onTitleTouchTap={() => onTitleTouchTap()}
       onLeftIconButtonTouchTap={() => onLeftIconButtonTouchTap()}
       iconElementRight={
         logged ? (

@@ -71,12 +71,12 @@ export default function Drawer(props: PropTypes) {
           >
             Twitterでログイン
           </MenuItem>
-          {/* <MenuItem
+          <MenuItem
             leftIcon={<IconGoogle />}
             onTouchTap={() => onTouchTap('signin-google')}
           >
             Googleでログイン
-          </MenuItem> */}
+          </MenuItem>
         </div>
       )}
     </MaterialDrawer>

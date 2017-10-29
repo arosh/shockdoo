@@ -37,20 +37,14 @@ export default class FirebaseUtils {
     throw new Error(`Cannot find provider: ${providerName}`);
   }
 
-  async signIn(providerName: string) {
+  async signIn(providerName: string): Promise<boolean> {
     const provider = this.createProvider(providerName);
     type UserCredential = firebase.auth.UserCredential;
     const credential: UserCredential = await this.auth.signInWithPopup(
       provider
     );
-    const uid = credential.user.uid;
-    const { isNewUser, username } = credential.additionalUserInfo;
-    if (isNewUser) {
-      await this.db
-        .collection('users')
-        .doc(uid)
-        .set({ name: username });
-    }
+    const { isNewUser } = credential.additionalUserInfo;
+    return isNewUser;
   }
 
   setOnSignInHandler(observer: (userId: number, userName: string) => void) {
@@ -75,6 +69,14 @@ export default class FirebaseUtils {
 
   signOut() {
     return this.auth.signOut();
+  }
+
+  async setUserName(userName: string) {
+    const { uid } = this.auth.currentUser;
+    await this.db
+      .collection('users')
+      .doc(uid)
+      .set({ name: userName });
   }
 
   async uploadImage(fileName: string, image: ArrayBuffer, star: number) {
