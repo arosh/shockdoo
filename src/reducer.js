@@ -9,6 +9,7 @@ const SET_SUBMIT = 'SET_SUBMIT';
 const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
 const SET_PHOTOS = 'SET_PHOTOS';
+const SET_LOADING = 'SET_LOADING';
 
 type Action = {
   type: string,
@@ -19,6 +20,7 @@ type Dispatch = Action => void;
 
 export type State = {
   logged: boolean,
+  loading: boolean,
   drawerOpened: boolean,
   userID: ?number,
   userName: ?string,
@@ -33,6 +35,7 @@ export type State = {
 
 const initialState: State = {
   logged: false,
+  loading: true,
   drawerOpened: false,
   userID: null,
   userName: null,
@@ -159,9 +162,14 @@ export function nameDialogSubmit(name: string) {
 export function updatePhotos() {
   return async (dispatch: Dispatch, getState: () => State) => {
     dispatch({
+      type: SET_LOADING,
+      payload: null,
+    });
+    const photos = await firebase.getPhotos();
+    dispatch({
       type: SET_PHOTOS,
       payload: {
-        photos: await firebase.getPhotos(),
+        photos,
       },
     });
   };
@@ -209,9 +217,15 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         nameDialogOpen: payload.open,
       };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case SET_PHOTOS:
       return {
         ...state,
+        loading: false,
         photos: payload.photos,
       };
     default: {

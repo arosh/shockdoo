@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import ThumbItem from './ThumbItem';
+import Loading from './Loading';
 
 const styles = {
   card: {
@@ -9,7 +10,8 @@ const styles = {
 };
 
 // 本当はItemの内容を知っていなくても良い設計にするべきでItemのほうからIDで引けるようにしたほうが良さそう
-type ThumbCollectionProps = {
+type Props = {
+  loading: boolean,
   thumbs: {
     serial: number,
     thumbURL: string,
@@ -24,27 +26,30 @@ type ThumbCollectionProps = {
   triggerUpdate: () => void,
 };
 
-export default class ThumbCollection extends React.Component<
-  ThumbCollectionProps,
-  {}
-> {
+class ThumbCollection extends React.Component<Props, {}> {
   componentDidMount = () => {
     this.props.triggerUpdate();
   };
-  render = () => (
-    <div className="row">
-      {this.props.thumbs.map((item, key) => (
-        <div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <div className="box" style={styles.card}>
-            <ThumbItem
-              {...item}
-              handleImageClick={() => this.props.handleImageClick(item.serial)}
-              handleFavoriteClick={() =>
-                this.props.handleFavoriteClick(item.serial)}
-            />
+  render = () =>
+    this.props.loading ? (
+      <Loading />
+    ) : (
+      <div className="row">
+        {this.props.thumbs.map((item, key) => (
+          <div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div className="box" style={styles.card}>
+              <ThumbItem
+                {...item}
+                handleImageClick={() =>
+                  this.props.handleImageClick(item.serial)}
+                handleFavoriteClick={() =>
+                  this.props.handleFavoriteClick(item.serial)}
+              />
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
 }
+
+export default ThumbCollection;
