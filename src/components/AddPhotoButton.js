@@ -25,7 +25,7 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
       <input
         type="file"
         ref="theUpload"
-        accept="image/*,.png,.jpg,.jpeg,.gif"
+        accept="image/*"
         style={styles.displayNone}
         onChange={() => this.props.onFileSelect(this.refs.theUpload)}
       />
