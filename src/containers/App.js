@@ -147,10 +147,6 @@ const Sitemap = () => (
 export default () => (
   <Router>
     <div>
-      <AppBar />
-      <Drawer />
-      <AddPhotoButton />
-      <NameDialog />
       <div className="container-fluid" style={styles.appbarPadding}>
         <Switch>
           <Route exact path="/" component={Root} />
@@ -162,6 +158,10 @@ export default () => (
         <hr />
         <Sitemap />
       </div>
+      <AppBar />
+      <Drawer />
+      <AddPhotoButton />
+      <NameDialog />
     </div>
   </Router>
 );
