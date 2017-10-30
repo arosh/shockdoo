@@ -8,7 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import ThumbnailCollection from '../components/ThumbnailCollection';
+import ThumbCollection from '../components/ThumbCollection';
 import SubmitForm from '../components/SubmitForm';
 import Detail from '../components/Detail';
 import AppBar from '../components/AppBar';
@@ -41,18 +41,25 @@ const thumbUrls = [
 ];
 
 const thumbnails = thumbUrls.map((url, index) => ({
-  imageUrl: url,
+  serial: index,
+  thumbURL: url,
   userName: '@shora_kujira16',
-  uploadedAt: '2017/07/20',
-  starCount: index % 5 + 1,
+  createdAt: '2017/07/20',
+  star: index % 5 + 1,
   favoriteCount: (index * 3 + 1) % 5,
   favoriteMark: index % 2 === 0,
-  handleFavoriteClick: () => action('like')(index),
 }));
 
 storiesOf('Thumbnails', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <ThumbnailCollection thumbnails={thumbnails} />);
+  .add('default', () => (
+    <ThumbCollection
+      thumbs={thumbnails}
+      handleImageClick={action('image')}
+      handleFavoriteClick={action('like')}
+      triggerUpdate={action('update')}
+    />
+  ));
 
 storiesOf('Upload', module)
   .addDecorator(MuiDecorator)

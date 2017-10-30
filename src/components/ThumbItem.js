@@ -53,43 +53,48 @@ function range(n: number) {
   return [...Array(n).keys()];
 }
 
-export type PropsType = {
-  imageUrl: string,
+export type ThumbItemProps = {
+  thumbURL: string,
   userName: string,
-  uploadedAt: string,
-  starCount: number,
+  createdAt: string,
+  star: number,
   favoriteCount: number,
   favoriteMark: boolean,
+  handleImageClick: () => void,
   handleFavoriteClick: () => void,
 };
 
-export function ThumbnailItem(props: PropsType) {
+export default function ThumbItem(props: ThumbItemProps) {
   const {
-    imageUrl,
+    thumbURL,
     userName,
-    uploadedAt,
-    starCount,
+    createdAt,
+    star,
     favoriteCount,
     favoriteMark,
+    handleImageClick,
     handleFavoriteClick,
   } = props;
   return (
     <Card containerStyle={styles.cardContainer}>
       <CardMedia style={styles.cardMedia}>
-        <a href="#">
-          <img style={styles.img} src={imageUrl} alt="" />
-        </a>
+        <img
+          style={styles.img}
+          src={thumbURL}
+          alt=""
+          onClick={handleImageClick}
+        />
       </CardMedia>
       <CardText>
         by <span style={styles.bold}>{userName}</span>
-        <span style={styles.right}>{uploadedAt}</span>
+        <span style={styles.right}>{createdAt}</span>
         <Clearfix />
         <div style={styles.starBox}>
           {range(5).map(i => (
             <img
               key={i}
               alt=""
-              src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
+              src={i < star ? starImageUrlYes[i] : starImageUrlNo[i]}
               style={styles.starImage}
             />
           ))}

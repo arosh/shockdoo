@@ -4,6 +4,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import * as shajs from 'sha.js';
+import type { Photo } from '../types';
 
 export class FirebaseUtils {
   auth: firebase.auth.Auth;
@@ -41,6 +42,10 @@ export class FirebaseUtils {
     return isNewUser;
   }
 
+  async signOut(): Promise<void> {
+    return this.auth.signOut();
+  }
+
   setOnSignInHandler(observer: (userId: number, userName: string) => void) {
     this.auth.onAuthStateChanged(async user => {
       if (user) {
@@ -61,16 +66,40 @@ export class FirebaseUtils {
     });
   }
 
-  signOut() {
-    return this.auth.signOut();
-  }
-
   async setUserName(userName: string) {
     const { uid } = this.auth.currentUser;
     await this.db
       .collection('users')
       .doc(uid)
       .set({ name: userName });
+  }
+
+  async waitUserSerial(uid: string): Promise<number> {
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('_users')
+        .doc(uid)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot.get('serial'));
+          }
+        });
+    });
+  }
+
+  async waitUserName(uid: string): Promise<string> {
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('users')
+        .doc(uid)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot.get('name'));
+          }
+        });
+    });
   }
 
   hashCode(image: ArrayBuffer): string {
@@ -116,32 +145,40 @@ export class FirebaseUtils {
       });
   }
 
-  async waitUserSerial(uid: string): Promise<number> {
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('_users')
-        .doc(uid)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot.get('serial'));
-          }
-        });
+  async getPhotos(): Promise<Photo[]> {
+    const snapshots = await this.db
+      .collection('_photos')
+      .orderBy('createdAt', 'desc')
+      .get();
+    const photos: Promise<Photo>[] = snapshots.docs.map(async doc => {
+      const photo = await this.db
+        .collection('photos')
+        .doc(doc.id)
+        .get();
+      const user = await this.db
+        .collection('users')
+        .doc(photo.get('userID'))
+        .get();
+      const date: Date = doc.get('createdAt');
+      const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+      return {
+        serial: doc.get('serial'),
+        createdAt: dateStr,
+        userName: user.get('name'),
+        imageURL: doc.get('imageURL'),
+        thumbURL: doc.get('thumbURL'),
+        star: photo.get('star'),
+        favorite: 0,
+      };
     });
+    return Promise.all(photos);
   }
 
-  async waitUserName(uid: string): Promise<string> {
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('users')
-        .doc(uid)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot.get('name'));
-          }
-        });
-    });
+  setOnPhotosUpdateHandler(observer: Photo => void) {
+    this.db
+      .collection('_photos')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {});
   }
 }
 

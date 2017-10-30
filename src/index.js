@@ -14,20 +14,23 @@ import './bootstrap';
 
 const store = createStore();
 
-firebase.initializeApp().then(() => {
+const initializerPromise = firebase.initializeApp().then(() => {
   store.dispatch(action.setOnSignIn());
   store.dispatch(action.setOnSignOut());
 });
 
-const muiTheme = getMuiTheme({});
-const reactRootEl = document.getElementById('react-root');
-if (reactRootEl) {
-  ReactDOM.render(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <App />
-      </MuiThemeProvider>
-    </Provider>,
-    reactRootEl
-  );
-}
+window.addEventListener('load', async () => {
+  const muiTheme = getMuiTheme({});
+  const reactRootEl = document.getElementById('react-root');
+  await initializerPromise;
+  if (reactRootEl) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <App />
+        </MuiThemeProvider>
+      </Provider>,
+      reactRootEl
+    );
+  }
+})

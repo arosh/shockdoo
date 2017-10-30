@@ -7,8 +7,7 @@ import Drawer from './Drawer';
 import AddPhotoButton from './AddPhotoButton';
 import SubmitForm from './SubmitForm';
 import NameDialog from './NameDialog';
-// import Navigation from './Navigation';
-// import Thumbnails from './Thumbnails';
+import ThumbCollection from './ThumbCollection';
 
 const styles = {
   appbarPadding: {
@@ -18,16 +17,17 @@ const styles = {
 
 const Root = ({ match }) => (
   <div>
-    root
+    <ThumbCollection />
+    <hr />
     <pre>{JSON.stringify(match, null, 2)}</pre>
   </div>
 );
 
 const Submit = ({ match }) => (
   <div>
-    submit
-    <pre>{JSON.stringify(match, null, 2)}</pre>
     <SubmitForm />
+    <hr />
+    <pre>{JSON.stringify(match, null, 2)}</pre>
   </div>
 );
 
@@ -152,8 +152,6 @@ export default () => (
       <AddPhotoButton />
       <NameDialog />
       <div className="container-fluid" style={styles.appbarPadding}>
-        <Sitemap />
-        <hr />
         <Switch>
           <Route exact path="/" component={Root} />
           <Route exact path="/submit" component={Submit} />
@@ -161,6 +159,8 @@ export default () => (
           <Route path="/users" component={Users} />
           <Route render={() => <div>Not Found</div>} />
         </Switch>
+        <hr />
+        <Sitemap />
       </div>
     </div>
   </Router>

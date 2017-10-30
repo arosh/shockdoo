@@ -1,11 +1,14 @@
 // @flow
 import { singleton as firebase } from './infra/FirebaseUtils';
+import type { Photo } from './types';
+
 const SIGN_IN = 'SIGN_IN';
 const SIGN_OUT = 'SIGN_OUT';
 const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 const SET_SUBMIT = 'SET_SUBMIT';
 const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
+const SET_PHOTOS = 'SET_PHOTOS';
 
 type Action = {
   type: string,
@@ -20,6 +23,7 @@ export type State = {
   userID: ?number,
   userName: ?string,
   nameDialogOpen: boolean,
+  photos: Photo[],
   submit: {
     fileType: ?string,
     imageURL: ?string,
@@ -33,6 +37,7 @@ const initialState: State = {
   userID: null,
   userName: null,
   nameDialogOpen: false,
+  photos: [],
   submit: {
     fileType: null,
     imageURL: null,
@@ -151,6 +156,17 @@ export function nameDialogSubmit(name: string) {
   };
 }
 
+export function updatePhotos() {
+  return async (dispatch: Dispatch, getState: () => State) => {
+    dispatch({
+      type: SET_PHOTOS,
+      payload: {
+        photos: await firebase.getPhotos(),
+      }
+    });
+  }
+}
+
 export default (state: State = initialState, action: Action): State => {
   const { type, payload } = action;
   switch (type) {
@@ -193,6 +209,11 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         nameDialogOpen: payload.open,
       };
+    case SET_PHOTOS:
+      return {
+        ...state,
+        photos: payload.photos,
+      }
     default: {
       return state;
     }
