@@ -1,6 +1,5 @@
 // @flow
-import FirebaseUtils from './infra/FirebaseUtils';
-
+import { singleton as firebase } from './infra/FirebaseUtils';
 const SIGN_IN = 'SIGN_IN';
 const SIGN_OUT = 'SIGN_OUT';
 const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
@@ -40,8 +39,6 @@ const initialState: State = {
     createdAt: null,
   },
 };
-
-const firebase = new FirebaseUtils();
 
 export function signIn(providerName: string) {
   return async (dispatch: Dispatch) => {

@@ -1,26 +1,19 @@
 // @flow
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
-import * as crypto from 'crypto';
-import * as mime from 'mime/lite';
+import 'firebase/storage';
+import * as shajs from 'sha.js';
 
-export default class FirebaseUtils {
+export class FirebaseUtils {
   auth: firebase.auth.Auth;
   db: firebase.firestore.Firestore;
   storage: firebase.storage.Storage;
 
-  constructor() {
-    this.initializeApp();
-  }
-
-  initializeApp() {
-    // Initialize Firebase
-    const config = {
-      apiKey: 'AIzaSyAkjmUZfCpKYP6i5OLhYlxBBHeJvF05OMQ',
-      authDomain: 'shockdoo-9e83d.firebaseapp.com',
-      projectId: 'shockdoo-9e83d',
-      storageBucket: 'shockdoo-9e83d.appspot.com',
-    };
+  async initializeApp() {
+    // https://firebase.google.com/docs/web/setup
+    const resp = await fetch('/__/firebase/init.json');
+    const config = await resp.json();
     firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.db = firebase.firestore();
@@ -82,15 +75,28 @@ export default class FirebaseUtils {
 
   hashCode(image: ArrayBuffer): string {
     const buf = new Buffer(image);
-    const hash = crypto.createHash('sha256');
-    hash.update(buf);
-    return hash.digest('hex');
+    return shajs('sha256')
+      .update(buf)
+      .digest('hex');
+  }
+
+  getExtension(mimeType: string): string {
+    switch (mimeType) {
+      case 'image/gif':
+        return 'gif';
+      case 'image/jpeg':
+        return 'jpg';
+      case 'image/png':
+        return 'png';
+      default:
+        throw new Error(`Unknown MIME type: ${mimeType}`);
+    }
   }
 
   async uploadImage(fileType: string, image: ArrayBuffer, star: number) {
     const uid = this.auth.currentUser.uid;
     const hashCode = this.hashCode(image);
-    const ext = mime.getExtension(fileType);
+    const ext = this.getExtension(fileType);
     const fileName = `${hashCode}.${ext}`;
     const ref = this.storage
       .ref()
@@ -138,3 +144,5 @@ export default class FirebaseUtils {
     });
   }
 }
+
+export const singleton = new FirebaseUtils();
