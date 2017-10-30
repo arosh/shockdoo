@@ -32,6 +32,7 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
       <FloatingActionButton
         onTouchTap={() => this.refs.theUpload.click()}
         style={styles.floatingButton}
+        zDepth={3}
         secondary
       >
         <IconAddPhoto />

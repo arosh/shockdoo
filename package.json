@@ -38,7 +38,8 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "deploy": "yarn build && firebase deploy",
-    "deploy:functions": "firebase deploy --only functions"
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:hosting": "yarn build && firebase deploy --only hosting"
   },
   "proxy": {
     "/__": {
