@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { blue500, grey400, white } from 'material-ui/styles/colors';
 
 import Clearfix from './Clearfix';
-import { IconThumbUp, IconDelete } from '../icons';
+import { IconThumbUp, IconDelete } from './icons';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {

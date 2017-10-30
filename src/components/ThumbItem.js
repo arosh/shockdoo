@@ -6,7 +6,7 @@ import Avatar from 'material-ui/Avatar';
 import { blue500, white, grey400 } from 'material-ui/styles/colors';
 
 import Clearfix from './Clearfix';
-import { IconThumbUp } from '../icons';
+import { IconThumbUp } from './icons';
 import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {

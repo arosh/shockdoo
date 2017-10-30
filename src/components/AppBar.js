@@ -7,7 +7,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
-import { IconSignIn, IconSignOut, IconGoogle, IconTwitter } from '../icons';
+import { IconSignIn, IconSignOut, IconGoogle, IconTwitter } from './icons';
 
 const styles = {
   appbar: {

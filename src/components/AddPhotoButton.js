@@ -2,7 +2,7 @@
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-import { IconAddPhoto } from '../icons';
+import { IconAddPhoto } from './icons';
 
 const styles = {
   floatingButton: {

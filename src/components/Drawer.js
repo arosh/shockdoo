@@ -13,7 +13,7 @@ import {
   IconSignOut,
   IconGoogle,
   IconTwitter,
-} from '../icons';
+} from './icons';
 
 type PropTypes = {
   open: boolean,
