@@ -33,4 +33,4 @@ window.addEventListener('load', async () => {
       reactRootEl
     );
   }
-})
+});

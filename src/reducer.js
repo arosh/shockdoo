@@ -162,9 +162,9 @@ export function updatePhotos() {
       type: SET_PHOTOS,
       payload: {
         photos: await firebase.getPhotos(),
-      }
+      },
     });
-  }
+  };
 }
 
 export default (state: State = initialState, action: Action): State => {
@@ -213,7 +213,7 @@ export default (state: State = initialState, action: Action): State => {
       return {
         ...state,
         photos: payload.photos,
-      }
+      };
     default: {
       return state;
     }

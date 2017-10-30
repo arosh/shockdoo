@@ -137,7 +137,9 @@ storiesOf('AppBar', module)
 
 storiesOf('AppPhotoButton', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <AddPhotoButton onFileSelect={action('touch')} />);
+  .add('default', () => (
+    <AddPhotoButton display={true} onFileSelect={action('touch')} />
+  ));
 
 storiesOf('Drawer', module)
   .addDecorator(MuiDecorator)

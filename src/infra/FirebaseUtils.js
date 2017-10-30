@@ -159,11 +159,13 @@ export class FirebaseUtils {
         .collection('users')
         .doc(photo.get('userID'))
         .get();
-      const date: Date = doc.get('createdAt');
-      const dateStr = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+      const createdAt: Date = doc.get('createdAt');
+      const year = createdAt.getFullYear();
+      const month = createdAt.getMonth() + 1;
+      const date = createdAt.getDate();
       return {
         serial: doc.get('serial'),
-        createdAt: dateStr,
+        createdAt: `${year}/${month}/${date}`,
         userName: user.get('name'),
         imageURL: doc.get('imageURL'),
         thumbURL: doc.get('thumbURL'),

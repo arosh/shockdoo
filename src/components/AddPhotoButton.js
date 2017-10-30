@@ -16,12 +16,13 @@ const styles = {
 };
 
 type PropTypes = {
+  display: boolean,
   onFileSelect: any => void,
 };
 
 export default class AddPhotoButton extends React.Component<PropTypes, {}> {
   render = () => (
-    <div>
+    <div style={this.props.display ? {} : { display: 'none' }}>
       <input
         type="file"
         ref="theUpload"

@@ -30,7 +30,7 @@ export default class ThumbCollection extends React.Component<
 > {
   componentDidMount = () => {
     this.props.triggerUpdate();
-  }
+  };
   render = () => (
     <div className="row">
       {this.props.thumbs.map((item, key) => (
