@@ -91,8 +91,12 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
     })
     .then(() => {
       console.log('Image downloaded locally to', tempFilePath);
+      // -thumbnail を指定すると -strip になる
+      // -thumbnail 768x768^ で短いほうの辺が768pxの長方形を作る（もともと小さい場合は無視）
+      // -gravity center -extent 768x768 で中央だけ切り取る
       return spawn('convert', [
         tempFilePath,
+        '-auto-orient',
         '-thumbnail',
         '768x768^',
         '-gravity',
