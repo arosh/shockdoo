@@ -13,10 +13,13 @@ const styles = {
   appbarPadding: {
     paddingTop: 64,
   },
+  marginTop: {
+    marginTop: '1em',
+  },
 };
 
 const Root = ({ match }) => (
-  <div>
+  <div style={styles.marginTop}>
     <ThumbCollection />
     <hr />
     <pre>{JSON.stringify(match, null, 2)}</pre>
@@ -24,7 +27,7 @@ const Root = ({ match }) => (
 );
 
 const Submit = ({ match }) => (
-  <div>
+  <div style={styles.marginTop}>
     <SubmitForm />
     <hr />
     <pre>{JSON.stringify(match, null, 2)}</pre>

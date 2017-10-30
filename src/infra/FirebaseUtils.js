@@ -10,6 +10,11 @@ export class FirebaseUtils {
   auth: firebase.auth.Auth;
   db: firebase.firestore.Firestore;
   storage: firebase.storage.Storage;
+  initializerPromise: Promise<void>;
+
+  constructor() {
+    this.initializerPromise = this.initializeApp();
+  }
 
   async initializeApp() {
     // https://firebase.google.com/docs/web/setup
@@ -33,6 +38,7 @@ export class FirebaseUtils {
   }
 
   async signIn(providerName: string): Promise<boolean> {
+    await this.initializerPromise;
     const provider = this.createProvider(providerName);
     type UserCredential = firebase.auth.UserCredential;
     const credential: UserCredential = await this.auth.signInWithPopup(
@@ -43,10 +49,14 @@ export class FirebaseUtils {
   }
 
   async signOut(): Promise<void> {
+    await this.initializerPromise;
     return this.auth.signOut();
   }
 
-  setOnSignInHandler(observer: (userId: number, userName: string) => void) {
+  async setOnSignInHandler(
+    observer: (userId: number, userName: string) => void
+  ) {
+    await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (user) {
         const { uid } = user;
@@ -57,7 +67,8 @@ export class FirebaseUtils {
     });
   }
 
-  setOnSignOutHandler(observer: () => void) {
+  async setOnSignOutHandler(observer: () => void) {
+    await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (!user) {
         // User is signed out.
@@ -67,6 +78,7 @@ export class FirebaseUtils {
   }
 
   async setUserName(userName: string) {
+    await this.initializerPromise;
     const { uid } = this.auth.currentUser;
     await this.db
       .collection('users')
@@ -75,6 +87,7 @@ export class FirebaseUtils {
   }
 
   async waitUserSerial(uid: string): Promise<number> {
+    await this.initializerPromise;
     return new Promise(resolve => {
       const unsubscribe = this.db
         .collection('_users')
@@ -89,6 +102,7 @@ export class FirebaseUtils {
   }
 
   async waitUserName(uid: string): Promise<string> {
+    await this.initializerPromise;
     return new Promise(resolve => {
       const unsubscribe = this.db
         .collection('users')
@@ -123,6 +137,7 @@ export class FirebaseUtils {
   }
 
   async uploadImage(fileType: string, image: ArrayBuffer, star: number) {
+    await this.initializerPromise;
     const uid = this.auth.currentUser.uid;
     const hashCode = this.hashCode(image);
     const ext = this.getExtension(fileType);
@@ -146,6 +161,7 @@ export class FirebaseUtils {
   }
 
   async getPhotos(): Promise<Photo[]> {
+    await this.initializerPromise;
     const snapshots = await this.db
       .collection('_photos')
       .orderBy('createdAt', 'desc')
@@ -174,13 +190,6 @@ export class FirebaseUtils {
       };
     });
     return Promise.all(photos);
-  }
-
-  setOnPhotosUpdateHandler(observer: Photo => void) {
-    this.db
-      .collection('_photos')
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(snapshot => {});
   }
 }
 
