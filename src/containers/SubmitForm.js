@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import SubmitForm from '../components/SubmitForm';
-import { uploadImage } from '../reducer';
+import { uploadImage, hideLoading } from '../reducer';
 import type { State } from '../reducer';
 
 export default withRouter(
@@ -18,6 +18,7 @@ export default withRouter(
         dispatch(uploadImage(star));
         history.push('/');
       },
+      hideLoading: () => dispatch(hideLoading()),
     })
   )(SubmitForm)
 );

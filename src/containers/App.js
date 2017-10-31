@@ -32,15 +32,6 @@ const Photos = ({ match }) => (
     <Switch>
       <Route
         exact
-        path={match.url}
-        render={({ match }) => (
-          <div>
-            photos#index<pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
-        )}
-      />
-      <Route
-        exact
         path={match.url + '/new'}
         render={({ match }) => (
           <div>
@@ -60,7 +51,6 @@ const Photos = ({ match }) => (
           </div>
         )}
       />
-      <Route render={() => <div>Not Found</div>} />
     </Switch>
   </div>
 );
@@ -68,26 +58,6 @@ const Photos = ({ match }) => (
 const Users = ({ match }) => (
   <div>
     <Switch>
-      <Route
-        exact
-        path={match.url + '/:id'}
-        render={({ match }) => (
-          <div>
-            users#show ({match.params.id})
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
-        )}
-      />
-      <Route
-        exact
-        path={match.url + '/:id/edit'}
-        render={({ match }) => (
-          <div>
-            users#edit ({match.params.id})
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
-        )}
-      />
       <Route
         exact
         path={match.url + '/:id/photos'}
@@ -108,7 +78,6 @@ const Users = ({ match }) => (
           </div>
         )}
       />
-      <Route render={() => <div>Not Found</div>} />
     </Switch>
   </div>
 );
@@ -119,19 +88,10 @@ const Sitemap = () => (
       <Link to="/">root</Link>
     </li>
     <li>
-      <Link to="/photos">photos#index</Link>
-    </li>
-    <li>
       <Link to="/photos/new">photos#new</Link>
     </li>
     <li>
       <Link to="/photos/123">photos#show</Link>
-    </li>
-    <li>
-      <Link to="/users/456">users#show</Link>
-    </li>
-    <li>
-      <Link to="/users/456/edit">users#edit</Link>
     </li>
     <li>
       <Link to="/users/456/photos">users#photos_index</Link>

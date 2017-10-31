@@ -34,6 +34,7 @@ type SubmitFormProps = {
   userName: string,
   createdAt: string,
   onSubmit: (star: number) => void,
+  hideLoading: () => void,
 };
 
 type SubmitFormState = {
@@ -51,6 +52,10 @@ export default class SubmitForm extends React.Component<
       star: 0,
       starHover: 0,
     };
+  }
+
+  componentDidMount() {
+    this.props.hideLoading();
   }
 
   render = () => {

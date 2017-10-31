@@ -69,6 +69,7 @@ storiesOf('Upload', module)
       userName="@shora_kujira16"
       createdAt="2017/07/21"
       onSubmit={action('upload')}
+      hideLoading={action('hideLoading')}
     />
   ));
 

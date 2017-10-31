@@ -160,10 +160,12 @@ export function nameDialogSubmit(name: string) {
 }
 
 export function updatePhotos() {
-  return async (dispatch: Dispatch, getState: () => State) => {
+  return async (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
-      payload: null,
+      payload: {
+        loading: true,
+      },
     });
     const photos = await firebase.getPhotos();
     dispatch({
@@ -172,6 +174,15 @@ export function updatePhotos() {
         photos,
       },
     });
+  };
+}
+
+export function hideLoading() {
+  return {
+    type: SET_LOADING,
+    payload: {
+      loading: false,
+    },
   };
 }
 
@@ -220,7 +231,7 @@ export default (state: State = initialState, action: Action): State => {
     case SET_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: payload.loading,
       };
     case SET_PHOTOS:
       return {
