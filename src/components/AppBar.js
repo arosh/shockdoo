@@ -41,20 +41,25 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     };
   }
 
-  openPopover(event) {
+  openPopover = event => {
     // prevent ghost click
     event.preventDefault();
     this.setState({
       open: true,
       anchorEl: event.currentTarget,
     });
-  }
+  };
 
-  closePopover() {
+  closePopover = () => {
     this.setState({
       open: false,
     });
-  }
+  };
+
+  signIn = (providerName: string) => {
+    this.closePopover();
+    this.props.onSignIn(providerName);
+  };
 
   render() {
     const { onSignIn, ...otherProps } = this.props;
@@ -77,12 +82,12 @@ class SignIn extends React.Component<SignInProps, SignInState> {
           <Menu>
             <MenuItem
               primaryText="Twitterでログイン"
-              onTouchTap={() => onSignIn('twitter')}
+              onTouchTap={() => this.signIn('twitter')}
               leftIcon={<IconTwitter />}
             />
             <MenuItem
               primaryText="Googleでログイン"
-              onTouchTap={() => onSignIn('google')}
+              onTouchTap={() => this.signIn('google')}
               leftIcon={<IconGoogle />}
             />
           </Menu>

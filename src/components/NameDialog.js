@@ -5,6 +5,26 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+type InputProps = {
+  name: string,
+  onChange: (name: string) => void,
+};
+
+class Input extends React.Component<InputProps, {}> {
+  componentDidMount() {
+    this.refs.theInput.focus();
+  }
+  render = () => (
+    <TextField
+      hintText="アカウントの表示名を入力してください。"
+      fullWidth={true}
+      value={this.props.name}
+      ref="theInput"
+      onChange={e => this.props.onChange(e.target.value)}
+    />
+  );
+}
+
 type NameDialogProps = {
   open: boolean,
   onSubmit: (name: string) => void,
@@ -43,11 +63,9 @@ class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
         modal={true}
         open={this.props.open}
       >
-        <TextField
-          hintText="アカウントの表示名を入力してください。"
-          fullWidth={true}
-          value={this.state.name}
-          onChange={e => this.setState({ name: e.target.value })}
+        <Input
+          name={this.state.name}
+          onChange={name => this.setState({ name })}
         />
       </Dialog>
     );

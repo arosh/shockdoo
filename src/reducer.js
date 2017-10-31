@@ -192,6 +192,12 @@ export function nameDialogSubmit(name: string) {
         userName: name,
       },
     });
+    dispatch({
+      type: NOTIFY,
+      payload: {
+        message: 'アカウントの表示名を設定しました',
+      },
+    });
   };
 }
 
