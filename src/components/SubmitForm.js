@@ -83,7 +83,7 @@ export default class SubmitForm extends React.Component<
                     >
                       <img
                         className="upload__star"
-                        alt="star"
+                        alt=""
                         src={
                           this.starHighlight(i)
                             ? starImageUrlYes[i]

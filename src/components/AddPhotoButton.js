@@ -23,13 +23,15 @@ type PropTypes = {
 export default class AddPhotoButton extends React.Component<PropTypes, {}> {
   render = () => (
     <div className={classNames({ hidden: !this.props.display })}>
-      <input
-        type="file"
-        ref="theUpload"
-        accept="image/*"
-        style={styles.displayNone}
-        onChange={() => this.props.onFileSelect(this.refs.theUpload)}
-      />
+      <form>
+        <input
+          type="file"
+          ref="theUpload"
+          accept="image/*"
+          style={styles.displayNone}
+          onChange={() => this.props.onFileSelect(this.refs.theUpload)}
+        />
+      </form>
       <FloatingActionButton
         onTouchTap={() => this.refs.theUpload.click()}
         style={styles.floatingButton}

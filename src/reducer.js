@@ -17,7 +17,8 @@ type Action = {
   payload: any,
 };
 
-type Dispatch = Action => void;
+// type Dispatch = Action => void;
+type Dispatch = (Action | (Dispatch => void)) => void;
 
 export type State = {
   logged: boolean,
@@ -133,13 +134,27 @@ export function uploadImage(star: number) {
     // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
     // https://qiita.com/TypoScript/items/0d5b08cecf959b8b822c
     const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
+    xhr.onload = async () => {
       const result: ArrayBuffer = xhr.response;
       if (!submit.fileType) {
         console.log('submit.fileType is null.');
         return;
       }
-      firebase.uploadImage(submit.fileType, result, star);
+      const uploadPromise = firebase.uploadImage(submit.fileType, result, star);
+      dispatch({
+        type: NOTIFY,
+        payload: {
+          message: 'アップロードしています',
+        },
+      });
+      await uploadPromise;
+      dispatch({
+        type: NOTIFY,
+        payload: {
+          message: 'アップロードしました',
+        },
+      });
+      dispatch(updatePhotos());
     };
     xhr.responseType = 'arraybuffer';
     xhr.open('GET', submit.imageURL);
@@ -181,19 +196,20 @@ export function nameDialogSubmit(name: string) {
 }
 
 export function updatePhotos() {
-  return async (dispatch: Dispatch) => {
+  return (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
       payload: {
         loading: true,
       },
     });
-    const photos = await firebase.getPhotos();
-    dispatch({
-      type: SET_PHOTOS,
-      payload: {
-        photos,
-      },
+    firebase.getPhotos().then(photos => {
+      dispatch({
+        type: SET_PHOTOS,
+        payload: {
+          photos,
+        },
+      });
     });
   };
 }

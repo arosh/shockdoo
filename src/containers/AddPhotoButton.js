@@ -23,6 +23,7 @@ export default withRouter(
         if (!file) {
           return;
         }
+        fileForm.form.reset();
         const today = createTodayString();
         const blobURL = URL.createObjectURL(file);
         dispatch(setSubmit(file.type, blobURL, today));

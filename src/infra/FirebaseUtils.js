@@ -136,9 +136,13 @@ export class FirebaseUtils {
     }
   }
 
-  async uploadImage(fileType: string, image: ArrayBuffer, star: number) {
+  async uploadImage(
+    fileType: string,
+    image: ArrayBuffer,
+    star: number
+  ): Promise<number> {
     await this.initializerPromise;
-    const uid = this.auth.currentUser.uid;
+    const { uid } = this.auth.currentUser;
     const hashCode = this.hashCode(image);
     const ext = this.getExtension(fileType);
     const fileName = `${hashCode}.${ext}`;
@@ -158,6 +162,22 @@ export class FirebaseUtils {
         userID: uid,
         star: star,
       });
+    return this.waitPhoto(fileName);
+  }
+
+  async waitPhoto(fileName: string): Promise<number> {
+    await this.initializerPromise;
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('_photos')
+        .doc(fileName)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot.get('serial'));
+          }
+        });
+    });
   }
 
   async getPhotos(): Promise<Photo[]> {
