@@ -1,5 +1,7 @@
 // @flow
 import React from 'react';
+import { connect } from 'react-redux';
+import * as classNames from 'classnames';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import AppBar from './AppBar';
@@ -8,27 +10,18 @@ import AddPhotoButton from './AddPhotoButton';
 import SubmitForm from './SubmitForm';
 import NameDialog from './NameDialog';
 import ThumbCollection from './ThumbCollection';
+import Loading from '../components/Loading';
+import type { State } from '../reducer';
 
 const styles = {
-  appbarPadding: {
-    paddingTop: 64,
-  },
-  marginTop: {
-    marginTop: '1em',
+  container: {
+    marginTop: 'calc(64px + 1em)',
   },
 };
 
 const Root = ({ match }) => (
-  <div style={styles.marginTop}>
+  <div>
     <ThumbCollection />
-    <hr />
-    <pre>{JSON.stringify(match, null, 2)}</pre>
-  </div>
-);
-
-const Submit = ({ match }) => (
-  <div style={styles.marginTop}>
-    <SubmitForm />
     <hr />
     <pre>{JSON.stringify(match, null, 2)}</pre>
   </div>
@@ -51,7 +44,9 @@ const Photos = ({ match }) => (
         path={match.url + '/new'}
         render={({ match }) => (
           <div>
-            photos#new<pre>{JSON.stringify(match, null, 2)}</pre>
+            <SubmitForm />
+            <hr />
+            <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>
         )}
       />
@@ -147,13 +142,20 @@ const Sitemap = () => (
   </ul>
 );
 
-export default () => (
+type AppProps = {
+  loading: boolean,
+};
+
+const App = (props: AppProps) => (
   <Router>
     <div>
-      <div className="container-fluid" style={styles.appbarPadding}>
+      {props.loading && <Loading />}
+      <div
+        className={classNames('container-fluid', { hidden: props.loading })}
+        style={styles.container}
+      >
         <Switch>
           <Route exact path="/" component={Root} />
-          <Route exact path="/submit" component={Submit} />
           <Route path="/photos" component={Photos} />
           <Route path="/users" component={Users} />
           <Route render={() => <div>Not Found</div>} />
@@ -168,3 +170,7 @@ export default () => (
     </div>
   </Router>
 );
+
+export default connect((state: State) => ({
+  loading: state.loading,
+}))(App);

@@ -14,7 +14,7 @@ import './bootstrap';
 const store = createStore();
 const muiTheme = getMuiTheme({});
 
-window.addEventListener('load', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const reactRootEl = document.getElementById('react-root');
   if (reactRootEl) {
     ReactDOM.render(

@@ -27,7 +27,7 @@ export default withRouter(
         const blobURL = URL.createObjectURL(file);
         dispatch(setSubmit(file.type, blobURL, today));
         const { history } = ownProps;
-        history.push('/submit');
+        history.push('/photos/new');
       },
     })
   )(Component)

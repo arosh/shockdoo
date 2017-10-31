@@ -9,7 +9,6 @@ import type { Photo } from '../types';
 export default withRouter(
   connect(
     (state: State) => ({
-      loading: state.loading,
       thumbs: state.photos.map((photo: Photo) => ({
         serial: photo.serial,
         thumbURL: photo.thumbURL,

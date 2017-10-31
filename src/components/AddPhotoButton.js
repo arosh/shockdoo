@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
+import * as classNames from 'classnames';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-
 import { IconAddPhoto } from './icons';
 
 const styles = {
@@ -22,7 +22,7 @@ type PropTypes = {
 
 export default class AddPhotoButton extends React.Component<PropTypes, {}> {
   render = () => (
-    <div style={this.props.display ? {} : { display: 'none' }}>
+    <div className={classNames({ hidden: !this.props.display })}>
       <input
         type="file"
         ref="theUpload"
