@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import DrawerComponent from '../components/Drawer';
+import Component from '../components/Drawer';
 import { toggleDrawer, signIn, signOut } from '../reducer';
 import type { State } from '../reducer';
 
@@ -55,5 +55,5 @@ export default withRouter(
         }
       },
     })
-  )(DrawerComponent)
+  )(Component)
 );

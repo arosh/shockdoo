@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import AppBarComponent from '../components/AppBar';
+import Component from '../components/AppBar';
 import { signIn, signOut, toggleDrawer } from '../reducer';
 
 export default withRouter(
@@ -18,5 +18,5 @@ export default withRouter(
       onSignIn: (providerName: string) => dispatch(signIn(providerName)),
       onSignOut: () => dispatch(signOut()),
     })
-  )(AppBarComponent)
+  )(Component)
 );

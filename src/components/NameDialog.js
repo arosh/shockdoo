@@ -14,10 +14,7 @@ type NameDialogState = {
   name: string,
 };
 
-export default class NameDialog extends React.Component<
-  NameDialogProps,
-  NameDialogState
-> {
+class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
   state = {
     name: '',
   };
@@ -56,3 +53,5 @@ export default class NameDialog extends React.Component<
     );
   };
 }
+
+export default NameDialog;

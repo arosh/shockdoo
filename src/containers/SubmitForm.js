@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import SubmitForm from '../components/SubmitForm';
+import Component from '../components/SubmitForm';
 import { uploadImage, hideLoading } from '../reducer';
 import type { State } from '../reducer';
 
@@ -20,5 +20,5 @@ export default withRouter(
       },
       hideLoading: () => dispatch(hideLoading()),
     })
-  )(SubmitForm)
+  )(Component)
 );

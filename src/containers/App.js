@@ -11,6 +11,7 @@ import SubmitForm from './SubmitForm';
 import NameDialog from './NameDialog';
 import ThumbCollection from './ThumbCollection';
 import Loading from '../components/Loading';
+import Notification from './Notification';
 import type { State } from '../reducer';
 
 const styles = {
@@ -126,6 +127,7 @@ const App = (props: AppProps) => (
       <AppBar />
       <Drawer />
       <AddPhotoButton />
+      <Notification />
       <NameDialog />
     </div>
   </Router>

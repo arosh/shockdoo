@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import ThumbCollection from '../components/ThumbCollection';
+import Component from '../components/ThumbCollection';
 import { updatePhotos } from '../reducer';
 import type { State } from '../reducer';
 import type { Photo } from '../types';
@@ -30,5 +30,5 @@ export default withRouter(
         dispatch(updatePhotos());
       },
     })
-  )(ThumbCollection)
+  )(Component)
 );

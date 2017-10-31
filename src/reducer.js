@@ -10,6 +10,7 @@ const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
 const SET_PHOTOS = 'SET_PHOTOS';
 const SET_LOADING = 'SET_LOADING';
+const NOTIFY = 'NOTIFY';
 
 type Action = {
   type: string,
@@ -31,6 +32,10 @@ export type State = {
     imageURL: ?string,
     createdAt: ?string,
   },
+  notification: {
+    message: string,
+    timestamp: number,
+  },
 };
 
 const initialState: State = {
@@ -46,11 +51,21 @@ const initialState: State = {
     imageURL: null,
     createdAt: null,
   },
+  notification: {
+    message: '',
+    timestamp: 0,
+  },
 };
 
 export function signIn(providerName: string) {
   return async (dispatch: Dispatch) => {
     const isNewUser = await firebase.signIn(providerName);
+    dispatch({
+      type: NOTIFY,
+      payload: {
+        message: 'ログインしました',
+      },
+    });
     if (isNewUser) {
       dispatch({
         type: SET_NAME_DIALOG_OPEN,
@@ -79,6 +94,12 @@ export function setOnSignIn() {
 export function signOut() {
   return async (dispatch: Dispatch) => {
     await firebase.signOut();
+    dispatch({
+      type: NOTIFY,
+      payload: {
+        message: 'ログアウトしました',
+      },
+    });
   };
 }
 
@@ -238,6 +259,14 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         loading: false,
         photos: payload.photos,
+      };
+    case NOTIFY:
+      return {
+        ...state,
+        notification: {
+          message: payload.message,
+          timestamp: state.notification.timestamp + 1,
+        },
       };
     default: {
       return state;
