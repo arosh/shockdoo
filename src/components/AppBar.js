@@ -69,7 +69,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
         <FlatButton
           {...otherProps}
           label="ログイン"
-          onTouchTap={e => this.openPopover(e)}
+          onClick={e => this.openPopover(e)}
           icon={<IconSignIn />}
         />
         <Popover
@@ -82,12 +82,12 @@ class SignIn extends React.Component<SignInProps, SignInState> {
           <Menu>
             <MenuItem
               primaryText="Twitterでログイン"
-              onTouchTap={() => this.signIn('twitter')}
+              onClick={() => this.signIn('twitter')}
               leftIcon={<IconTwitter />}
             />
             <MenuItem
               primaryText="Googleでログイン"
-              onTouchTap={() => this.signIn('google')}
+              onClick={() => this.signIn('google')}
               leftIcon={<IconGoogle />}
             />
           </Menu>
@@ -108,7 +108,7 @@ function SignOut(props: SignOutPropTypes) {
     <FlatButton
       {...otherProps}
       label="ログアウト"
-      onTouchTap={onSignOut}
+      onClick={onSignOut}
       icon={<IconSignOut />}
     />
   );

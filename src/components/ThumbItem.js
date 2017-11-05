@@ -100,7 +100,7 @@ export default function ThumbItem(props: ThumbItemProps) {
           ))}
         </div>
         <span style={styles.right}>
-          <span style={styles.likeBox} onTouchTap={handleFavoriteClick}>
+          <span style={styles.likeBox} onClick={handleFavoriteClick}>
             <Avatar
               size={28}
               backgroundColor={favoriteMark ? blue500 : grey400}

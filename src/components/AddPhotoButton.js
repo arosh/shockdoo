@@ -33,7 +33,7 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
         />
       </form>
       <FloatingActionButton
-        onTouchTap={() => this.refs.theUpload.click()}
+        onClick={() => this.refs.theUpload.click()}
         style={styles.floatingButton}
         secondary
       >

@@ -77,7 +77,7 @@ export default class SubmitForm extends React.Component<
                     <IconButton
                       key={i}
                       className="upload__button"
-                      onTouchTap={() => this.onTouchTap(i)}
+                      onClick={() => this.onClick(i)}
                       onMouseOver={() => this.onMouseOver(i)}
                       onMouseOut={() => this.onMouseOut()}
                     >
@@ -100,7 +100,7 @@ export default class SubmitForm extends React.Component<
                   disabled={this.state.star === 0}
                   label="投稿する"
                   icon={<IconFileUpload />}
-                  onTouchTap={() => onSubmit(this.state.star)}
+                  onClick={() => onSubmit(this.state.star)}
                 />
               </CardActions>
             </Card>
@@ -110,7 +110,7 @@ export default class SubmitForm extends React.Component<
     );
   };
 
-  onTouchTap = (n: number) => {
+  onClick = (n: number) => {
     this.setState({
       star: n + 1,
     });

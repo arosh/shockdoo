@@ -15,7 +15,7 @@ export default withRouter(
     }),
     (dispatch, ownProps) => ({
       onRequestChange: open => dispatch(toggleDrawer(open)),
-      onTouchTap: (name: string, userID?: number) => {
+      onClick: (name: string, userID?: number) => {
         const { history } = ownProps;
         dispatch(toggleDrawer(false));
         switch (name) {

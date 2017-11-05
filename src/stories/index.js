@@ -149,7 +149,7 @@ storiesOf('Drawer', module)
       open={true}
       onRequestChange={action('change')}
       logged={false}
-      onTouchTap={action('touch')}
+      onClick={action('touch')}
       userID={123}
     />
   ))
@@ -158,7 +158,7 @@ storiesOf('Drawer', module)
       open={true}
       onRequestChange={action('change')}
       logged={true}
-      onTouchTap={action('touch')}
+      onClick={action('touch')}
       userID={123}
     />
   ));

@@ -101,7 +101,7 @@ export default function Detail(props: PropsType) {
               <span style={styles.right}>
                 <span
                   style={styles.likeBox}
-                  onTouchTap={() => handleFavoriteClick()}
+                  onClick={() => handleFavoriteClick()}
                 >
                   <Avatar
                     size={28}
@@ -141,7 +141,7 @@ export default function Detail(props: PropsType) {
                   secondary
                   label="削除する"
                   icon={<IconDelete />}
-                  onTouchTap={() => onDelete && onDelete()}
+                  onClick={() => onDelete && onDelete()}
                 />
               </CardActions>
             )}

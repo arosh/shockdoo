@@ -19,45 +19,45 @@ type PropTypes = {
   open: boolean,
   onRequestChange: boolean => void,
   logged: boolean,
-  onTouchTap: (name: string, userId?: number) => void,
+  onClick: (name: string, userId?: number) => void,
   userID: number,
 };
 
 export default function Drawer(props: PropTypes) {
-  const { open, onRequestChange, logged, onTouchTap, userID } = props;
+  const { open, onRequestChange, logged, onClick, userID } = props;
   return (
     <MaterialDrawer
       open={open}
       docked={false}
       onRequestChange={op => onRequestChange(op)}
     >
-      <MenuItem leftIcon={<IconHome />} onTouchTap={() => onTouchTap('home')}>
+      <MenuItem leftIcon={<IconHome />} onClick={() => onClick('home')}>
         ホーム
       </MenuItem>
       {logged ? (
         <div>
           <MenuItem
             leftIcon={<IconAccountCircle />}
-            onTouchTap={() => onTouchTap('profile', userID)}
+            onClick={() => onClick('profile', userID)}
           >
             マイページ
           </MenuItem>
           <MenuItem
             leftIcon={<IconPhotoCamera />}
-            onTouchTap={() => onTouchTap('photos', userID)}
+            onClick={() => onClick('photos', userID)}
           >
             写真
           </MenuItem>
           <MenuItem
             leftIcon={<IconThumbUp />}
-            onTouchTap={() => onTouchTap('likes', userID)}
+            onClick={() => onClick('likes', userID)}
           >
             お気に入り
           </MenuItem>
           <Divider />
           <MenuItem
             leftIcon={<IconSignOut />}
-            onTouchTap={() => onTouchTap('signout', userID)}
+            onClick={() => onClick('signout', userID)}
           >
             ログアウト
           </MenuItem>
@@ -67,13 +67,13 @@ export default function Drawer(props: PropTypes) {
           <Divider />
           <MenuItem
             leftIcon={<IconTwitter />}
-            onTouchTap={() => onTouchTap('signin-twitter')}
+            onClick={() => onClick('signin-twitter')}
           >
             Twitterでログイン
           </MenuItem>
           <MenuItem
             leftIcon={<IconGoogle />}
-            onTouchTap={() => onTouchTap('signin-google')}
+            onClick={() => onClick('signin-google')}
           >
             Googleでログイン
           </MenuItem>
