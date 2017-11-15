@@ -37,7 +37,8 @@ class ThumbCollection extends React.Component<Props, {}> {
               {...item}
               handleImageClick={() => this.props.handleImageClick(item.serial)}
               handleFavoriteClick={() =>
-                this.props.handleFavoriteClick(item.serial)}
+                this.props.handleFavoriteClick(item.serial)
+              }
             />
           </div>
         </div>
