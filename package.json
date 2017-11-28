@@ -19,10 +19,10 @@
     "sha.js": "^2.4.9"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.15",
-    "firebase-tools": "^3.15.0",
+    "@storybook/react": "^3.2.16",
+    "firebase-tools": "^3.15.3",
     "flow-bin": "^0.59.0",
-    "node-sass": "^4.6.1",
+    "node-sass": "^4.7.2",
     "prettier": "^1.8.2",
     "react-scripts": "1.0.17",
     "source-map-explorer": "^1.5.0"
@@ -36,7 +36,6 @@
     "format": "prettier --write \"src/**/*.js\" \"functions/index.js\"",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy": "yarn build && firebase deploy",
     "deploy:firestore": "firebase deploy --only firestore:rules",
     "deploy:functions": "firebase deploy --only functions",
     "deploy:hosting": "yarn build && firebase deploy --only hosting"
