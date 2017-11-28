@@ -8,8 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { blue500, grey400, white } from 'material-ui/styles/colors';
 
 import Clearfix from './Clearfix';
+import Star from './Star';
 import { IconThumbUp, IconDelete } from './icons';
-import { starImageUrlYes, starImageUrlNo } from '../resources';
 
 const styles = {
   bold: {
@@ -90,12 +90,7 @@ export default function Detail(props: PropsType) {
               <span style={styles.right}>{uploadedAt}</span>
               <div style={styles.center}>
                 {range(5).map(i => (
-                  <img
-                    key={i}
-                    className="upload__star"
-                    src={i < starCount ? starImageUrlYes[i] : starImageUrlNo[i]}
-                    alt=""
-                  />
+                  <Star key={i} level={i} turnOn={i < starCount} />
                 ))}
               </div>
               <span style={styles.right}>

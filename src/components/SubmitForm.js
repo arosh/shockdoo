@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 
 import { IconFileUpload } from './icons';
 import Clearfix from './Clearfix';
-import { starImageUrlYes, starImageUrlNo } from '../resources';
+import Star from './Star';
 
 const styles = {
   bold: {
@@ -81,15 +81,7 @@ export default class SubmitForm extends React.Component<
                       onMouseOver={() => this.onMouseOver(i)}
                       onMouseOut={() => this.onMouseOut()}
                     >
-                      <img
-                        className="upload__star"
-                        alt=""
-                        src={
-                          this.starHighlight(i)
-                            ? starImageUrlYes[i]
-                            : starImageUrlNo[i]
-                        }
-                      />
+                      <Star level={i} turnOn={this.starHighlight(i)} />
                     </IconButton>
                   ))}
                 </div>

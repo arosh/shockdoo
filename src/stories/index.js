@@ -61,7 +61,7 @@ storiesOf('Thumbnails', module)
     />
   ));
 
-storiesOf('Upload', module)
+storiesOf('SubmitForm', module)
   .addDecorator(MuiDecorator)
   .add('default', () => (
     <SubmitForm
