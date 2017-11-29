@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import Media from 'react-media';
 
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -22,6 +23,16 @@ const styles = {
     // 改行文字を入れると下側に謎の余白ができる
     // http://d.hatena.ne.jp/nug/20070501/1178016623
     lineHeight: 0,
+  },
+  iconButtonSmall: {
+    width: 52,
+    height: 59,
+    padding: 0,
+  },
+  iconButtonMedium: {
+    width: 78,
+    height: 89,
+    padding: 0,
   },
 };
 
@@ -74,15 +85,23 @@ export default class SubmitForm extends React.Component<
                 <Clearfix />
                 <div style={styles.center}>
                   {range(5).map(i => (
-                    <IconButton
-                      key={i}
-                      className="upload__button"
-                      onClick={() => this.onClick(i)}
-                      onMouseOver={() => this.onMouseOver(i)}
-                      onMouseOut={() => this.onMouseOut()}
-                    >
-                      <Star level={i} turnOn={this.starHighlight(i)} />
-                    </IconButton>
+                    <Media query={{ minWidth: 768 }}>
+                      {matches => (
+                        <IconButton
+                          key={i}
+                          style={
+                            matches
+                              ? styles.iconButtonMedium
+                              : styles.iconButtonSmall
+                          }
+                          onClick={() => this.onClick(i)}
+                          onMouseOver={() => this.onMouseOver(i)}
+                          onMouseOut={() => this.onMouseOut()}
+                        >
+                          <Star level={i} turnOn={this.starHighlight(i)} />
+                        </IconButton>
+                      )}
+                    </Media>
                   ))}
                 </div>
               </CardText>
