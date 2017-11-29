@@ -24,3 +24,4 @@ firebase-debug.log
 
 # secret
 functions/shockdoo-9e83d-firebase-adminsdk-*.json
+functions/shockdoo-devel-firebase-adminsdk-*.json
