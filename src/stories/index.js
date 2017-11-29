@@ -8,13 +8,14 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
+import AddPhotoButton from '../components/AddPhotoButton';
+import AppBar from '../components/AppBar';
+import Detail from '../components/Detail';
+import Drawer from '../components/Drawer';
+import Loading from '../components/Loading';
+import NameDialog from '../components/NameDialog';
 import ThumbCollection from '../components/ThumbCollection';
 import SubmitForm from '../components/SubmitForm';
-import Detail from '../components/Detail';
-import AppBar from '../components/AppBar';
-import AddPhotoButton from '../components/AddPhotoButton';
-import Drawer from '../components/Drawer';
-import NameDialog from '../components/NameDialog';
 
 import '../bootstrap';
 
@@ -40,36 +41,30 @@ const thumbUrls = [
   'images/thumb/vertical-small.jpg',
 ];
 
-const thumbnails = thumbUrls.map((url, index) => ({
-  serial: index,
-  thumbURL: url,
-  userName: '@shora_kujira16',
-  createdAt: '2017/07/20',
-  star: index % 5 + 1,
-  favoriteCount: (index * 3 + 1) % 5,
-  favoriteMark: index % 2 === 0,
-}));
-
-storiesOf('Thumbnails', module)
+storiesOf('AddPhotoButton', module)
   .addDecorator(MuiDecorator)
   .add('default', () => (
-    <ThumbCollection
-      thumbs={thumbnails}
-      handleImageClick={action('image')}
-      handleFavoriteClick={action('like')}
-      triggerUpdate={action('update')}
-    />
+    <AddPhotoButton display={true} onFileSelect={action('touch')} />
   ));
 
-storiesOf('SubmitForm', module)
+storiesOf('AppBar', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => (
-    <SubmitForm
-      imageUrl={imageUrls[2]}
-      userName="@shora_kujira16"
-      createdAt="2017/07/21"
-      onSubmit={action('upload')}
-      hideLoading={action('hideLoading')}
+  .add('not logged', () => (
+    <AppBar
+      logged={false}
+      onTitleTouchTap={action('title')}
+      onLeftIconButtonTouchTap={action('left-icon')}
+      onSignIn={linkTo('AppBar', 'logged')}
+      onSignOut={linkTo('AppBar', 'not logged')}
+    />
+  ))
+  .add('logged', () => (
+    <AppBar
+      logged={true}
+      onTitleTouchTap={action('title')}
+      onLeftIconButtonTouchTap={action('left-icon')}
+      onSignIn={linkTo('AppBar', 'logged')}
+      onSignOut={linkTo('AppBar', 'not logged')}
     />
   ));
 
@@ -115,33 +110,6 @@ storiesOf('Detail', module)
     />
   ));
 
-storiesOf('AppBar', module)
-  .addDecorator(MuiDecorator)
-  .add('not logged', () => (
-    <AppBar
-      logged={false}
-      onTitleTouchTap={action('title')}
-      onLeftIconButtonTouchTap={action('left-icon')}
-      onSignIn={linkTo('AppBar', 'logged')}
-      onSignOut={linkTo('AppBar', 'not logged')}
-    />
-  ))
-  .add('logged', () => (
-    <AppBar
-      logged={true}
-      onTitleTouchTap={action('title')}
-      onLeftIconButtonTouchTap={action('left-icon')}
-      onSignIn={linkTo('AppBar', 'logged')}
-      onSignOut={linkTo('AppBar', 'not logged')}
-    />
-  ));
-
-storiesOf('AppPhotoButton', module)
-  .addDecorator(MuiDecorator)
-  .add('default', () => (
-    <AddPhotoButton display={true} onFileSelect={action('touch')} />
-  ));
-
 storiesOf('Drawer', module)
   .addDecorator(MuiDecorator)
   .add('not logged', () => (
@@ -163,6 +131,61 @@ storiesOf('Drawer', module)
     />
   ));
 
+storiesOf('Loading', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <Loading />);
+
+class NameDialogEnhance extends React.Component<{}, { open: boolean }> {
+  state = {
+    open: false,
+  };
+  onSubmit = (name: string) => {
+    this.setState({
+      open: false,
+    });
+    action('submit')(name);
+  };
+  render = () => (
+    <div>
+      <NameDialog open={this.state.open} onSubmit={this.onSubmit} />
+      <button onClick={() => this.setState({ open: true })}>open</button>
+    </div>
+  );
+}
+
 storiesOf('NameDialog', module)
   .addDecorator(MuiDecorator)
-  .add('default', () => <NameDialog open={true} onSubmit={action('submit')} />);
+  .add('default', () => <NameDialogEnhance />);
+
+storiesOf('SubmitForm', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => (
+    <SubmitForm
+      imageUrl={imageUrls[2]}
+      userName="@shora_kujira16"
+      createdAt="2017/07/21"
+      onSubmit={action('upload')}
+      hideLoading={action('hideLoading')}
+    />
+  ));
+
+const thumbnails = thumbUrls.map((url, index) => ({
+  serial: index,
+  thumbURL: url,
+  userName: '@shora_kujira16',
+  createdAt: '2017/07/20',
+  star: index % 5 + 1,
+  favoriteCount: (index * 3 + 1) % 5,
+  favoriteMark: index % 2 === 0,
+}));
+
+storiesOf('Thumbnails', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => (
+    <ThumbCollection
+      thumbs={thumbnails}
+      handleImageClick={action('image')}
+      handleFavoriteClick={action('like')}
+      triggerUpdate={action('update')}
+    />
+  ));
