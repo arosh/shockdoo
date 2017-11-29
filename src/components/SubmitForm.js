@@ -84,9 +84,9 @@ export default class SubmitForm extends React.Component<
                 <span style={styles.right}>{createdAt}</span>
                 <Clearfix />
                 <div style={styles.center}>
-                  {range(5).map(i => (
-                    <Media query={{ minWidth: 768 }}>
-                      {matches => (
+                  <Media query={{ minWidth: 768 }}>
+                    {matches =>
+                      range(5).map(i => (
                         <IconButton
                           key={i}
                           style={
@@ -100,9 +100,9 @@ export default class SubmitForm extends React.Component<
                         >
                           <Star level={i} turnOn={this.starHighlight(i)} />
                         </IconButton>
-                      )}
-                    </Media>
-                  ))}
+                      ))
+                    }
+                  </Media>
                 </div>
               </CardText>
               <CardActions>
