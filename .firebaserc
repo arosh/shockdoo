@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "shockdoo-9e83d"
+    "default": "shockdoo-9e83d",
+    "devel": "shockdoo-devel"
   }
 }
