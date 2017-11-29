@@ -22,12 +22,6 @@ export default withRouter(
           case 'home':
             history.push('/');
             break;
-          case 'profile':
-            if (userID === undefined) {
-              throw new Error('userId is undefined');
-            }
-            history.push(`/users/${userID}`);
-            break;
           case 'photos':
             if (userID === undefined) {
               throw new Error('userId is undefined');

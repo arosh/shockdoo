@@ -7,7 +7,6 @@ import MenuItem from 'material-ui/MenuItem';
 
 import {
   IconHome,
-  IconAccountCircle,
   IconPhotoCamera,
   IconThumbUp,
   IconSignOut,
@@ -36,12 +35,6 @@ export default function Drawer(props: PropTypes) {
       </MenuItem>
       {logged ? (
         <div>
-          <MenuItem
-            leftIcon={<IconAccountCircle />}
-            onClick={() => onClick('profile', userID)}
-          >
-            マイページ
-          </MenuItem>
           <MenuItem
             leftIcon={<IconPhotoCamera />}
             onClick={() => onClick('photos', userID)}
