@@ -57,13 +57,10 @@ export default class SubmitForm extends React.Component<
   SubmitFormProps,
   SubmitFormState
 > {
-  constructor(props: SubmitFormProps) {
-    super(props);
-    this.state = {
-      star: 0,
-      starHover: 0,
-    };
-  }
+  state = {
+    star: 0,
+    starHover: 0,
+  };
 
   componentDidMount() {
     this.props.hideLoading();
