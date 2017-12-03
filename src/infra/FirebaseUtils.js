@@ -186,7 +186,7 @@ export class FirebaseUtils {
       .collection('_photos')
       .orderBy('createdAt', 'desc')
       .get();
-    const usersCache = {}
+    const usersCache = {};
     const photos: Promise<Photo>[] = snapshots.docs.map(async doc => {
       const photo = await this.db
         .collection('photos')
