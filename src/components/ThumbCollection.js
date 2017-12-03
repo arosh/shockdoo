@@ -25,7 +25,7 @@ type Props = {
 };
 
 class ThumbCollection extends React.Component<Props, {}> {
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.props.triggerUpdate();
   };
   render = () => (

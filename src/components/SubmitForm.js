@@ -62,7 +62,7 @@ export default class SubmitForm extends React.Component<
     starHover: 0,
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.hideLoading();
   }
 
