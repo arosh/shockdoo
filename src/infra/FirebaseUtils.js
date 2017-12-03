@@ -186,15 +186,23 @@ export class FirebaseUtils {
       .collection('_photos')
       .orderBy('createdAt', 'desc')
       .get();
+    const usersCache = {}
     const photos: Promise<Photo>[] = snapshots.docs.map(async doc => {
       const photo = await this.db
         .collection('photos')
         .doc(doc.id)
         .get();
-      const user = await this.db
-        .collection('users')
-        .doc(photo.get('userID'))
-        .get();
+      const userID = photo.get('userID');
+      let user;
+      if (userID in usersCache) {
+        user = usersCache[userID];
+      } else {
+        user = await this.db
+          .collection('users')
+          .doc(photo.get('userID'))
+          .get();
+        usersCache[userID] = user;
+      }
       const createdAt: Date = doc.get('createdAt');
       const year = createdAt.getFullYear();
       const month = createdAt.getMonth() + 1;
