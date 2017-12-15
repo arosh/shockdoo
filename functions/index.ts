@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 admin.initializeApp(functions.config().firebase);
+// admin.storage使えばいいような気がする
 import * as googleCloudStorage from '@google-cloud/storage';
 const gcs = googleCloudStorage({
   keyFilename: 'shockdoo-9e83d-firebase-adminsdk-avb1v-d5c1b8ab7b.json',
@@ -76,6 +77,8 @@ exports.generateThumbnail = functions.storage.object().onChange(async (event) =>
     return;
   }
 
+  // admin.storage().bucket() で良い？
+  // https://firebase.google.com/docs/reference/admin/node/admin.storage.Storage?authuser=0
   const bucket = gcs.bucket(fileBucket);
   const tempFilePath = path.join(os.tmpdir(), basename);
   const thumbFilePath = path.join(uid, 'thumb', basename);
