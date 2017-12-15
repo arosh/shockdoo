@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ue
-BIN=node_modules/.bin/node-sass
+BIN=node_modules/.bin/node-sass-chokidar
 MDL_SRC=node_modules/material-design-lite/src
 OUT=src/assets/material-design-lite
 $BIN $MDL_SRC/typography/_typography.scss -o $OUT
