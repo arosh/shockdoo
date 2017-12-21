@@ -1,15 +1,11 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 admin.initializeApp(functions.config().firebase);
-// admin.storage使えばいいような気がする
-import * as googleCloudStorage from '@google-cloud/storage';
-const gcs = googleCloudStorage({
-  keyFilename: 'shockdoo-9e83d-firebase-adminsdk-avb1v-d5c1b8ab7b.json',
-});
 import { spawn } from 'child-process-promise';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import * as pathMatch from 'path-match';
 
 const db = admin.firestore();
 const { FieldValue } = admin.firestore;
@@ -23,7 +19,6 @@ exports.createUser = functions.auth.user().onCreate((event) => {
     const usersDoc = await transaction.get(counterRef);
     let count: number;
     if (usersDoc.exists) {
-      // さすがに0が書き込まれていることは仮定してもいいような気もする…
       count = usersDoc.get('count') || 0;
     } else {
       count = 0;
@@ -41,49 +36,44 @@ exports.createUser = functions.auth.user().onCreate((event) => {
 
 exports.generateThumbnail = functions.storage.object().onChange(async (event) => {
   const object = event.data;
-
-  const fileBucket = object.bucket;
-  const filePath = object.name;
-  const { contentType, resourceState, metageneration } = object;
+  const bucketName = object.bucket;
+  const imagePath = object.name;
 
   // Exit if this is a move or deletion event.
-  if (resourceState === 'not_exists') {
+  if (object.resourceState === 'not_exists') {
     console.log('This is a deletion event.');
     return;
   }
 
   // Exit if file exists but is not new and is only being triggered
   // because of a metadata change.
-  if (resourceState === 'exists' && metageneration > 1) {
+  if (object.resourceState === 'exists' && object.metageneration > 1) {
     console.log('This is a metadata change event.');
     return;
   }
 
-  const split = filePath.split(path.sep);
-
-  if (split.length !== 3) {
-    console.log(`path match failed (filePath = ${filePath})`);
+  if (!object.contentType.startsWith('image/')) {
+    console.log(`Content-Type match is failed (contentType = ${object.contentType}).`);
     return;
   }
 
-  const [uid, type, basename] = split;
-  if (type !== 'image') {
-    console.log(`path match failed (filePath = ${filePath})`);
+  const matchOptions = { sensitive: true, strict: true, end: true };
+  const match = pathMatch(matchOptions)('/:uid/image/:basename');
+  const params = match(imagePath);
+  if (params === false) {
+    console.log(`path match is failed (filePath = ${imagePath}).`);
     return;
   }
 
-  if (!contentType.startsWith('image/')) {
-    console.log(`contentType match failed (contentType = ${contentType})`);
-    return;
-  }
+  const { uid, basename } = params;
 
   // admin.storage().bucket() で良い？
   // https://firebase.google.com/docs/reference/admin/node/admin.storage.Storage?authuser=0
-  const bucket = gcs.bucket(fileBucket);
+  const bucket = admin.storage().bucket(bucketName);
   const tempFilePath = path.join(os.tmpdir(), basename);
   const thumbFilePath = path.join(uid, 'thumb', basename);
 
-  await bucket.file(filePath).download({ destination: tempFilePath });
+  await bucket.file(imagePath).download({ destination: tempFilePath });
   console.log('Image downloaded locally to', tempFilePath);
   // -thumbnail を指定すると -strip になる
   // -thumbnail 768x768^ で短いほうの辺が768pxの長方形を作る（もともと小さい場合は無視）
@@ -103,18 +93,9 @@ exports.generateThumbnail = functions.storage.object().onChange(async (event) =>
   await bucket.upload(tempFilePath, { destination: thumbFilePath });
   await fs.unlinkSync(tempFilePath);
 
-  const imageFile = bucket.file(filePath);
-  const thumbFile = bucket.file(thumbFilePath);
-  const config = {
-    action: 'read',
-    expires: '03-09-2491',
-  };
-  const imageURLPromise = imageFile.getSignedUrl(config);
-  const thumbURLPromise = thumbFile.getSignedUrl(config);
-  // GetSignedUrlResponse は要素数1の配列
-  // https://cloud.google.com/nodejs/docs/reference/storage/1.4.x/global#GetSignedUrlResponse
-  const imageURL = (await imageURLPromise)[0];
-  const thumbURL = (await thumbURLPromise)[0];
+  // https://stackoverflow.com/questions/42956250/get-download-url-from-file-uploaded-with-cloud-functions-for-firebase
+  const imageURL = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${imagePath}?alt=media`;
+  const thumbURL = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${thumbFilePath}?alt=media`;
   const counterRef = db.collection('_counters').doc('photos');
   const photoRef = db.collection('_photos').doc(basename);
   return db.runTransaction(async (transaction) => {
