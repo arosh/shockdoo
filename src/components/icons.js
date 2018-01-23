@@ -9,6 +9,7 @@ import iconAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import iconAddPhoto from 'material-ui/svg-icons/image/add-a-photo';
 import iconDelete from 'material-ui/svg-icons/action/delete';
 import iconFileUpload from 'material-ui/svg-icons/file/file-upload';
+import iconNavigationMore from 'material-ui/svg-icons/navigation/expand-more';
 import FontIcon from 'material-ui/FontIcon';
 
 export const IconHome = iconHome;
@@ -19,6 +20,8 @@ export const IconAccountCircle = iconAccountCircle;
 export const IconAddPhoto = iconAddPhoto;
 export const IconDelete = iconDelete;
 export const IconFileUpload = iconFileUpload;
+export const IconNavigationMore = iconNavigationMore;
+
 export const IconSignIn = (props: any) => (
   <FontIcon {...props} className="fa fa-sign-in" />
 );

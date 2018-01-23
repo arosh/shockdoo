@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { storiesOf } from '@storybook/react';
@@ -9,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import AddPhotoButton from '../components/AddPhotoButton';
+import MoreButton from '../components/MoreButton';
 import AppBar from '../components/AppBar';
 import Detail from '../components/Detail';
 import Drawer from '../components/Drawer';
@@ -19,10 +19,8 @@ import SubmitForm from '../components/SubmitForm';
 
 import '../bootstrap';
 
-const muiTheme = getMuiTheme({});
-
 const MuiDecorator = story => (
-  <MuiThemeProvider muiTheme={muiTheme}>
+  <MuiThemeProvider>
     <div className="container-fluid">{story()}</div>
   </MuiThemeProvider>
 );
@@ -46,6 +44,10 @@ storiesOf('AddPhotoButton', module)
   .add('default', () => (
     <AddPhotoButton display={true} onFileSelect={action('touch')} />
   ));
+
+storiesOf('MoreButton', module)
+  .addDecorator(MuiDecorator)
+  .add('default', () => <MoreButton onClick={action('click')} />);
 
 storiesOf('AppBar', module)
   .addDecorator(MuiDecorator)

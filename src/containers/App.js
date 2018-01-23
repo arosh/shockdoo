@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import AppBar from './AppBar';
 import Drawer from './Drawer';
 import AddPhotoButton from './AddPhotoButton';
@@ -108,29 +110,31 @@ type AppProps = {
 };
 
 const App = (props: AppProps) => (
-  <Router>
-    <div>
-      {props.loading && <Loading />}
-      <div
-        className={classNames('container-fluid', { hidden: props.loading })}
-        style={styles.container}
-      >
-        <Switch>
-          <Route exact path="/" component={Root} />
-          <Route path="/photos" component={Photos} />
-          <Route path="/users" component={Users} />
-          <Route render={() => <div>Not Found</div>} />
-        </Switch>
-        <hr />
-        <Sitemap />
+  <MuiThemeProvider>
+    <Router>
+      <div>
+        {props.loading && <Loading />}
+        <div
+          className={classNames('container-fluid', { hidden: props.loading })}
+          style={styles.container}
+        >
+          <Switch>
+            <Route exact path="/" component={Root} />
+            <Route path="/photos" component={Photos} />
+            <Route path="/users" component={Users} />
+            <Route render={() => <div>Not Found</div>} />
+          </Switch>
+          <hr />
+          <Sitemap />
+        </div>
+        <AppBar />
+        <Drawer />
+        <AddPhotoButton />
+        <Notification />
+        <NameDialog />
       </div>
-      <AppBar />
-      <Drawer />
-      <AddPhotoButton />
-      <Notification />
-      <NameDialog />
-    </div>
-  </Router>
+    </Router>
+  </MuiThemeProvider>
 );
 
 export default connect((state: State) => ({

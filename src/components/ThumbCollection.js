@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import ThumbItem from './ThumbItem';
+import MoreButton from './MoreButton';
 
 const styles = {
   card: {
@@ -22,6 +23,7 @@ type Props = {
   handleImageClick: (serial: number) => void,
   handleFavoriteClick: (serial: number) => void,
   triggerUpdate: () => void,
+  onClickMore: () => void,
 };
 
 class ThumbCollection extends React.Component<Props, {}> {
@@ -29,20 +31,25 @@ class ThumbCollection extends React.Component<Props, {}> {
     this.props.triggerUpdate();
   };
   render = () => (
-    <div className="row">
-      {this.props.thumbs.map((item, key) => (
-        <div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <div className="box" style={styles.card}>
-            <ThumbItem
-              {...item}
-              handleImageClick={() => this.props.handleImageClick(item.serial)}
-              handleFavoriteClick={() =>
-                this.props.handleFavoriteClick(item.serial)
-              }
-            />
+    <div>
+      <div className="row">
+        {this.props.thumbs.map((item, key) => (
+          <div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div className="box" style={styles.card}>
+              <ThumbItem
+                {...item}
+                handleImageClick={() =>
+                  this.props.handleImageClick(item.serial)
+                }
+                handleFavoriteClick={() =>
+                  this.props.handleFavoriteClick(item.serial)
+                }
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <MoreButton onClick={this.props.onClickMore} />
     </div>
   );
 }

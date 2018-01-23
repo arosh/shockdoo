@@ -29,7 +29,7 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
           ref="theUpload"
           accept="image/*"
           style={styles.displayNone}
-          onChange={() => this.props.onFileSelect(this.refs.theUpload)}
+          onChange={() => this.handleInputChanged()}
         />
       </form>
       <FloatingActionButton
@@ -41,4 +41,15 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
       </FloatingActionButton>
     </div>
   );
+
+  handleInputChanged = () => {
+    const fileForm = this.refs.theUpload;
+    // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
+    const file: File = fileForm.files[0];
+    if (!file) {
+      return;
+    }
+    fileForm.form.reset();
+    this.props.onFileSelect(file);
+  };
 }

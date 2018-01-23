@@ -1,5 +1,4 @@
 // @flow
-
 import star1y from './assets/stars/star1y.png';
 import star2y from './assets/stars/star2y.png';
 import star3y from './assets/stars/star3y.png';

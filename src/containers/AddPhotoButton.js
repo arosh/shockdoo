@@ -17,15 +17,9 @@ export default withRouter(
       display: state.logged,
     }),
     (dispatch, ownProps) => ({
-      onFileSelect: fileForm => {
-        // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
-        const file: File = fileForm.files[0];
-        if (!file) {
-          return;
-        }
-        fileForm.form.reset();
-        const today = createTodayString();
+      onFileSelect: (file: File) => {
         const blobURL = URL.createObjectURL(file);
+        const today = createTodayString();
         dispatch(setSubmit(file.type, blobURL, today));
         const { history } = ownProps;
         history.push('/photos/new');
