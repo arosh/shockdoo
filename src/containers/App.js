@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import Media from 'react-media';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
@@ -20,6 +21,11 @@ import type { State } from '../reducer';
 const styles = {
   container: {
     marginTop: 'calc(64px + 1em)',
+  },
+  containerSmall: {
+    marginTop: 'calc(64px + 1em)',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
   },
 };
 
@@ -116,19 +122,25 @@ const App = (props: AppProps) => (
     <Router>
       <div>
         {props.loading && <Loading />}
-        <div
-          className={classNames('container-fluid', { hidden: props.loading })}
-          style={styles.container}
-        >
-          <Switch>
-            <Route exact path="/" component={Root} />
-            <Route path="/photos" component={Photos} />
-            <Route path="/users" component={Users} />
-            <Route render={() => <div>Not Found</div>} />
-          </Switch>
-          <hr />
-          <Sitemap />
-        </div>
+        <Media query={{ minWidth: 768 }}>
+          {matches => (
+            <div
+              className={classNames('container-fluid', {
+                hidden: props.loading,
+              })}
+              style={matches ? styles.container : styles.containerSmall}
+            >
+              <Switch>
+                <Route exact path="/" component={Root} />
+                <Route path="/photos" component={Photos} />
+                <Route path="/users" component={Users} />
+                <Route render={() => <div>Not Found</div>} />
+              </Switch>
+              <hr />
+              <Sitemap />
+            </div>
+          )}
+        </Media>
         <AppBar />
         <Drawer />
         <AddPhotoButton />
