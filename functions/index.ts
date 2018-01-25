@@ -53,7 +53,7 @@ const getUserName = async (uid: string) => {
 };
 
 const generateThumbnail = async (imagePath: string) => {
-  const thumbPath = path.join(path.dirname(imagePath), 'thumb_' + path.basename(imagePath));
+  const thumbPath = path.join(path.dirname(imagePath), 'thumb_' + path.basename(imagePath) + '.jpg');
   // -thumbnail を指定すると -strip になる
   // -thumbnail 768x768^ で短いほうの辺が768pxの長方形を作る（もともと小さい場合は無視）
   // -gravity center -extent 768x768 で中央だけ切り取る
@@ -132,8 +132,8 @@ app.post('/api/add_photo', upload.single('image'), async (req: any, res) => {
   const photoRef = db.collection('photos').doc();
   const imageBucketPath = path.join('image', photoRef.id + '.' + getExtension(req.file.mimetype));
   const imageURLPromise = uploadToBucket(imagePath, imageBucketPath, mimeType);
-  const thumbBucketPath = path.join('thumb', photoRef.id + '.' + getExtension(req.file.mimetype));
-  const thumbURLPromise = uploadToBucket(await thumbPathPromise, thumbBucketPath, mimeType);
+  const thumbBucketPath = path.join('thumb', photoRef.id + '.jpg');
+  const thumbURLPromise = uploadToBucket(await thumbPathPromise, thumbBucketPath, 'image/jpeg');
   await db.runTransaction(async (transaction) => {
     const count = await countUp(transaction, photosCounterRef);
     transaction.set(photoRef, {
