@@ -10,11 +10,11 @@ export default withRouter(
       logged: state.logged,
     }),
     (dispatch, ownProps) => ({
-      onTitleTouchTap: () => {
+      onTitleClick: () => {
         const { history } = ownProps;
         history.push('/');
       },
-      onLeftIconButtonTouchTap: () => dispatch(toggleDrawer(true)),
+      onLeftIconButtonClick: () => dispatch(toggleDrawer(true)),
       onSignIn: (providerName: string) => dispatch(signIn(providerName)),
       onSignOut: () => dispatch(signOut()),
     })

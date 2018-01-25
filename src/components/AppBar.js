@@ -119,8 +119,8 @@ SignOut.muiName = 'FlatButton';
 
 type PropTypes = {
   logged: boolean,
-  onTitleTouchTap: () => void,
-  onLeftIconButtonTouchTap: () => void,
+  onTitleClick: () => void,
+  onLeftIconButtonClick: () => void,
   onSignIn: (providerName: string) => void,
   onSignOut: () => void,
 };
@@ -128,16 +128,16 @@ type PropTypes = {
 export default function AppBar(props: PropTypes) {
   const {
     logged,
-    onTitleTouchTap,
-    onLeftIconButtonTouchTap,
+    onTitleClick,
+    onLeftIconButtonClick,
     onSignIn,
     onSignOut,
   } = props;
   return (
     <MaterialAppBar
       title={<span style={styles.title}>Shockdoo</span>}
-      onTitleTouchTap={() => onTitleTouchTap()}
-      onLeftIconButtonTouchTap={() => onLeftIconButtonTouchTap()}
+      onTitleClick={() => onTitleClick()}
+      onLeftIconButtonClick={() => onLeftIconButtonClick()}
       iconElementRight={
         logged ? (
           <SignOut onSignOut={onSignOut} />

@@ -41,7 +41,7 @@ class Notification extends React.Component<
         message={this.props.message}
         action="Close"
         autoHideDuration={4000}
-        onActionTouchTap={this.close}
+        onActionClick={this.close}
         onRequestClose={this.close}
       />
     );
