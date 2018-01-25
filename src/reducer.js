@@ -177,7 +177,7 @@ export function setSubmit(
   };
 }
 
-export function nameDialogSubmit(name: string) {
+export function setUserName(userName: string) {
   return async (dispatch: Dispatch) => {
     dispatch({
       type: SET_NAME_DIALOG_OPEN,
@@ -185,11 +185,11 @@ export function nameDialogSubmit(name: string) {
         open: false,
       },
     });
-    await firebase.setUserName(name);
+    await firebase.setUserName(userName);
     dispatch({
       type: SET_USER_NAME,
       payload: {
-        userName: name,
+        userName,
       },
     });
     dispatch({

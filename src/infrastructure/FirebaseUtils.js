@@ -77,13 +77,30 @@ export class FirebaseUtils {
     });
   }
 
-  async setUserName(userName: string) {
+  async postJson(url: string, value: any) {
     await this.initializerPromise;
-    const { uid } = this.auth.currentUser;
-    await this.db
-      .collection('users')
-      .doc(uid)
-      .set({ name: userName });
+    const token = await this.auth.currentUser.getIdToken();
+    const method = 'POST';
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    };
+    const body = JSON.stringify(value);
+    const init = {
+      method,
+      headers,
+      body,
+    };
+    const response = await fetch(url, init);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response);
+  }
+
+  async setUserName(userName: string) {
+    await this.postJson('/api/set_user_name', { userName });
   }
 
   async waitUserSerial(uid: string): Promise<number> {

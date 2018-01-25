@@ -10,11 +10,41 @@ import * as pathMatch from 'path-match';
 const db = admin.firestore();
 const { FieldValue } = admin.firestore;
 
+const authenticate = (req, res, next) => {
+  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+    res.status(403).send('Unauthorized');
+    return;
+  }
+  const idToken = req.headers.authorization.split('Bearer ')[1];
+  admin.auth().verifyIdToken(idToken).then((decodedIdToken) => {
+    req.uid = decodedIdToken.uid;
+    next(req, res);
+  }).catch((error) => {
+    res.status(403).send('Unauthorized');
+  });
+};
+
+const setUserName = async (req, res) => {
+  const uid = req.uid;
+  const userName = req.body.userName;
+  console.log(`set_user_name(uid = ${uid}, userName = ${userName})`);
+  if (!userName) {
+    res.status(400).send('Bad Request');
+    return;
+  }
+  await db.collection('users').doc(uid).update({ userName });
+  res.status(200).json({ ok: true });
+};
+
+exports.setUserName = functions.https.onRequest((req, res) => {
+  authenticate(req, res, setUserName);
+});
+
 exports.createUser = functions.auth.user().onCreate((event) => {
   const uid = event.data.uid;
-  console.log(`uid = ${uid}`);
+  console.log(`createUser(uid = ${uid})`);
   const counterRef = db.collection('_counters').doc('users');
-  const userRef = db.collection('_users').doc(uid);
+  const userRef = db.collection('users').doc(uid);
   return db.runTransaction(async (transaction) => {
     const usersDoc = await transaction.get(counterRef);
     let count: number;
@@ -28,7 +58,7 @@ exports.createUser = functions.auth.user().onCreate((event) => {
     console.log(`count = ${count}`);
     transaction.update(counterRef, { count });
     transaction.set(userRef, {
-      serial: count,
+      id: count,
       createdAt: FieldValue.serverTimestamp(),
     });
   });

@@ -3,27 +3,5 @@ service cloud.firestore {
     match /{document=**} {
       allow read;
     }
-    match /users/{userID} {
-      allow write: if request.auth.uid == userID
-                   && request.resource.data.size() == 1
-                   && request.resource.data.name is string
-                   && request.resource.data.name.size() > 0;
-    }
-    match /photos/{fileName} {
-      function isValidData() {
-        return request.resource.data.size() == 2
-            && request.resource.data.userID is string
-            && request.resource.data.userID.size() > 0
-            && request.resource.data.star is int
-            && request.resource.data.star >= 1
-            && request.resource.data.star <= 5;
-      }
-      allow create: if request.auth.uid == request.resource.data.userID
-                    && isValidData();
-      allow update: if request.auth.uid == resource.data.userID
-                    && request.auth.uid == request.resource.data.userID
-                    && isValidData();
-      allow delete: if request.auth.uid == resource.data.userID;
-    }
   }
 }

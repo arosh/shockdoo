@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import Component from '../components/NameDialog';
-import { nameDialogSubmit } from '../reducer';
+import { setUserName } from '../reducer';
 import type { State } from '../reducer';
 
 export default connect(
@@ -9,6 +9,6 @@ export default connect(
     open: state.nameDialogOpen,
   }),
   dispatch => ({
-    onSubmit: (name: string) => dispatch(nameDialogSubmit(name)),
+    onSubmit: (userName: string) => dispatch(setUserName(userName)),
   })
 )(Component);

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import App from './containers/App';
 import createStore from './createStore';
-import { setOnSignIn, setOnSignOut } from './reducer';
+import * as reducer from './reducer';
 import './bootstrap';
 
 const store = createStore();
@@ -22,5 +22,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-store.dispatch(setOnSignIn());
-store.dispatch(setOnSignOut());
+store.dispatch(reducer.setOnSignIn());
+store.dispatch(reducer.setOnSignOut());
+window.func = (userName) => {
+  store.dispatch(reducer.setUserName(userName));
+};

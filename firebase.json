@@ -2,10 +2,8 @@
   "hosting": {
     "public": "build",
     "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
+      { "source": "/api/set_user_name", "function": "setUserName" },
+      { "source": "**", "destination": "/index.html" }
     ]
   },
   "firestore": {

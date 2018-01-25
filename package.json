@@ -19,6 +19,7 @@
     "sha.js": "^2.4.10"
   },
   "devDependencies": {
+    "@google-cloud/functions-emulator": "latest",
     "@storybook/react": "^3.3.10",
     "firebase-tools": "^3.17.3",
     "flow-bin": "^0.64.0",
@@ -37,12 +38,15 @@
     "deploy:storage": "firebase deploy --only storage",
     "flow": "flow",
     "format": "prettier --write \"src/**/*.js\" \"functions/index.js\"",
-    "serve": "firebase serve",
+    "serve": "firebase serve --only hosting,functions",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public"
   },
   "proxy": {
     "/__": {
+      "target": "http://localhost:5000"
+    },
+    "/api": {
       "target": "http://localhost:5000"
     }
   }
