@@ -10,12 +10,12 @@ export default withRouter(
   connect(
     (state: State) => ({
       thumbs: state.photos.map((photo: Photo) => ({
-        serial: photo.serial,
+        serial: photo.id,
         thumbURL: photo.thumbURL,
         userName: photo.userName,
         createdAt: photo.createdAt,
         star: photo.star,
-        favoriteCount: photo.favorite,
+        favoriteCount: photo.likes,
         favoriteMark: false,
       })),
     }),

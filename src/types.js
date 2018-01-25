@@ -1,10 +1,10 @@
 // @flow
 export type Photo = {
-  serial: number,
-  createdAt: string,
+  id: number,
   userName: string,
+  star: number,
   imageURL: string,
   thumbURL: string,
-  star: number,
-  favorite: number,
+  createdAt: string,
+  likes: number,
 };

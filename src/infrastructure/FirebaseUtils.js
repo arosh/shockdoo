@@ -146,41 +146,25 @@ export class FirebaseUtils {
   async getPhotos(): Promise<Photo[]> {
     await this.initializerPromise;
     const snapshots = await this.db
-      .collection('_photos')
+      .collection('photos')
       .orderBy('createdAt', 'desc')
       .get();
-    const usersCache = {};
-    const photos: Promise<Photo>[] = snapshots.docs.map(async doc => {
-      const photo = await this.db
-        .collection('photos')
-        .doc(doc.id)
-        .get();
-      const userID = photo.get('userID');
-      let user;
-      if (userID in usersCache) {
-        user = usersCache[userID];
-      } else {
-        user = await this.db
-          .collection('users')
-          .doc(photo.get('userID'))
-          .get();
-        usersCache[userID] = user;
-      }
-      const createdAt: Date = doc.get('createdAt');
-      const year = createdAt.getFullYear();
-      const month = createdAt.getMonth() + 1;
-      const date = createdAt.getDate();
+    const photos = snapshots.docs.map(doc => {
+      const data = doc.data();
+      const year = data.createdAt.getFullYear();
+      const month = data.createdAt.getMonth() + 1;
+      const date = data.createdAt.getDate();
       return {
-        serial: doc.get('serial'),
+        id: data.id,
+        userName: data.userName,
+        star: data.star,
+        imageURL: data.imageURL,
+        thumbURL: data.thumbURL,
         createdAt: `${year}/${month}/${date}`,
-        userName: user.get('name'),
-        imageURL: doc.get('imageURL'),
-        thumbURL: doc.get('thumbURL'),
-        star: photo.get('star'),
-        favorite: 0,
+        likes: data.likes,
       };
     });
-    return Promise.all(photos);
+    return photos;
   }
 }
 
