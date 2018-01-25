@@ -18,9 +18,7 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "@google-cloud/functions-emulator": "latest",
     "@storybook/react": "^3.3.10",
-    "firebase-tools": "^3.17.3",
     "flow-bin": "^0.64.0",
     "node-sass-chokidar": "^0.0.3",
     "prettier": "^1.10.2",

@@ -2,13 +2,11 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import 'firebase/storage';
 import type { Photo } from '../types';
 
 export class FirebaseUtils {
   auth: firebase.auth.Auth;
   db: firebase.firestore.Firestore;
-  storage: firebase.storage.Storage;
   initializerPromise: Promise<void>;
 
   constructor() {
@@ -22,7 +20,6 @@ export class FirebaseUtils {
     firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.db = firebase.firestore();
-    this.storage = firebase.storage();
   }
 
   createProvider(providerName: string) {
