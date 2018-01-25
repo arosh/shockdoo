@@ -1,5 +1,5 @@
 // @flow
-import { singleton as firebase } from './infra/FirebaseUtils';
+import { singleton as firebase } from './infrastructure/FirebaseUtils';
 import type { Photo } from './types';
 
 const SIGN_IN = 'SIGN_IN';

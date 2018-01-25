@@ -11,13 +11,13 @@ import './bootstrap';
 const store = createStore();
 
 window.addEventListener('DOMContentLoaded', async () => {
-  const reactRootEl = document.getElementById('react-root');
-  if (reactRootEl) {
+  const reactRoot = document.getElementById('react-root');
+  if (reactRoot) {
     ReactDOM.render(
       <Provider store={store}>
         <App />
       </Provider>,
-      reactRootEl
+      reactRoot
     );
   }
 });

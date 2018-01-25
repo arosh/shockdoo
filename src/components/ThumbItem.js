@@ -7,7 +7,7 @@ import { blue500, white, grey400 } from 'material-ui/styles/colors';
 
 import Clearfix from './Clearfix';
 import { IconThumbUp } from './icons';
-import { starImageUrlYes, starImageUrlNo } from '../resources';
+import { starImageUrlYes, starImageUrlNo } from './resources';
 
 const styles = {
   bold: {

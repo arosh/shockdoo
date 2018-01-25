@@ -189,5 +189,6 @@ storiesOf('Thumbnails', module)
       handleImageClick={action('image')}
       handleFavoriteClick={action('like')}
       triggerUpdate={action('update')}
+      onClickMore={action('more')}
     />
   ));

@@ -2,7 +2,7 @@
 import React from 'react';
 import Media from 'react-media';
 
-import { starImageUrlYes, starImageUrlNo } from '../resources';
+import { starImageUrlYes, starImageUrlNo } from './resources';
 
 const styles = {
   starSmall: {
