@@ -29,7 +29,6 @@ export type State = {
   nameDialogOpen: boolean,
   photos: Photo[],
   submit: {
-    fileType: ?string,
     imageURL: ?string,
     createdAt: ?string,
   },
@@ -48,7 +47,6 @@ const initialState: State = {
   nameDialogOpen: false,
   photos: [],
   submit: {
-    fileType: null,
     imageURL: null,
     createdAt: null,
   },
@@ -135,12 +133,8 @@ export function uploadImage(star: number) {
     // https://qiita.com/TypoScript/items/0d5b08cecf959b8b822c
     const xhr = new XMLHttpRequest();
     xhr.onload = async () => {
-      const result: ArrayBuffer = xhr.response;
-      if (!submit.fileType) {
-        console.log('submit.fileType is null.');
-        return;
-      }
-      const uploadPromise = firebase.uploadImage(submit.fileType, result, star);
+      const result: Blob = xhr.response;
+      const uploadPromise = firebase.uploadImage(result, star);
       dispatch({
         type: NOTIFY,
         payload: {
@@ -154,23 +148,18 @@ export function uploadImage(star: number) {
           message: 'アップロードしました',
         },
       });
-      dispatch(updatePhotos());
+      dispatch(refreshPhotos());
     };
-    xhr.responseType = 'arraybuffer';
+    xhr.responseType = 'blob';
     xhr.open('GET', submit.imageURL);
     xhr.send();
   };
 }
 
-export function setSubmit(
-  fileType: string,
-  imageURL: string,
-  createdAt: string
-): Action {
+export function setSubmit(imageURL: string, createdAt: string): Action {
   return {
     type: SET_SUBMIT,
     payload: {
-      fileType,
       imageURL,
       createdAt,
     },
@@ -201,7 +190,7 @@ export function setUserName(userName: string) {
   };
 }
 
-export function updatePhotos() {
+export function refreshPhotos() {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
@@ -261,7 +250,6 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         submit: {
           ...state.submit,
-          fileType: payload.fileType,
           imageURL: payload.imageURL,
           createdAt: payload.createdAt,
         },

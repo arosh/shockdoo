@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Component from '../components/ThumbCollection';
-import { updatePhotos } from '../reducer';
+import { refreshPhotos } from '../reducer';
 import type { State } from '../reducer';
 import type { Photo } from '../types';
 
@@ -27,7 +27,7 @@ export default withRouter(
         console.log(`like serial = ${serial}`);
       },
       triggerUpdate: () => {
-        dispatch(updatePhotos());
+        dispatch(refreshPhotos());
       },
     })
   )(Component)

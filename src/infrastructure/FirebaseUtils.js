@@ -3,7 +3,6 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
-import * as shajs from 'sha.js';
 import type { Photo } from '../types';
 
 export class FirebaseUtils {
@@ -60,9 +59,9 @@ export class FirebaseUtils {
     this.auth.onAuthStateChanged(async user => {
       if (user) {
         const { uid } = user;
-        const userID = await this.waitUserSerial(uid);
-        const userName = await this.waitUserName(uid);
-        handler(userID, userName);
+        const userSnapshot = await this.waitUserSnapshot(uid);
+        const { id, userName } = userSnapshot.data();
+        handler(id, userName);
       }
     });
   }
@@ -82,7 +81,6 @@ export class FirebaseUtils {
     const token = await this.auth.currentUser.getIdToken();
     const method = 'POST';
     const headers = {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     };
@@ -103,22 +101,9 @@ export class FirebaseUtils {
     await this.postJson('/api/set_user_name', { userName });
   }
 
-  async waitUserSerial(uid: string): Promise<number> {
-    await this.initializerPromise;
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('_users')
-        .doc(uid)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot.get('serial'));
-          }
-        });
-    });
-  }
-
-  async waitUserName(uid: string): Promise<string> {
+  async waitUserSnapshot(
+    uid: string
+  ): Promise<firebase.firestore.DocumentSnapshot> {
     await this.initializerPromise;
     return new Promise(resolve => {
       const unsubscribe = this.db
@@ -127,74 +112,38 @@ export class FirebaseUtils {
         .onSnapshot(snapshot => {
           if (snapshot.exists) {
             unsubscribe();
-            resolve(snapshot.get('name'));
+            resolve(snapshot);
           }
         });
     });
   }
 
-  hashCode(image: ArrayBuffer): string {
-    const buf = new Buffer(image);
-    return shajs('sha256')
-      .update(buf)
-      .digest('hex');
-  }
-
-  getExtension(mimeType: string): string {
-    switch (mimeType) {
-      case 'image/gif':
-        return 'gif';
-      case 'image/jpeg':
-        return 'jpg';
-      case 'image/png':
-        return 'png';
-      default:
-        throw new Error(`Unknown MIME type: ${mimeType}`);
-    }
-  }
-
-  async uploadImage(
-    fileType: string,
-    image: ArrayBuffer,
-    star: number
-  ): Promise<number> {
+  async postFormData(url: string, body: FormData) {
     await this.initializerPromise;
-    const { uid } = this.auth.currentUser;
-    const hashCode = this.hashCode(image);
-    const ext = this.getExtension(fileType);
-    const fileName = `${hashCode}.${ext}`;
-    const ref = this.storage
-      .ref()
-      .child(uid)
-      .child('image')
-      .child(fileName);
-    const metadata = {
-      contentType: fileType,
+    const token = await this.auth.currentUser.getIdToken();
+    const method = 'POST';
+    const headers = {
+      Authorization: 'Bearer ' + token,
     };
-    await ref.put(image, metadata);
-    await this.db
-      .collection('photos')
-      .doc(fileName)
-      .set({
-        userID: uid,
-        star: star,
-      });
-    return this.waitPhoto(fileName);
+    const init = {
+      method,
+      headers,
+      body,
+    };
+    const response = await fetch(url, init);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response);
   }
 
-  async waitPhoto(fileName: string): Promise<number> {
+  async uploadImage(image: Blob, star: number): Promise<string> {
     await this.initializerPromise;
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('_photos')
-        .doc(fileName)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot.get('serial'));
-          }
-        });
-    });
+    const formData = new FormData();
+    formData.set('star', star.toFixed());
+    formData.set('image', image);
+    const resp = await this.postFormData('/api/add_photo', formData);
+    return resp.id;
   }
 
   async getPhotos(): Promise<Photo[]> {

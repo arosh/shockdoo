@@ -2,7 +2,7 @@
   "hosting": {
     "public": "build",
     "rewrites": [
-      { "source": "/api/set_user_name", "function": "setUserName" },
+      { "source": "/api/**", "function": "api" },
       { "source": "**", "destination": "/index.html" }
     ]
   },

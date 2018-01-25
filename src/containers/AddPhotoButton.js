@@ -20,7 +20,7 @@ export default withRouter(
       onFileSelect: (file: File) => {
         const blobURL = URL.createObjectURL(file);
         const today = createTodayString();
-        dispatch(setSubmit(file.type, blobURL, today));
+        dispatch(setSubmit(blobURL, today));
         const { history } = ownProps;
         history.push('/photos/new');
       },

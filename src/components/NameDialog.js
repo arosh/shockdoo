@@ -5,9 +5,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+const MAX_LENGTH = 20;
+
 type InputProps = {
   name: string,
   onChange: (name: string) => void,
+  errorText: string,
 };
 
 class Input extends React.Component<InputProps, {}> {
@@ -16,10 +19,11 @@ class Input extends React.Component<InputProps, {}> {
   }
   render = () => (
     <TextField
-      hintText="アカウントの表示名を入力してください。"
+      hintText="アカウントの表示名（20文字以内）"
       fullWidth={true}
       value={this.props.name}
       ref="theInput"
+      errorText={this.props.errorText}
       onChange={e => this.props.onChange(e.target.value)}
     />
   );
@@ -52,13 +56,15 @@ class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
         label="送信"
         primary={true}
         onClick={this.onClick}
-        disabled={this.state.name.length === 0}
+        disabled={
+          this.state.name.length === 0 || this.state.name.length > MAX_LENGTH
+        }
       />,
     ];
 
     return (
       <Dialog
-        title="Enter a display name"
+        title="アカウントの表示名を入力してください。"
         actions={actions}
         modal={true}
         open={this.props.open}
@@ -66,6 +72,11 @@ class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
         <Input
           name={this.state.name}
           onChange={name => this.setState({ name })}
+          errorText={
+            this.state.name.length > MAX_LENGTH
+              ? 'アカウントの表示名は20文字以内で入力して下さい。'
+              : ''
+          }
         />
       </Dialog>
     );

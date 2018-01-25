@@ -24,6 +24,3 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 store.dispatch(reducer.setOnSignIn());
 store.dispatch(reducer.setOnSignOut());
-window.func = (userName) => {
-  store.dispatch(reducer.setUserName(userName));
-};
