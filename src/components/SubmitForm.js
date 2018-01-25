@@ -2,6 +2,8 @@
 import React from 'react';
 import Media from 'react-media';
 
+import * as range from 'lodash.range';
+
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
@@ -35,10 +37,6 @@ const styles = {
     padding: 0,
   },
 };
-
-function range(n: number) {
-  return [...Array(n).keys()];
-}
 
 type SubmitFormProps = {
   imageUrl: string,

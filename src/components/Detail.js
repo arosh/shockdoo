@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import * as range from 'lodash.range';
+
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card';
@@ -48,10 +50,6 @@ const styles = {
     paddingBottom: 0,
   },
 };
-
-function range(n: number) {
-  return [...Array(n).keys()];
-}
 
 type PropsType = {
   imageUrl: string,

@@ -54,7 +54,7 @@ export class FirebaseUtils {
   }
 
   async setOnSignInHandler(
-    observer: (userId: number, userName: string) => void
+    handler: (userId: number, userName: string) => void
   ) {
     await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
@@ -62,17 +62,17 @@ export class FirebaseUtils {
         const { uid } = user;
         const userID = await this.waitUserSerial(uid);
         const userName = await this.waitUserName(uid);
-        observer(userID, userName);
+        handler(userID, userName);
       }
     });
   }
 
-  async setOnSignOutHandler(observer: () => void) {
+  async setOnSignOutHandler(handler: () => void) {
     await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (!user) {
         // User is signed out.
-        observer();
+        handler();
       }
     });
   }

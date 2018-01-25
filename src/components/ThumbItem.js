@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import * as range from 'lodash.range';
+
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import { blue500, white, grey400 } from 'material-ui/styles/colors';
@@ -48,10 +50,6 @@ const styles = {
     lineHeight: 0,
   },
 };
-
-function range(n: number) {
-  return [...Array(n).keys()];
-}
 
 export type ThumbItemProps = {
   thumbURL: string,
