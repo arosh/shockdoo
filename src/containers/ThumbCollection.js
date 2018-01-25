@@ -15,19 +15,23 @@ export default withRouter(
         userName: photo.userName,
         createdAt: photo.createdAt,
         star: photo.star,
-        favoriteCount: photo.likes,
-        favoriteMark: false,
+        likeCount: photo.likes,
+        likeMark: false,
       })),
     }),
     (dispatch, ownProps) => ({
-      handleImageClick: (serial: number) => {
-        console.log(`click serial = ${serial}`);
+      handleImageClick: (id: number) => {
+        const { history } = ownProps;
+        history.push(`/photos/${id}`);
       },
-      handleFavoriteClick: (serial: number) => {
-        console.log(`like serial = ${serial}`);
+      handleLikeClick: (serial: number) => {
+        console.log(`serial = ${serial}`);
       },
       triggerUpdate: () => {
         dispatch(refreshPhotos());
+      },
+      onClickMore: () => {
+        console.log('more');
       },
     })
   )(Component)

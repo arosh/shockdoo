@@ -78,10 +78,11 @@ storiesOf('Detail', module)
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
-      favoriteMark={true}
-      favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
-      handleFavoriteClick={action('like')}
+      likeMark={true}
+      likeUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
+      handleLikeClick={action('like')}
       deleteButton={false}
+      triggerRefresh={action('refresh')}
     />
   ))
   .add('not popular', () => (
@@ -90,11 +91,12 @@ storiesOf('Detail', module)
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={2}
-      favoriteCount={0}
-      favoriteMark={false}
-      favoriteUsers={[]}
-      handleFavoriteClick={action('like')}
+      likeCount={0}
+      likeMark={false}
+      likeUsers={[]}
+      handleLikeClick={action('like')}
       deleteButton={false}
+      triggerRefresh={action('refresh')}
     />
   ))
   .add('delete button', () => (
@@ -103,12 +105,13 @@ storiesOf('Detail', module)
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
-      favoriteCount={3}
-      favoriteMark={true}
-      favoriteUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
-      handleFavoriteClick={action('like')}
+      likeCount={3}
+      likeMark={true}
+      likeUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
+      handleLikeClick={action('like')}
       deleteButton={true}
       onDelete={action('delete-photo')}
+      triggerRefresh={action('refresh')}
     />
   ));
 
@@ -177,8 +180,8 @@ const thumbnails = thumbUrls.map((url, index) => ({
   userName: '@shora_kujira16',
   createdAt: '2017/07/20',
   star: index % 5 + 1,
-  favoriteCount: (index * 3 + 1) % 5,
-  favoriteMark: index % 2 === 0,
+  likeCount: (index * 3 + 1) % 5,
+  likeMark: index % 2 === 0,
 }));
 
 storiesOf('Thumbnails', module)
@@ -187,7 +190,7 @@ storiesOf('Thumbnails', module)
     <ThumbCollection
       thumbs={thumbnails}
       handleImageClick={action('image')}
-      handleFavoriteClick={action('like')}
+      handleLikeClick={action('like')}
       triggerUpdate={action('update')}
       onClickMore={action('more')}
     />

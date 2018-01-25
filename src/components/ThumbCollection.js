@@ -17,11 +17,11 @@ type Props = {
     userName: string,
     createdAt: string,
     star: number,
-    favoriteCount: number,
-    favoriteMark: boolean,
+    likeCount: number,
+    likeMark: boolean,
   }[],
   handleImageClick: (serial: number) => void,
-  handleFavoriteClick: (serial: number) => void,
+  handleLikeClick: (serial: number) => void,
   triggerUpdate: () => void,
   onClickMore: () => void,
 };
@@ -41,9 +41,7 @@ class ThumbCollection extends React.Component<Props, {}> {
                 handleImageClick={() =>
                   this.props.handleImageClick(item.serial)
                 }
-                handleFavoriteClick={() =>
-                  this.props.handleFavoriteClick(item.serial)
-                }
+                handleLikeClick={() => this.props.handleLikeClick(item.serial)}
               />
             </div>
           </div>

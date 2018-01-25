@@ -2,7 +2,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import type { Photo } from '../types';
+import type { Photo, PhotoDetail } from '../types';
 
 export class FirebaseUtils {
   auth: firebase.auth.Auth;
@@ -143,6 +143,13 @@ export class FirebaseUtils {
     return resp.id;
   }
 
+  dateString(at: Date): string {
+    const year = at.getFullYear();
+    const month = at.getMonth() + 1;
+    const date = at.getDate();
+    return `${year}/${month}/${date}`;
+  }
+
   async getPhotos(): Promise<Photo[]> {
     await this.initializerPromise;
     const snapshots = await this.db
@@ -151,20 +158,39 @@ export class FirebaseUtils {
       .get();
     const photos = snapshots.docs.map(doc => {
       const data = doc.data();
-      const year = data.createdAt.getFullYear();
-      const month = data.createdAt.getMonth() + 1;
-      const date = data.createdAt.getDate();
       return {
         id: data.id,
+        userID: data.uid,
         userName: data.userName,
         star: data.star,
         imageURL: data.imageURL,
         thumbURL: data.thumbURL,
-        createdAt: `${year}/${month}/${date}`,
+        createdAt: this.dateString(data.createdAt),
         likes: data.likes,
       };
     });
     return photos;
+  }
+
+  async getPhoto(id: number): Promise<PhotoDetail> {
+    await this.initializerPromise;
+    const querySnapshot = await this.db
+      .collection('photos')
+      .where('id', '==', id)
+      .get();
+    if (querySnapshot.empty) {
+      throw new Error(`Cannot fetch photo (id = ${id})`);
+    }
+    const data = querySnapshot.docs[0].data();
+    return {
+      imageURL: data.imageURL,
+      userID: data.uid,
+      userName: data.userName,
+      createdAt: this.dateString(data.createdAt),
+      star: data.star,
+      likeMark: false,
+      likeUsers: [],
+    };
   }
 }
 

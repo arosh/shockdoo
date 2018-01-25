@@ -51,96 +51,112 @@ const styles = {
   },
 };
 
+type LikeButtonProps = {
+  handleLikeClick: () => void,
+  likeMark: boolean,
+  likeUsers: string[],
+};
+
+function LikeButton(props: LikeButtonProps) {
+  const { handleLikeClick, likeMark, likeUsers } = props;
+  return (
+    <span style={styles.likeBox} onClick={() => handleLikeClick()}>
+      <Avatar
+        size={28}
+        backgroundColor={likeMark ? blue500 : grey400}
+        color={white}
+        icon={<IconThumbUp />}
+        style={styles.likeIcon}
+      />
+      {likeUsers.length > 0 && (
+        <span style={{ color: likeMark ? blue500 : grey400 }}>
+          {likeUsers.length}
+        </span>
+      )}
+    </span>
+  );
+}
+
+const LikeChip = ({ name }) => (
+  <Chip labelStyle={styles.bold} style={styles.chip}>
+    <Avatar backgroundColor={blue500} color={white} icon={<IconThumbUp />} />
+    {name}
+  </Chip>
+);
+
 type PropsType = {
   imageUrl: string,
   userName: string,
   uploadedAt: string,
   starCount: number,
-  favoriteMark: boolean,
-  favoriteUsers: string[],
-  handleFavoriteClick: () => void,
+  likeMark: boolean,
+  likeUsers: string[],
+  handleLikeClick: () => void,
   deleteButton: boolean,
   onDelete?: () => void,
+  triggerRefresh: () => void,
 };
 
-export default function Detail(props: PropsType) {
-  const {
-    imageUrl,
-    userName,
-    uploadedAt,
-    starCount,
-    favoriteMark,
-    favoriteUsers,
-    handleFavoriteClick,
-    deleteButton,
-    onDelete,
-  } = props;
-  return (
-    <div className="row">
-      <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-        <div className="box">
-          <Card containerStyle={styles.cardContainer}>
-            <CardMedia>
-              <img src={imageUrl} alt="" />
-            </CardMedia>
-            <CardText>
-              by <span style={styles.bold}>{userName}</span>
-              <span style={styles.right}>{uploadedAt}</span>
-              <div style={styles.center}>
-                {range(5).map(i => (
-                  <Star key={i} level={i} turnOn={i < starCount} />
-                ))}
-              </div>
-              <span style={styles.right}>
-                <span
-                  style={styles.likeBox}
-                  onClick={() => handleFavoriteClick()}
-                >
-                  <Avatar
-                    size={28}
-                    backgroundColor={favoriteMark ? blue500 : grey400}
-                    color={white}
-                    icon={<IconThumbUp />}
-                    style={styles.likeIcon}
+export default class Detail extends React.Component<PropsType, {}> {
+  componentWillMount() {
+    this.props.triggerRefresh();
+  }
+  render = () => {
+    const {
+      imageUrl,
+      userName,
+      uploadedAt,
+      starCount,
+      likeMark,
+      likeUsers,
+      handleLikeClick,
+      deleteButton,
+      onDelete,
+    } = this.props;
+    return (
+      <div className="row">
+        <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+          <div className="box">
+            <Card containerStyle={styles.cardContainer}>
+              <CardMedia>
+                <img src={imageUrl} alt="" />
+              </CardMedia>
+              <CardText>
+                by <span style={styles.bold}>{userName}</span>
+                <span style={styles.right}>{uploadedAt}</span>
+                <div style={styles.center}>
+                  {range(5).map(i => (
+                    <Star key={i} level={i} turnOn={i < starCount} />
+                  ))}
+                </div>
+                <span style={styles.right}>
+                  <LikeButton
+                    handleLikeClick={handleLikeClick}
+                    likeMark={likeMark}
+                    likeUsers={likeUsers}
                   />
-                  {favoriteUsers.length > 0 && (
-                    <span style={{ color: favoriteMark ? blue500 : grey400 }}>
-                      {favoriteUsers.length}
-                    </span>
-                  )}
                 </span>
-              </span>
-              <Clearfix />
-              <div style={styles.chipBox}>
-                {favoriteUsers.map((name, index) => (
-                  <Chip
-                    key={index}
-                    labelStyle={styles.bold}
-                    style={styles.chip}
-                  >
-                    <Avatar
-                      backgroundColor={blue500}
-                      color={white}
-                      icon={<IconThumbUp />}
-                    />
-                    {name}
-                  </Chip>
-                ))}
-              </div>
-            </CardText>
-            {deleteButton && (
-              <CardActions>
-                <RaisedButton
-                  secondary
-                  label="削除する"
-                  icon={<IconDelete />}
-                  onClick={() => onDelete && onDelete()}
-                />
-              </CardActions>
-            )}
-          </Card>
+                <Clearfix />
+                <div style={styles.chipBox}>
+                  {likeUsers.map((name, index) => (
+                    <LikeChip key={index} name={name} />
+                  ))}
+                </div>
+              </CardText>
+              {deleteButton && (
+                <CardActions>
+                  <RaisedButton
+                    secondary
+                    label="削除する"
+                    icon={<IconDelete />}
+                    onClick={() => onDelete && onDelete()}
+                  />
+                </CardActions>
+              )}
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 }

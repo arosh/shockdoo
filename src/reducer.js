@@ -8,6 +8,7 @@ const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 const SET_SUBMIT = 'SET_SUBMIT';
 const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
+const SET_A_PHOTO = 'SET_A_PHOTO';
 const SET_PHOTOS = 'SET_PHOTOS';
 const SET_LOADING = 'SET_LOADING';
 const NOTIFY = 'NOTIFY';
@@ -24,10 +25,19 @@ export type State = {
   logged: boolean,
   loading: boolean,
   drawerOpened: boolean,
-  userID: ?number,
+  userID: ?string,
   userName: ?string,
   nameDialogOpen: boolean,
   photos: Photo[],
+  photo: {
+    imageURL: string,
+    userID: string,
+    userName: string,
+    createdAt: string,
+    star: number,
+    likeMark: boolean,
+    likeUsers: string[],
+  },
   submit: {
     imageURL: ?string,
     createdAt: ?string,
@@ -46,6 +56,15 @@ const initialState: State = {
   userName: null,
   nameDialogOpen: false,
   photos: [],
+  photo: {
+    imageURL: '',
+    userID: '',
+    userName: '',
+    createdAt: '',
+    star: 0,
+    likeMark: false,
+    likeUsers: [],
+  },
   submit: {
     imageURL: null,
     createdAt: null,
@@ -209,6 +228,25 @@ export function refreshPhotos() {
   };
 }
 
+export function refreshPhoto(id: number) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: SET_LOADING,
+      payload: {
+        loading: true,
+      },
+    });
+    firebase.getPhoto(id).then(photo => {
+      dispatch({
+        type: SET_A_PHOTO,
+        payload: {
+          photo,
+        },
+      });
+    });
+  };
+}
+
 export function hideLoading() {
   return {
     type: SET_LOADING,
@@ -269,6 +307,12 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         loading: false,
         photos: payload.photos,
+      };
+    case SET_A_PHOTO:
+      return {
+        ...state,
+        loading: false,
+        photo: payload.photo,
       };
     case NOTIFY:
       return {

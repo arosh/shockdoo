@@ -44,6 +44,7 @@ const styles = {
   },
   img: {
     width: '100%',
+    cursor: 'pointer',
   },
   cardMedia: {
     // 改行文字による余白防止
@@ -56,10 +57,10 @@ export type ThumbItemProps = {
   userName: string,
   createdAt: string,
   star: number,
-  favoriteCount: number,
-  favoriteMark: boolean,
+  likeCount: number,
+  likeMark: boolean,
   handleImageClick: () => void,
-  handleFavoriteClick: () => void,
+  handleLikeClick: () => void,
 };
 
 export default function ThumbItem(props: ThumbItemProps) {
@@ -68,10 +69,10 @@ export default function ThumbItem(props: ThumbItemProps) {
     userName,
     createdAt,
     star,
-    favoriteCount,
-    favoriteMark,
+    likeCount,
+    likeMark,
     handleImageClick,
-    handleFavoriteClick,
+    handleLikeClick,
   } = props;
   return (
     <Card containerStyle={styles.cardContainer}>
@@ -98,17 +99,17 @@ export default function ThumbItem(props: ThumbItemProps) {
           ))}
         </div>
         <span style={styles.right}>
-          <span style={styles.likeBox} onClick={handleFavoriteClick}>
+          <span style={styles.likeBox} onClick={handleLikeClick}>
             <Avatar
               size={28}
-              backgroundColor={favoriteMark ? blue500 : grey400}
+              backgroundColor={likeMark ? blue500 : grey400}
               color={white}
               icon={<IconThumbUp />}
               style={styles.likeIcon}
             />
-            {favoriteCount > 0 && (
-              <span style={{ color: favoriteMark ? blue500 : grey400 }}>
-                {favoriteCount}
+            {likeCount > 0 && (
+              <span style={{ color: likeMark ? blue500 : grey400 }}>
+                {likeCount}
               </span>
             )}
           </span>

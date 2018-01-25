@@ -6,14 +6,15 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import AppBar from './AppBar';
-import Drawer from './Drawer';
 import AddPhotoButton from './AddPhotoButton';
-import SubmitForm from './SubmitForm';
-import NameDialog from './NameDialog';
-import ThumbCollection from './ThumbCollection';
+import AppBar from './AppBar';
+import Detail from './Detail';
+import Drawer from './Drawer';
 import Loading from '../components/Loading';
+import NameDialog from './NameDialog';
 import Notification from './Notification';
+import SubmitForm from './SubmitForm';
+import ThumbCollection from './ThumbCollection';
 import type { State } from '../reducer';
 
 const styles = {
@@ -49,7 +50,8 @@ const Photos = ({ match }) => (
         path={match.url + '/:id'}
         render={({ match }) => (
           <div>
-            photos#show ({match.params.id})
+            <Detail id={match.params.id} />
+            <hr />
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>
         )}
