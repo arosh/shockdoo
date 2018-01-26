@@ -134,7 +134,7 @@ export class FirebaseUtils {
     return `${year}/${month}/${date}`;
   }
 
-  async getPhotos(): Promise<Photo[]> {
+  async getPhotosRoot(): Promise<Photo[]> {
     await this.initializerPromise;
     const snapshots = await this.db
       .collection('photos')
@@ -155,6 +155,60 @@ export class FirebaseUtils {
       return photo;
     });
     return photos;
+  }
+
+  async getPhotosUser(uid: string): Promise<Photo[]> {
+    await this.initializerPromise;
+    const snapshots = await this.db
+      .collection('photos')
+      .where('uid', '==', uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const photos = snapshots.docs.map(doc => {
+      const data = doc.data();
+      const photo: Photo = {
+        photoID: doc.id,
+        uid: data.uid,
+        userName: data.userName,
+        star: data.star,
+        imageURL: data.imageURL,
+        thumbURL: data.thumbURL,
+        createdAt: this.dateString(data.createdAt),
+        likes: data.likes,
+      };
+      return photo;
+    });
+    return photos;
+  }
+
+  async getPhotosUserLikes(uid: string): Promise<Photo[]> {
+    await this.initializerPromise;
+    const snapshots = await this.db
+      .collection('likes')
+      .where('uid', '==', uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const photosPromise = snapshots.docs.map(like =>
+      this.db
+        .collection('photos')
+        .doc(like.get('photoID'))
+        .get()
+    );
+    const photos = await Promise.all(photosPromise);
+    return photos.map(doc => {
+      const data = doc.data();
+      const photo: Photo = {
+        photoID: doc.id,
+        uid: data.uid,
+        userName: data.userName,
+        star: data.star,
+        imageURL: data.imageURL,
+        thumbURL: data.thumbURL,
+        createdAt: this.dateString(data.createdAt),
+        likes: data.likes,
+      };
+      return photo;
+    });
   }
 
   async getPhoto(photoID: string): Promise<PhotoDetail> {

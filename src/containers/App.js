@@ -3,9 +3,9 @@ import React from 'react';
 import Media from 'react-media';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { green400, orange600 } from 'material-ui/styles/colors';
+import { green400, orange500 } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -31,13 +31,7 @@ const styles = {
   },
 };
 
-const Root = ({ match }) => (
-  <div>
-    <ThumbCollection />
-    <hr />
-    <pre>{JSON.stringify(match, null, 2)}</pre>
-  </div>
-);
+const Root = ({ match }) => <ThumbCollection type="root" />;
 
 const Photos = ({ match }) => (
   <div>
@@ -45,24 +39,12 @@ const Photos = ({ match }) => (
       <Route
         exact
         path={match.url + '/new'}
-        render={({ match }) => (
-          <div>
-            <SubmitForm />
-            <hr />
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
-        )}
+        render={({ match }) => <SubmitForm />}
       />
       <Route
         exact
         path={match.url + '/:photoID'}
-        render={({ match }) => (
-          <div>
-            <Detail photoID={match.params.photoID} />
-            <hr />
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
-        )}
+        render={({ match }) => <Detail photoID={match.params.photoID} />}
       />
     </Switch>
   </div>
@@ -75,44 +57,18 @@ const Users = ({ match }) => (
         exact
         path={match.url + '/:uid/photos'}
         render={({ match }) => (
-          <div>
-            users#photos ({match.params.uid})
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
+          <ThumbCollection type="users/photos" uid={match.params.uid} />
         )}
       />
       <Route
         exact
         path={match.url + '/:uid/likes'}
         render={({ match }) => (
-          <div>
-            users#likes ({match.params.uid})
-            <pre>{JSON.stringify(match, null, 2)}</pre>
-          </div>
+          <ThumbCollection type="users/likes" uid={match.params.uid} />
         )}
       />
     </Switch>
   </div>
-);
-
-const Sitemap = () => (
-  <ul>
-    <li>
-      <Link to="/">root</Link>
-    </li>
-    <li>
-      <Link to="/photos/new">photos#new</Link>
-    </li>
-    <li>
-      <Link to="/photos/123">photos#show</Link>
-    </li>
-    <li>
-      <Link to="/users/456/photos">users#photos_index</Link>
-    </li>
-    <li>
-      <Link to="/users/456/likes">users#likes_index</Link>
-    </li>
-  </ul>
 );
 
 type AppProps = {
@@ -121,7 +77,7 @@ type AppProps = {
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: orange600,
+    primary1Color: orange500,
     accent1Color: green400,
   },
 });
@@ -145,8 +101,6 @@ const App = (props: AppProps) => (
                 <Route path="/users" component={Users} />
                 <Route render={() => <div>Not Found</div>} />
               </Switch>
-              <hr />
-              <Sitemap />
             </div>
           )}
         </Media>

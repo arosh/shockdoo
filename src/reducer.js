@@ -168,7 +168,7 @@ export function uploadImage(star: number) {
           message: 'アップロードしました',
         },
       });
-      dispatch(refreshPhotos());
+      dispatch(refreshPhotos('root', ''));
     };
     xhr.responseType = 'blob';
     xhr.open('GET', submit.imageURL);
@@ -210,7 +210,8 @@ export function setUserName(userName: string) {
   };
 }
 
-export function refreshPhotos() {
+// react-router-redux を使っていればこんな苦労はしなかったのになぁ…
+export function refreshPhotos(type: string, uid: string) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
@@ -219,7 +220,20 @@ export function refreshPhotos() {
       },
     });
     (async () => {
-      const photosPromise = firebase.getPhotos();
+      let photosPromise;
+      switch (type) {
+        case 'root':
+          photosPromise = firebase.getPhotosRoot();
+          break;
+        case 'users/photos':
+          photosPromise = firebase.getPhotosUser(uid);
+          break;
+        case 'users/likes':
+          photosPromise = firebase.getPhotosUserLikes(uid);
+          break;
+        default:
+          throw new Error(`Unexpected type = ${type}`);
+      }
       const likesPromise = firebase.getLikes();
       dispatch({
         type: SET_PHOTOS,

@@ -1,10 +1,26 @@
 // @flow
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Component from '../components/ThumbCollection';
 import { toggleLike, refreshPhotos } from '../reducer';
 import type { State } from '../reducer';
 import type { Photo } from '../types';
+
+class ThumbCollectionManager extends React.Component<any, {}> {
+  componentWillMount = () => {
+    this.props.triggerUpdate(this.props.type, this.props.uid);
+  };
+  componentWillReceiveProps = nextProps => {
+    if (
+      nextProps.type !== this.props.type ||
+      nextProps.uid !== this.props.uid
+    ) {
+      this.props.triggerUpdate(nextProps.type, nextProps.uid);
+    }
+  };
+  render = () => <Component {...this.props} />;
+}
 
 export default withRouter(
   connect(
@@ -28,12 +44,12 @@ export default withRouter(
       handleLikeClick: (photoID: string) => {
         dispatch(toggleLike(photoID));
       },
-      triggerUpdate: () => {
-        dispatch(refreshPhotos());
+      triggerUpdate: (type: string, uid: string) => {
+        dispatch(refreshPhotos(type, uid));
       },
       onClickMore: () => {
         console.log('more');
       },
     })
-  )(Component)
+  )(ThumbCollectionManager)
 );

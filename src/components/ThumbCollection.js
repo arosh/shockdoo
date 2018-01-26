@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import ThumbItem from './ThumbItem';
-import MoreButton from './MoreButton';
 
 const styles = {
   card: {
@@ -10,7 +9,7 @@ const styles = {
 };
 
 // 本当はItemの内容を知っていなくても良い設計にするべきでItemのほうからIDで引けるようにしたほうが良さそう
-type Props = {
+type PropTypes = {
   thumbs: {
     photoID: string,
     thumbURL: string,
@@ -22,14 +21,10 @@ type Props = {
   }[],
   handleImageClick: (photoID: string) => void,
   handleLikeClick: (photoID: string) => void,
-  triggerUpdate: () => void,
   onClickMore: () => void,
 };
 
-class ThumbCollection extends React.Component<Props, {}> {
-  componentWillMount = () => {
-    this.props.triggerUpdate();
-  };
+class ThumbCollection extends React.Component<PropTypes, {}> {
   render = () => (
     <div>
       <div className="row">
@@ -47,7 +42,6 @@ class ThumbCollection extends React.Component<Props, {}> {
           </div>
         ))}
       </div>
-      <MoreButton onClick={this.props.onClickMore} />
     </div>
   );
 }
