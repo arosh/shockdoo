@@ -18,12 +18,12 @@ type PropTypes = {
   open: boolean,
   onRequestChange: boolean => void,
   logged: boolean,
-  onClick: (name: string, userId?: number) => void,
-  userID: number,
+  onClick: (name: string, uid?: number) => void,
+  uid: number,
 };
 
 export default function Drawer(props: PropTypes) {
-  const { open, onRequestChange, logged, onClick, userID } = props;
+  const { open, onRequestChange, logged, onClick, uid } = props;
   return (
     <MaterialDrawer
       open={open}
@@ -37,20 +37,20 @@ export default function Drawer(props: PropTypes) {
         <div>
           <MenuItem
             leftIcon={<IconPhotoCamera />}
-            onClick={() => onClick('photos', userID)}
+            onClick={() => onClick('photos', uid)}
           >
             写真
           </MenuItem>
           <MenuItem
             leftIcon={<IconThumbUp />}
-            onClick={() => onClick('likes', userID)}
+            onClick={() => onClick('likes', uid)}
           >
             お気に入り
           </MenuItem>
           <Divider />
           <MenuItem
             leftIcon={<IconSignOut />}
-            onClick={() => onClick('signout', userID)}
+            onClick={() => onClick('signout', uid)}
           >
             ログアウト
           </MenuItem>

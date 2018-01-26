@@ -1,6 +1,6 @@
 // @flow
 import { singleton as firebase } from './infrastructure/FirebaseUtils';
-import type { Photo } from './types';
+import type { Photo, PhotoDetail } from './types';
 
 const SIGN_IN = 'SIGN_IN';
 const SIGN_OUT = 'SIGN_OUT';
@@ -25,19 +25,11 @@ export type State = {
   logged: boolean,
   loading: boolean,
   drawerOpened: boolean,
-  userID: ?string,
+  uid: ?string,
   userName: ?string,
   nameDialogOpen: boolean,
   photos: Photo[],
-  photo: {
-    imageURL: string,
-    userID: string,
-    userName: string,
-    createdAt: string,
-    star: number,
-    likeMark: boolean,
-    likeUsers: string[],
-  },
+  photo: PhotoDetail,
   submit: {
     imageURL: ?string,
     createdAt: ?string,
@@ -52,13 +44,13 @@ const initialState: State = {
   logged: false,
   loading: true,
   drawerOpened: false,
-  userID: null,
+  uid: null,
   userName: null,
   nameDialogOpen: false,
   photos: [],
   photo: {
     imageURL: '',
-    userID: '',
+    uid: '',
     userName: '',
     createdAt: '',
     star: 0,
@@ -97,11 +89,11 @@ export function signIn(providerName: string) {
 
 export function setOnSignIn() {
   return (dispatch: Dispatch) => {
-    firebase.setOnSignInHandler((userID, userName) => {
+    firebase.setOnSignInHandler((uid, userName) => {
       dispatch({
         type: SIGN_IN,
         payload: {
-          userID,
+          uid,
           userName,
         },
       });
@@ -228,7 +220,7 @@ export function refreshPhotos() {
   };
 }
 
-export function refreshPhoto(id: number) {
+export function refreshPhoto(seq: number) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
@@ -236,7 +228,7 @@ export function refreshPhoto(id: number) {
         loading: true,
       },
     });
-    firebase.getPhoto(id).then(photo => {
+    firebase.getPhoto(seq).then(photo => {
       dispatch({
         type: SET_A_PHOTO,
         payload: {
@@ -263,14 +255,14 @@ export default (state: State = initialState, action: Action): State => {
       return {
         ...state,
         logged: true,
-        userID: payload.userID,
+        uid: payload.uid,
         userName: payload.userName,
       };
     case SIGN_OUT:
       return {
         ...state,
         logged: false,
-        userID: null,
+        uid: null,
         userName: null,
       };
     case SET_USER_NAME:

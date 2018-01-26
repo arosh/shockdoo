@@ -49,16 +49,29 @@ export class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  async setOnSignInHandler(
-    handler: (userId: number, userName: string) => void
-  ) {
+  async waitUserSnapshot(uid: string) {
+    await this.initializerPromise;
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('users')
+        .doc(uid)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists) {
+            unsubscribe();
+            resolve(snapshot);
+          }
+        });
+    });
+  }
+
+  async setOnSignInHandler(handler: (uid: number, userName: string) => void) {
     await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (user) {
         const { uid } = user;
-        const userSnapshot = await this.waitUserSnapshot(uid);
-        const { id, userName } = userSnapshot.data();
-        handler(id, userName);
+        const snapshot = await this.waitUserSnapshot(uid);
+        const { seq, userName } = snapshot.data();
+        handler(seq, userName);
       }
     });
   }
@@ -98,23 +111,6 @@ export class FirebaseUtils {
     await this.postJson('/api/set_user_name', { userName });
   }
 
-  async waitUserSnapshot(
-    uid: string
-  ): Promise<firebase.firestore.DocumentSnapshot> {
-    await this.initializerPromise;
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('users')
-        .doc(uid)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot);
-          }
-        });
-    });
-  }
-
   async postFormData(url: string, body: FormData) {
     await this.initializerPromise;
     const token = await this.auth.currentUser.getIdToken();
@@ -140,7 +136,7 @@ export class FirebaseUtils {
     formData.set('star', star.toFixed());
     formData.set('image', image);
     const resp = await this.postFormData('/api/add_photo', formData);
-    return resp.id;
+    return resp.photoID;
   }
 
   dateString(at: Date): string {
@@ -158,9 +154,9 @@ export class FirebaseUtils {
       .get();
     const photos = snapshots.docs.map(doc => {
       const data = doc.data();
-      return {
-        id: data.id,
-        userID: data.uid,
+      const photo: Photo = {
+        seq: data.seq,
+        uid: data.uid,
         userName: data.userName,
         star: data.star,
         imageURL: data.imageURL,
@@ -168,23 +164,24 @@ export class FirebaseUtils {
         createdAt: this.dateString(data.createdAt),
         likes: data.likes,
       };
+      return photo;
     });
     return photos;
   }
 
-  async getPhoto(id: number): Promise<PhotoDetail> {
+  async getPhoto(seq: number): Promise<PhotoDetail> {
     await this.initializerPromise;
     const querySnapshot = await this.db
       .collection('photos')
-      .where('id', '==', id)
+      .where('seq', '==', seq)
       .get();
     if (querySnapshot.empty) {
-      throw new Error(`Cannot fetch photo (id = ${id})`);
+      throw new Error(`Cannot fetch photo (seq = ${seq})`);
     }
     const data = querySnapshot.docs[0].data();
     return {
       imageURL: data.imageURL,
-      userID: data.uid,
+      uid: data.uid,
       userName: data.userName,
       createdAt: this.dateString(data.createdAt),
       star: data.star,

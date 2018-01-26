@@ -32,12 +32,12 @@ export default withRouter(
         console.log(`serial = ${serial}`);
       },
       onDelete: () => {
-        const id = ownProps.id;
-        console.log(`delete id = ${id}`);
+        const seq = ownProps.seq;
+        console.log(`delete seq = ${seq}`);
       },
       triggerRefresh: () => {
-        const id = parseInt(ownProps.id, 10);
-        dispatch(refreshPhoto(id));
+        const seq = parseInt(ownProps.seq, 10);
+        dispatch(refreshPhoto(seq));
       },
     })
   )(Component)

@@ -11,11 +11,11 @@ export default withRouter(
     (state: State) => ({
       logged: state.logged,
       open: state.drawerOpened,
-      userID: state.userID,
+      uid: state.uid,
     }),
     (dispatch, ownProps) => ({
       onRequestChange: open => dispatch(toggleDrawer(open)),
-      onClick: (name: string, userID?: number) => {
+      onClick: (name: string, uid?: number) => {
         const { history } = ownProps;
         dispatch(toggleDrawer(false));
         switch (name) {
@@ -23,16 +23,16 @@ export default withRouter(
             history.push('/');
             break;
           case 'photos':
-            if (userID === undefined) {
-              throw new Error('userId is undefined');
+            if (uid === undefined) {
+              throw new Error('uid is undefined');
             }
-            history.push(`/users/${userID}/photos`);
+            history.push(`/users/${uid}/photos`);
             break;
           case 'likes':
-            if (userID === undefined) {
-              throw new Error('userId is undefined');
+            if (uid === undefined) {
+              throw new Error('uid is undefined');
             }
-            history.push(`/users/${userID}/likes`);
+            history.push(`/users/${uid}/likes`);
             break;
           case 'signin-twitter':
             dispatch(signIn('twitter'));

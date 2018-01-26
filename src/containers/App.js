@@ -53,10 +53,10 @@ const Photos = ({ match }) => (
       />
       <Route
         exact
-        path={match.url + '/:id'}
+        path={match.url + '/:seq'}
         render={({ match }) => (
           <div>
-            <Detail id={match.params.id} />
+            <Detail seq={match.params.seq} />
             <hr />
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>
@@ -71,20 +71,20 @@ const Users = ({ match }) => (
     <Switch>
       <Route
         exact
-        path={match.url + '/:id/photos'}
+        path={match.url + '/:seq/photos'}
         render={({ match }) => (
           <div>
-            users#photos ({match.params.id})
+            users#photos ({match.params.seq})
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>
         )}
       />
       <Route
         exact
-        path={match.url + '/:id/likes'}
+        path={match.url + '/:seq/likes'}
         render={({ match }) => (
           <div>
-            users#likes ({match.params.id})
+            users#likes ({match.params.seq})
             <pre>{JSON.stringify(match, null, 2)}</pre>
           </div>
         )}

@@ -1,7 +1,7 @@
 // @flow
 export type Photo = {
-  id: number,
-  userID: string,
+  seq: number,
+  uid: string,
   userName: string,
   star: number,
   imageURL: string,
@@ -12,7 +12,7 @@ export type Photo = {
 
 export type PhotoDetail = {
   imageURL: string,
-  userID: string,
+  uid: string,
   userName: string,
   createdAt: string,
   star: number,
