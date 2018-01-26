@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Component from '../components/Detail';
-import { refreshPhoto } from '../reducer';
+import { refreshPhoto, toggleLike } from '../reducer';
 import type { State } from '../reducer';
 
 // imageUrl: string,
@@ -23,21 +23,19 @@ export default withRouter(
       userName: state.photo.userName,
       uploadedAt: state.photo.createdAt,
       starCount: state.photo.star,
-      likeMark: state.photo.likeMark,
+      likeMark: state.likes.includes(state.photo.photoID),
       likeUsers: state.photo.likeUsers,
       deleteButton: false,
     }),
     (dispatch, ownProps) => ({
-      handleLikeClick: (seq: number) => {
-        console.log(`seq = ${seq}`);
+      handleLikeClick: (photoID: string) => {
+        dispatch(toggleLike(photoID));
       },
-      onDelete: () => {
-        const seq = ownProps.seq;
-        console.log(`delete seq = ${seq}`);
+      onDelete: (photoID: string) => {
+        console.log(`delete photoID = ${photoID}`);
       },
-      triggerRefresh: () => {
-        const seq = parseInt(ownProps.seq, 10);
-        dispatch(refreshPhoto(seq));
+      triggerRefresh: (photoID: string) => {
+        dispatch(refreshPhoto(photoID));
       },
     })
   )(Component)

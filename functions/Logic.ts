@@ -15,23 +15,8 @@ export function verifyIdToken(idToken: string): Promise<admin.auth.DecodedIdToke
   return admin.auth().verifyIdToken(idToken);
 }
 
-async function increment(transaction: Transaction, ref: DocumentReference): Promise<number> {
-  const snapshot = await transaction.get(ref);
-  let value: number;
-  if (snapshot.exists) {
-    value = snapshot.get('value') || 0;
-  } else {
-    value = 0;
-  }
-  console.log(`increment ${value} -> ${value + 1}`);
-  value++;
-  transaction.set(ref, { value });
-  return value;
-}
-
-async function getUserName(uid: string) {
-  const user = await db.collection('users').doc(uid).get();
-  return user.get('userName');
+function getUserName(uid: string): Promise<string> {
+  return db.collection('users').doc(uid).get().then((snapshot) => snapshot.get('userName'));
 }
 
 async function uploadToBucket(localPath: string, bucketPath: string, contentType: string) {
@@ -51,25 +36,20 @@ export async function addPhoto(uid: string, star: number, imagePath: string, mim
   console.log(`addPhoto(uid = ${uid}, star = ${star}, imagePath = ${imagePath}, mimeType = ${mimeType})`);
   const userNamePromise = getUserName(uid);
   const thumbPathPromise = ImageService.generateThumbnail(imagePath);
-  const photosSeqRef = db.collection('_seq').doc('photos');
   const photoRef = db.collection('photos').doc();
   const photoID = photoRef.id;
   const imageBucketPath = path.join('image', photoID + '.' + ImageService.getExtension(mimeType));
   const imageURLPromise = uploadToBucket(imagePath, imageBucketPath, mimeType);
   const thumbBucketPath = path.join('thumb', photoID + '.jpg');
   const thumbURLPromise = uploadToBucket(await thumbPathPromise, thumbBucketPath, 'image/jpeg');
-  await db.runTransaction(async (transaction) => {
-    const seq = await increment(transaction, photosSeqRef);
-    transaction.set(photoRef, {
-      seq,
-      uid,
-      userName: await userNamePromise,
-      star,
-      imageURL: await imageURLPromise,
-      thumbURL: await thumbURLPromise,
-      likes: 0,
-      createdAt: FieldValue.serverTimestamp(),
-    });
+  await photoRef.set({
+    uid,
+    userName: await userNamePromise,
+    star,
+    imageURL: await imageURLPromise,
+    thumbURL: await thumbURLPromise,
+    likes: 0,
+    createdAt: FieldValue.serverTimestamp(),
   });
   return photoID;
 }
@@ -79,15 +59,62 @@ export function setUserName(uid: string, userName: string) {
   return db.collection('users').doc(uid).set({ userName }, { merge: true });
 }
 
-export function setUserSeq(uid: string) {
-  console.log(`setUserSeq(uid = ${uid})`);
-  const usersSeqRef = db.collection('_seq').doc('users');
-  const userRef = db.collection('users').doc(uid);
-  return db.runTransaction(async (transaction) => {
-    const seq = await increment(transaction, usersSeqRef);
-    transaction.set(userRef, {
-      seq,
-      createdAt: FieldValue.serverTimestamp(),
-    }, { merge: true });
+function checkIfPhotoExists(photoID: string) {
+  return db.collection('photos')
+    .doc(photoID)
+    .get()
+    .then((snapshot) => snapshot.exists);
+}
+
+function findLike(uid: string, photoID: string) {
+  return db.collection('likes')
+    .where('uid', '==', uid)
+    .where('photoID', '==', photoID)
+    .get();
+}
+
+function checkIfLikeExists(uid: string, photoID: string) {
+  return findLike(uid, photoID).then((snapshot) => !snapshot.empty);
+}
+
+function countLikes(photoID: string): Promise<number> {
+  return db.collection('likes').where('photoID', '==', photoID).get().then((snapshot) => snapshot.size);
+}
+
+export async function addLike(uid: string, photoID: string): Promise<boolean> {
+  const photoExistsPromise = checkIfPhotoExists(photoID);
+  const likeExistsPromise = checkIfLikeExists(uid, photoID);
+  const userNamePromise = getUserName(uid);
+  if (!(await photoExistsPromise)) {
+    return false;
+  }
+  if (await likeExistsPromise) {
+    return false;
+  }
+
+  const likesUpdatePromise = db.collection('photos')
+    .doc(photoID)
+    .update({ likes: await countLikes(photoID) + 1 });
+  await db.collection('likes').add({
+    uid,
+    userName: await userNamePromise,
+    photoID,
+    createdAt: FieldValue.serverTimestamp(),
   });
+  await likesUpdatePromise;
+  return true;
+}
+
+export async function removeLike(uid: string, photoID: string): Promise<boolean> {
+  const querySnapshot = await findLike(uid, photoID);
+  if (querySnapshot.empty) {
+    return false;
+  }
+  const likesUpdatePromise = db.collection('photos')
+    .doc(photoID)
+    .update({ likes: await countLikes(photoID) - 1 });
+  const promise = querySnapshot.docs.map((snapshot) => snapshot.ref.delete());
+  await Promise.all(promise);
+  await likesUpdatePromise;
+  return true;
 }

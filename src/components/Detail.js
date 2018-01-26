@@ -12,6 +12,7 @@ import { blue500, grey400, white } from 'material-ui/styles/colors';
 import Clearfix from './Clearfix';
 import Star from './Star';
 import { IconThumbUp, IconDelete } from './icons';
+import type { User } from '../types';
 
 const styles = {
   bold: {
@@ -54,7 +55,7 @@ const styles = {
 type LikeButtonProps = {
   handleLikeClick: () => void,
   likeMark: boolean,
-  likeUsers: string[],
+  likeUsers: User[],
 };
 
 function LikeButton(props: LikeButtonProps) {
@@ -77,32 +78,34 @@ function LikeButton(props: LikeButtonProps) {
   );
 }
 
-const LikeChip = ({ name }) => (
+const LikeChip = ({ uid, userName }) => (
   <Chip labelStyle={styles.bold} style={styles.chip}>
     <Avatar backgroundColor={blue500} color={white} icon={<IconThumbUp />} />
-    {name}
+    {userName}
   </Chip>
 );
 
 type PropsType = {
+  photoID: string,
   imageUrl: string,
   userName: string,
   uploadedAt: string,
   starCount: number,
   likeMark: boolean,
-  likeUsers: string[],
-  handleLikeClick: () => void,
+  likeUsers: User[],
+  handleLikeClick: (photoID: string) => void,
   deleteButton: boolean,
-  onDelete?: () => void,
-  triggerRefresh: () => void,
+  onDelete?: (photoID: string) => void,
+  triggerRefresh: (photoID: string) => void,
 };
 
 export default class Detail extends React.Component<PropsType, {}> {
   componentWillMount() {
-    this.props.triggerRefresh();
+    this.props.triggerRefresh(this.props.photoID);
   }
   render = () => {
     const {
+      photoID,
       imageUrl,
       userName,
       uploadedAt,
@@ -131,15 +134,19 @@ export default class Detail extends React.Component<PropsType, {}> {
                 </div>
                 <span style={styles.right}>
                   <LikeButton
-                    handleLikeClick={handleLikeClick}
+                    handleLikeClick={() => handleLikeClick(photoID)}
                     likeMark={likeMark}
                     likeUsers={likeUsers}
                   />
                 </span>
                 <Clearfix />
                 <div style={styles.chipBox}>
-                  {likeUsers.map((name, index) => (
-                    <LikeChip key={index} name={name} />
+                  {likeUsers.map(user => (
+                    <LikeChip
+                      key={user.uid}
+                      uid={user.uid}
+                      userName={user.userName}
+                    />
                   ))}
                 </div>
               </CardText>
@@ -149,7 +156,7 @@ export default class Detail extends React.Component<PropsType, {}> {
                     secondary
                     label="削除する"
                     icon={<IconDelete />}
-                    onClick={() => onDelete && onDelete()}
+                    onClick={() => onDelete && onDelete(photoID)}
                   />
                 </CardActions>
               )}

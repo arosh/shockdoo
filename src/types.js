@@ -1,21 +1,25 @@
 // @flow
+export type User = {
+  uid: string,
+  userName: string,
+};
+
 export type Photo = {
-  seq: number,
+  photoID: string,
   uid: string,
   userName: string,
   star: number,
-  imageURL: string,
   thumbURL: string,
   createdAt: string,
   likes: number,
 };
 
 export type PhotoDetail = {
+  photoID: string,
   imageURL: string,
   uid: string,
   userName: string,
   createdAt: string,
   star: number,
-  likeMark: boolean,
-  likeUsers: string[],
+  likeUsers: User[],
 };

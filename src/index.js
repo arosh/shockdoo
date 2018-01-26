@@ -22,5 +22,5 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-store.dispatch(reducer.setOnSignIn());
-store.dispatch(reducer.setOnSignOut());
+store.dispatch(reducer.setOnSignInHandler());
+store.dispatch(reducer.setOnSignOutHandler());

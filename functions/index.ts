@@ -56,9 +56,18 @@ app.post('/api/add_photo', upload.single('image'), async (req: any, res) => {
   res.status(200).json({ photoID });
 });
 
-exports.api = functions.https.onRequest(app);
-
-exports.onUserCreated = functions.auth.user().onCreate((event) => {
-  const uid = event.data.uid;
-  return logic.setUserSeq(uid);
+app.post('/api/add_like', async (req: any, res) => {
+  const uid = req.uid;
+  const photoID = req.body.photoID;
+  const ok = await logic.addLike(uid, photoID);
+  res.status(200).json({ ok });
 });
+
+app.post('/api/remove_like', async (req: any, res) => {
+  const uid = req.uid;
+  const photoID = req.body.photoID;
+  const ok = await logic.removeLike(uid, photoID);
+  res.status(200).json({ ok });
+});
+
+exports.api = functions.https.onRequest(app);

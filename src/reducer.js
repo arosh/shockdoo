@@ -1,6 +1,6 @@
 // @flow
 import { singleton as firebase } from './infrastructure/FirebaseUtils';
-import type { Photo, PhotoDetail } from './types';
+import type { Photo, PhotoDetail, User } from './types';
 
 const SIGN_IN = 'SIGN_IN';
 const SIGN_OUT = 'SIGN_OUT';
@@ -11,6 +11,9 @@ const SET_USER_NAME = 'SET_USER_NAME';
 const SET_A_PHOTO = 'SET_A_PHOTO';
 const SET_PHOTOS = 'SET_PHOTOS';
 const SET_LOADING = 'SET_LOADING';
+const SET_LIKES = 'SET_LIKES';
+const ADD_LIKE = 'ADD_LIKE';
+const REMOVE_LIKE = 'REMOVE_LIKE';
 const NOTIFY = 'NOTIFY';
 
 type Action = {
@@ -38,6 +41,8 @@ export type State = {
     message: string,
     timestamp: number,
   },
+  likes: string[],
+  likesUnsubscribe: ?() => void,
 };
 
 const initialState: State = {
@@ -49,12 +54,12 @@ const initialState: State = {
   nameDialogOpen: false,
   photos: [],
   photo: {
+    photoID: '',
     imageURL: '',
     uid: '',
     userName: '',
     createdAt: '',
     star: 0,
-    likeMark: false,
     likeUsers: [],
   },
   submit: {
@@ -65,6 +70,8 @@ const initialState: State = {
     message: '',
     timestamp: 0,
   },
+  likes: [],
+  likesUnsubscribe: null,
 };
 
 export function signIn(providerName: string) {
@@ -87,14 +94,23 @@ export function signIn(providerName: string) {
   };
 }
 
-export function setOnSignIn() {
+export function setOnSignInHandler() {
   return (dispatch: Dispatch) => {
     firebase.setOnSignInHandler((uid, userName) => {
+      const unsubscribe = firebase.setLikesObserver(likes => {
+        dispatch({
+          type: SET_LIKES,
+          payload: {
+            likes,
+          },
+        });
+      });
       dispatch({
         type: SIGN_IN,
         payload: {
           uid,
           userName,
+          likesUnsubscribe: unsubscribe,
         },
       });
     });
@@ -113,9 +129,11 @@ export function signOut() {
   };
 }
 
-export function setOnSignOut() {
-  return (dispatch: Dispatch) => {
+export function setOnSignOutHandler() {
+  return (dispatch: Dispatch, getState: () => State) => {
     firebase.setOnSignOutHandler(() => {
+      const unsubscribe = getState().likesUnsubscribe;
+      unsubscribe && unsubscribe();
       dispatch({
         type: SIGN_OUT,
         payload: null,
@@ -220,7 +238,7 @@ export function refreshPhotos() {
   };
 }
 
-export function refreshPhoto(seq: number) {
+export function refreshPhoto(photoID: string) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SET_LOADING,
@@ -228,7 +246,7 @@ export function refreshPhoto(seq: number) {
         loading: true,
       },
     });
-    firebase.getPhoto(seq).then(photo => {
+    firebase.getPhoto(photoID).then(photo => {
       dispatch({
         type: SET_A_PHOTO,
         payload: {
@@ -248,6 +266,33 @@ export function hideLoading() {
   };
 }
 
+export function toggleLike(photoID: string) {
+  return (dispatch: Dispatch, getState: () => State) => {
+    const state = getState();
+    if (!state.logged) {
+      return;
+    }
+    const likes = state.likes;
+    if (!likes.includes(photoID)) {
+      firebase.addLike(photoID);
+      dispatch({
+        type: ADD_LIKE,
+        payload: {
+          photoID,
+        },
+      });
+    } else {
+      firebase.removeLike(photoID);
+      dispatch({
+        type: REMOVE_LIKE,
+        payload: {
+          photoID,
+        },
+      });
+    }
+  };
+}
+
 export default (state: State = initialState, action: Action): State => {
   const { type, payload } = action;
   switch (type) {
@@ -257,6 +302,7 @@ export default (state: State = initialState, action: Action): State => {
         logged: true,
         uid: payload.uid,
         userName: payload.userName,
+        likesUnsubscribe: payload.likesUnsubscribe,
       };
     case SIGN_OUT:
       return {
@@ -264,6 +310,13 @@ export default (state: State = initialState, action: Action): State => {
         logged: false,
         uid: null,
         userName: null,
+        likes: [],
+        likesUnsubscribe: null,
+      };
+    case SET_LIKES:
+      return {
+        ...state,
+        likes: payload.likes,
       };
     case SET_USER_NAME:
       return {
@@ -306,6 +359,45 @@ export default (state: State = initialState, action: Action): State => {
         loading: false,
         photo: payload.photo,
       };
+    case ADD_LIKE:
+      if (
+        state.photo.photoID === payload.photoID &&
+        state.uid &&
+        state.userName
+      ) {
+        const user: User = { uid: state.uid, userName: state.userName };
+        return {
+          ...state,
+          photo: {
+            ...state.photo,
+            likeUsers: [user, ...state.photo.likeUsers],
+          },
+          likes: [payload.photoID, ...state.likes],
+        };
+      } else {
+        return {
+          ...state,
+          likes: [payload.photoID, ...state.likes],
+        };
+      }
+    case REMOVE_LIKE:
+      if (state.photo.photoID === payload.photoID) {
+        return {
+          ...state,
+          photo: {
+            ...state.photo,
+            likeUsers: state.photo.likeUsers.filter(
+              user => user.uid !== state.uid
+            ),
+          },
+          likes: state.likes.filter(photoID => photoID !== payload.photoID),
+        };
+      } else {
+        return {
+          ...state,
+          likes: state.likes.filter(photoID => photoID !== payload.photoID),
+        };
+      }
     case NOTIFY:
       return {
         ...state,

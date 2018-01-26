@@ -70,16 +70,23 @@ storiesOf('AppBar', module)
     />
   ));
 
+const users = [
+  { uid: '1', userName: '@aoba_suzukaze' },
+  { uid: '2', userName: '@hifumi_takimoto' },
+  { uid: '3', userName: '@yun_iijima' },
+];
+
 storiesOf('Detail', module)
   .addDecorator(MuiDecorator)
   .add('default', () => (
     <Detail
+      photoID="114514"
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
       likeMark={true}
-      likeUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
+      likeUsers={users}
       handleLikeClick={action('like')}
       deleteButton={false}
       triggerRefresh={action('refresh')}
@@ -87,6 +94,7 @@ storiesOf('Detail', module)
   ))
   .add('not popular', () => (
     <Detail
+      photoID="114514"
       imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
@@ -101,13 +109,14 @@ storiesOf('Detail', module)
   ))
   .add('delete button', () => (
     <Detail
+      photoID="114514"
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
       likeCount={3}
       likeMark={true}
-      likeUsers={['@aoba_suzukaze', '@hifumi_takimoto', '@yun_iijima']}
+      likeUsers={users}
       handleLikeClick={action('like')}
       deleteButton={true}
       onDelete={action('delete-photo')}
@@ -175,7 +184,7 @@ storiesOf('SubmitForm', module)
   ));
 
 const thumbnails = thumbUrls.map((url, index) => ({
-  seq: index,
+  photoID: index.toFixed(),
   thumbURL: url,
   userName: '@shora_kujira16',
   createdAt: '2017/07/20',

@@ -2,7 +2,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import type { Photo, PhotoDetail } from '../types';
+import type { Photo, PhotoDetail, User } from '../types';
 
 export class FirebaseUtils {
   auth: firebase.auth.Auth;
@@ -49,29 +49,17 @@ export class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  async waitUserSnapshot(uid: string) {
-    await this.initializerPromise;
-    return new Promise(resolve => {
-      const unsubscribe = this.db
-        .collection('users')
-        .doc(uid)
-        .onSnapshot(snapshot => {
-          if (snapshot.exists) {
-            unsubscribe();
-            resolve(snapshot);
-          }
-        });
-    });
-  }
-
   async setOnSignInHandler(handler: (uid: number, userName: string) => void) {
     await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (user) {
         const { uid } = user;
-        const snapshot = await this.waitUserSnapshot(uid);
-        const { seq, userName } = snapshot.data();
-        handler(seq, userName);
+        const userSnapshot = await this.db
+          .collection('users')
+          .doc(uid)
+          .get();
+        const userName = userSnapshot.get('userName');
+        handler(uid, userName);
       }
     });
   }
@@ -155,7 +143,7 @@ export class FirebaseUtils {
     const photos = snapshots.docs.map(doc => {
       const data = doc.data();
       const photo: Photo = {
-        seq: data.seq,
+        photoID: doc.id,
         uid: data.uid,
         userName: data.userName,
         star: data.star,
@@ -169,25 +157,60 @@ export class FirebaseUtils {
     return photos;
   }
 
-  async getPhoto(seq: number): Promise<PhotoDetail> {
+  async getPhoto(photoID: string): Promise<PhotoDetail> {
     await this.initializerPromise;
-    const querySnapshot = await this.db
+    const photoPromise = this.db
       .collection('photos')
-      .where('seq', '==', seq)
+      .doc(photoID)
       .get();
-    if (querySnapshot.empty) {
-      throw new Error(`Cannot fetch photo (seq = ${seq})`);
+    const likesPromise = this.db
+      .collection('likes')
+      .where('photoID', '==', photoID)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const photoSnapshot = await photoPromise;
+    if (!photoSnapshot.exists) {
+      throw new Error(`Cannot fetch photoID = ${photoID}`);
     }
-    const data = querySnapshot.docs[0].data();
+    const photo = photoSnapshot.data();
+    const likesSnapshot = await likesPromise;
+    const likeUsers: User[] = likesSnapshot.docs.map(snapshot => {
+      const like = snapshot.data();
+      return { uid: like.uid, userName: like.userName };
+    });
     return {
-      imageURL: data.imageURL,
-      uid: data.uid,
-      userName: data.userName,
-      createdAt: this.dateString(data.createdAt),
-      star: data.star,
-      likeMark: false,
-      likeUsers: [],
+      photoID: photoSnapshot.id,
+      imageURL: photo.imageURL,
+      uid: photo.uid,
+      userName: photo.userName,
+      createdAt: this.dateString(photo.createdAt),
+      star: photo.star,
+      likeUsers,
     };
+  }
+
+  // unsubscribeを返す
+  async setLikesObserver(observer: (likes: string[]) => void) {
+    await this.initializerPromise;
+    const { uid } = this.auth.currentUser;
+    return this.db
+      .collection('likes')
+      .where('uid', '==', uid)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(querySnapshot => {
+        const photoIDs: string[] = querySnapshot.docs.map(like =>
+          like.get('photoID')
+        );
+        observer(photoIDs);
+      });
+  }
+
+  async addLike(photoID: string) {
+    this.postJson('/api/add_like', { photoID });
+  }
+
+  async removeLike(photoID: string) {
+    this.postJson('/api/remove_like', { photoID });
   }
 }
 

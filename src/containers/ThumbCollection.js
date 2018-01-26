@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Component from '../components/ThumbCollection';
-import { refreshPhotos } from '../reducer';
+import { toggleLike, refreshPhotos } from '../reducer';
 import type { State } from '../reducer';
 import type { Photo } from '../types';
 
@@ -10,22 +10,23 @@ export default withRouter(
   connect(
     (state: State) => ({
       thumbs: state.photos.map((photo: Photo) => ({
-        seq: photo.seq,
+        photoID: photo.photoID,
         thumbURL: photo.thumbURL,
+        uid: photo.uid,
         userName: photo.userName,
         createdAt: photo.createdAt,
         star: photo.star,
         likeCount: photo.likes,
-        likeMark: false,
+        likeMark: state.likes.includes(photo.photoID),
       })),
     }),
     (dispatch, ownProps) => ({
-      handleImageClick: (seq: number) => {
+      handleImageClick: (photoID: number) => {
         const { history } = ownProps;
-        history.push(`/photos/${seq}`);
+        history.push(`/photos/${photoID}`);
       },
-      handleLikeClick: (seq: number) => {
-        console.log(`seq = ${seq}`);
+      handleLikeClick: (photoID: string) => {
+        dispatch(toggleLike(photoID));
       },
       triggerUpdate: () => {
         dispatch(refreshPhotos());
