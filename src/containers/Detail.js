@@ -28,8 +28,8 @@ export default withRouter(
       deleteButton: false,
     }),
     (dispatch, ownProps) => ({
-      handleLikeClick: (serial: number) => {
-        console.log(`serial = ${serial}`);
+      handleLikeClick: (seq: number) => {
+        console.log(`seq = ${seq}`);
       },
       onDelete: () => {
         const seq = ownProps.seq;

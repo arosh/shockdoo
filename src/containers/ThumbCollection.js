@@ -10,7 +10,7 @@ export default withRouter(
   connect(
     (state: State) => ({
       thumbs: state.photos.map((photo: Photo) => ({
-        serial: photo.seq,
+        seq: photo.seq,
         thumbURL: photo.thumbURL,
         userName: photo.userName,
         createdAt: photo.createdAt,
@@ -24,8 +24,8 @@ export default withRouter(
         const { history } = ownProps;
         history.push(`/photos/${seq}`);
       },
-      handleLikeClick: (serial: number) => {
-        console.log(`serial = ${serial}`);
+      handleLikeClick: (seq: number) => {
+        console.log(`seq = ${seq}`);
       },
       triggerUpdate: () => {
         dispatch(refreshPhotos());

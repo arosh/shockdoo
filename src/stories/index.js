@@ -175,7 +175,7 @@ storiesOf('SubmitForm', module)
   ));
 
 const thumbnails = thumbUrls.map((url, index) => ({
-  serial: index,
+  seq: index,
   thumbURL: url,
   userName: '@shora_kujira16',
   createdAt: '2017/07/20',

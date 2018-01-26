@@ -12,7 +12,7 @@ const styles = {
 // 本当はItemの内容を知っていなくても良い設計にするべきでItemのほうからIDで引けるようにしたほうが良さそう
 type Props = {
   thumbs: {
-    serial: number,
+    seq: number,
     thumbURL: string,
     userName: string,
     createdAt: string,
@@ -20,8 +20,8 @@ type Props = {
     likeCount: number,
     likeMark: boolean,
   }[],
-  handleImageClick: (serial: number) => void,
-  handleLikeClick: (serial: number) => void,
+  handleImageClick: (seq: number) => void,
+  handleLikeClick: (seq: number) => void,
   triggerUpdate: () => void,
   onClickMore: () => void,
 };
@@ -39,9 +39,9 @@ class ThumbCollection extends React.Component<Props, {}> {
               <ThumbItem
                 {...item}
                 handleImageClick={() =>
-                  this.props.handleImageClick(item.serial)
+                  this.props.handleImageClick(item.seq)
                 }
-                handleLikeClick={() => this.props.handleLikeClick(item.serial)}
+                handleLikeClick={() => this.props.handleLikeClick(item.seq)}
               />
             </div>
           </div>
