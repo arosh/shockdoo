@@ -15,8 +15,9 @@ export function verifyIdToken(idToken: string): Promise<admin.auth.DecodedIdToke
   return admin.auth().verifyIdToken(idToken);
 }
 
-function getUserName(uid: string): Promise<string> {
-  return db.collection('users').doc(uid).get().then((snapshot) => snapshot.get('userName'));
+async function getUserName(uid: string): Promise<string> {
+  const user = await db.collection('users').doc(uid).get();
+  return user.get('userName');
 }
 
 async function uploadToBucket(localPath: string, bucketPath: string, contentType: string) {

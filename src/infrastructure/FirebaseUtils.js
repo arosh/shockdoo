@@ -189,20 +189,18 @@ export class FirebaseUtils {
     };
   }
 
-  // unsubscribeを返す
-  async setLikesObserver(observer: (likes: string[]) => void) {
+  async getLikes(): Promise<string[]> {
     await this.initializerPromise;
-    const { uid } = this.auth.currentUser;
-    return this.db
-      .collection('likes')
-      .where('uid', '==', uid)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(querySnapshot => {
-        const photoIDs: string[] = querySnapshot.docs.map(like =>
-          like.get('photoID')
-        );
-        observer(photoIDs);
-      });
+    if (this.auth.currentUser) {
+      const { uid } = this.auth.currentUser;
+      const snapshot = await this.db
+        .collection('likes')
+        .where('uid', '==', uid)
+        .orderBy('createdAt', 'desc')
+        .get();
+      return snapshot.docs.map(like => like.get('photoID'));
+    }
+    return [];
   }
 
   async addLike(photoID: string) {
