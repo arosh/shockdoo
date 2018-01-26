@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
+import { green400, orange600 } from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import AddPhotoButton from './AddPhotoButton';
@@ -117,8 +119,15 @@ type AppProps = {
   loading: boolean,
 };
 
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: orange600,
+    accent1Color: green400,
+  },
+});
+
 const App = (props: AppProps) => (
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={muiTheme}>
     <Router>
       <div>
         {props.loading && <Loading />}
