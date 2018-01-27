@@ -40,7 +40,7 @@ const Photos = ({ match }) => (
       <Route
         exact
         path={`${match.url}/:photoID`}
-        render={() => <Detail photoID={match.params.photoID} />}
+        render={({ match }) => <Detail photoID={match.params.photoID} />}
       />
     </Switch>
   </div>

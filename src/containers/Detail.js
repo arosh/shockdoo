@@ -1,22 +1,14 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
 import Component from '../components/Detail';
 import { refreshPhoto, toggleLike } from '../reducer';
 import type { State } from '../reducer';
 
-// imageUrl: string,
-// userName: string,
-// uploadedAt: string,
-// starCount: number,
-// likeMark: boolean,
-// likeUsers: string[],
-// handleLikeClick: () => void,
-// deleteButton: boolean,
-// onDelete?: () => void,
-// triggerRefresh: () => void,
-
-export default withRouter(
+export default compose(
+  withRouter,
   connect(
     (state: State) => ({
       imageUrl: state.photo.imageURL,
@@ -27,16 +19,16 @@ export default withRouter(
       likeUsers: state.photo.likeUsers,
       deleteButton: false,
     }),
-    dispatch => ({
-      handleLikeClick: (photoID: string) => {
-        dispatch(toggleLike(photoID));
+    (dispatch, ownProps) => ({
+      handleLikeClick: () => {
+        dispatch(toggleLike(ownProps.photoID));
       },
-      onDelete: (photoID: string) => {
-        console.log(`delete photoID = ${photoID}`);
+      handleDelete: () => {
+        console.log(`delete photoID = ${ownProps.photoID}`);
       },
-      triggerRefresh: (photoID: string) => {
-        dispatch(refreshPhoto(photoID));
+      triggerRefresh: () => {
+        dispatch(refreshPhoto(ownProps.photoID));
       },
     })
-  )(Component)
-);
+  )
+)(Component);

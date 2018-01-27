@@ -1,4 +1,5 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -6,7 +7,8 @@ import Component from '../components/Drawer';
 import { toggleDrawer, signIn, signOut } from '../reducer';
 import type { State } from '../reducer';
 
-export default withRouter(
+export default compose(
+  withRouter,
   connect(
     (state: State) => ({
       logged: state.uid !== null,
@@ -32,5 +34,5 @@ export default withRouter(
         }
       },
     })
-  )(Component)
-);
+  )
+)(Component);

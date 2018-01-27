@@ -1,11 +1,14 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
 import Component from '../components/SubmitForm';
 import { uploadImage, hideLoading } from '../reducer';
 import type { State } from '../reducer';
 
-export default withRouter(
+export default compose(
+  withRouter,
   connect(
     (state: State) => ({
       userName: state.userName,
@@ -20,5 +23,5 @@ export default withRouter(
       },
       hideLoading: () => dispatch(hideLoading()),
     })
-  )(Component)
-);
+  )
+)(Component);

@@ -1,4 +1,5 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -11,7 +12,8 @@ function createTodayString() {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 }
 
-export default withRouter(
+export default compose(
+  withRouter,
   connect(
     (state: State) => ({
       display: state.uid !== null,
@@ -25,5 +27,5 @@ export default withRouter(
         history.push('/photos/new');
       },
     })
-  )(Component)
-);
+  )
+)(Component);

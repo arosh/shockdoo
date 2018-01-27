@@ -17,10 +17,7 @@ type PropTypes = {
 
 const MoreButton = ({ onClick }: PropTypes) => (
   <div style={styles.moreButton}>
-    <FloatingActionButton
-      onClick={() => this.props.onClick()}
-      backgroundColor={orange400}
-    >
+    <FloatingActionButton onClick={() => onClick()} backgroundColor={orange400}>
       <IconNavigationMore />
     </FloatingActionButton>
   </div>

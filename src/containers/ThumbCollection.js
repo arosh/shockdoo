@@ -1,7 +1,9 @@
 // @flow
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
 import Component from '../components/ThumbCollection';
 import { toggleLike, refreshPhotos } from '../reducer';
 import type { State } from '../reducer';
@@ -22,7 +24,8 @@ class ThumbCollectionManager extends React.Component<any, {}> {
   render = () => <Component {...this.props} />;
 }
 
-export default withRouter(
+export default compose(
+  withRouter,
   connect(
     (state: State) => ({
       thumbs: state.photos.map((photo: Photo) => ({
@@ -47,5 +50,5 @@ export default withRouter(
         console.log('more');
       },
     })
-  )(ThumbCollectionManager)
-);
+  )
+)(ThumbCollectionManager);

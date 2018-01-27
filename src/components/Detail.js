@@ -92,26 +92,24 @@ const LikeChip = ({ uid, userName }: LikeChipProps) => (
 );
 
 type PropsType = {
-  photoID: string,
   imageUrl: string,
   userName: string,
   uploadedAt: string,
   starCount: number,
   likeMark: boolean,
   likeUsers: User[],
-  handleLikeClick: (photoID: string) => void,
   deleteButton: boolean,
-  onDelete?: (photoID: string) => void,
-  triggerRefresh: (photoID: string) => void,
+  handleLikeClick: () => void,
+  handleDelete: () => void,
+  triggerRefresh: () => void,
 };
 
 export default class Detail extends React.Component<PropsType, {}> {
   componentWillMount() {
-    this.props.triggerRefresh(this.props.photoID);
+    this.props.triggerRefresh();
   }
   render = () => {
     const {
-      photoID,
       imageUrl,
       userName,
       uploadedAt,
@@ -120,7 +118,7 @@ export default class Detail extends React.Component<PropsType, {}> {
       likeUsers,
       handleLikeClick,
       deleteButton,
-      onDelete,
+      handleDelete,
     } = this.props;
     return (
       <div className="row">
@@ -140,7 +138,7 @@ export default class Detail extends React.Component<PropsType, {}> {
                 </div>
                 <span style={styles.right}>
                   <LikeButton
-                    handleLikeClick={() => handleLikeClick(photoID)}
+                    handleLikeClick={() => handleLikeClick()}
                     likeMark={likeMark}
                     likeUsers={likeUsers}
                   />
@@ -162,7 +160,7 @@ export default class Detail extends React.Component<PropsType, {}> {
                     secondary
                     label="削除する"
                     icon={<IconDelete />}
-                    onClick={() => onDelete && onDelete(photoID)}
+                    onClick={() => handleDelete()}
                   />
                 </CardActions>
               )}

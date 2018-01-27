@@ -83,21 +83,20 @@ storiesOf('Detail', module)
   .addDecorator(Decorator)
   .add('default', () => (
     <Detail
-      photoID="114514"
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
       likeMark
       likeUsers={users}
-      handleLikeClick={action('like')}
       deleteButton={false}
       triggerRefresh={action('refresh')}
+      handleLikeClick={action('like')}
+      handleDelete={action('delete-photo')}
     />
   ))
   .add('not popular', () => (
     <Detail
-      photoID="114514"
       imageUrl={imageUrls[2]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
@@ -105,14 +104,14 @@ storiesOf('Detail', module)
       likeCount={0}
       likeMark={false}
       likeUsers={[]}
-      handleLikeClick={action('like')}
       deleteButton={false}
       triggerRefresh={action('refresh')}
+      handleLikeClick={action('like')}
+      handleDelete={action('delete-photo')}
     />
   ))
   .add('delete button', () => (
     <Detail
-      photoID="114514"
       imageUrl={imageUrls[1]}
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
@@ -120,10 +119,10 @@ storiesOf('Detail', module)
       likeCount={3}
       likeMark
       likeUsers={users}
-      handleLikeClick={action('like')}
       deleteButton
-      onDelete={action('delete-photo')}
       triggerRefresh={action('refresh')}
+      handleLikeClick={action('like')}
+      handleDelete={action('delete-photo')}
     />
   ));
 
