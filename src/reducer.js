@@ -286,7 +286,7 @@ export function hideLoading() {
 export function toggleLike(photoID: string) {
   return (dispatch: Dispatch, getState: () => State) => {
     const state = getState();
-    if (!state.logged) {
+    if (!state.uid) {
       return;
     }
     const { likes } = state;
