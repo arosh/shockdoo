@@ -29,6 +29,7 @@ exports.set_user_name = functions.https.onRequest((req: any, res) => {
       const userName: string = req.body.userName;
       if (!userName || userName.length > MAX_LENGTH) {
         res.status(400).send('Bad Request');
+        resolve();
         return;
       }
       await logic.setUserName(uid, userName);
