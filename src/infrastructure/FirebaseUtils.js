@@ -80,7 +80,7 @@ export class FirebaseUtils {
     const method = 'POST';
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
+      Authorization: `Bearer ${token}`,
     };
     const body = JSON.stringify(value);
     const init = {
@@ -104,7 +104,7 @@ export class FirebaseUtils {
     const token = await this.auth.currentUser.getIdToken();
     const method = 'POST';
     const headers = {
-      Authorization: 'Bearer ' + token,
+      Authorization: `Bearer ${token}`,
     };
     const init = {
       method,

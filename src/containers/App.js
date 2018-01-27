@@ -31,20 +31,16 @@ const styles = {
   },
 };
 
-const Root = ({ match }) => <ThumbCollection type="root" />;
+const Root = () => <ThumbCollection type="root" />;
 
 const Photos = ({ match }) => (
   <div>
     <Switch>
+      <Route exact path={`${match.url}/new`} render={() => <SubmitForm />} />
       <Route
         exact
-        path={match.url + '/new'}
-        render={({ match }) => <SubmitForm />}
-      />
-      <Route
-        exact
-        path={match.url + '/:photoID'}
-        render={({ match }) => <Detail photoID={match.params.photoID} />}
+        path={`${match.url}/:photoID`}
+        render={() => <Detail photoID={match.params.photoID} />}
       />
     </Switch>
   </div>
@@ -55,14 +51,14 @@ const Users = ({ match }) => (
     <Switch>
       <Route
         exact
-        path={match.url + '/:uid/photos'}
+        path={`${match.url}/:uid/photos`}
         render={({ match }) => (
           <ThumbCollection type="users/photos" uid={match.params.uid} />
         )}
       />
       <Route
         exact
-        path={match.url + '/:uid/likes'}
+        path={`${match.url}/:uid/likes`}
         render={({ match }) => (
           <ThumbCollection type="users/likes" uid={match.params.uid} />
         )}

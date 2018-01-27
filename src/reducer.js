@@ -121,7 +121,7 @@ export function signOut() {
 }
 
 export function setOnSignOutHandler() {
-  return (dispatch: Dispatch, getState: () => State) => {
+  return (dispatch: Dispatch) => {
     firebase.setOnSignOutHandler(() => {
       dispatch({
         type: SIGN_OUT,
@@ -289,7 +289,7 @@ export function toggleLike(photoID: string) {
     if (!state.logged) {
       return;
     }
-    const likes = state.likes;
+    const { likes } = state;
     if (!likes.includes(photoID)) {
       firebase.addLike(photoID);
       dispatch({
@@ -399,13 +399,12 @@ export default (state: State = initialState, action: Action): State => {
           photos,
           likes: [payload.photoID, ...state.likes],
         };
-      } else {
-        return {
-          ...state,
-          photos,
-          likes: [payload.photoID, ...state.likes],
-        };
       }
+      return {
+        ...state,
+        photos,
+        likes: [payload.photoID, ...state.likes],
+      };
     }
     case REMOVE_LIKE: {
       const photos = updatePhotosLikes(state.photos, payload.photoID, -1);
@@ -421,13 +420,12 @@ export default (state: State = initialState, action: Action): State => {
           photos,
           likes: state.likes.filter(photoID => photoID !== payload.photoID),
         };
-      } else {
-        return {
-          ...state,
-          photos,
-          likes: state.likes.filter(photoID => photoID !== payload.photoID),
-        };
       }
+      return {
+        ...state,
+        photos,
+        likes: state.likes.filter(photoID => photoID !== payload.photoID),
+      };
     }
     case NOTIFY:
       return {

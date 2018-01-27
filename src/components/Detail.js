@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import * as range from 'lodash.range';
 
@@ -78,10 +79,15 @@ function LikeButton(props: LikeButtonProps) {
   );
 }
 
-const LikeChip = ({ uid, userName }) => (
+type LikeChipProps = {
+  uid: string,
+  userName: string,
+};
+
+const LikeChip = ({ uid, userName }: LikeChipProps) => (
   <Chip labelStyle={styles.bold} style={styles.chip}>
     <Avatar backgroundColor={blue500} color={white} icon={<IconThumbUp />} />
-    {userName}
+    <Link to={`/users/${uid}`}>{userName}</Link>
   </Chip>
 );
 

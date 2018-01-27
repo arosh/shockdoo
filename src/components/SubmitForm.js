@@ -64,6 +64,31 @@ export default class SubmitForm extends React.Component<
     this.props.hideLoading();
   }
 
+  onClick = (n: number) => {
+    this.setState({
+      star: n + 1,
+    });
+  };
+
+  onMouseOver = (n: number) => {
+    this.setState({
+      starHover: n + 1,
+    });
+  };
+
+  onMouseOut = () => {
+    this.setState({
+      starHover: 0,
+    });
+  };
+
+  starHighlight = (n: number) => {
+    if (this.state.starHover === 0) {
+      return n < this.state.star;
+    }
+    return n < this.state.starHover;
+  };
+
   render = () => {
     const { imageUrl, userName, createdAt, onSubmit } = this.props;
     return (
@@ -114,31 +139,5 @@ export default class SubmitForm extends React.Component<
         </div>
       </div>
     );
-  };
-
-  onClick = (n: number) => {
-    this.setState({
-      star: n + 1,
-    });
-  };
-
-  onMouseOver = (n: number) => {
-    this.setState({
-      starHover: n + 1,
-    });
-  };
-
-  onMouseOut = () => {
-    this.setState({
-      starHover: 0,
-    });
-  };
-
-  starHighlight = (n: number) => {
-    if (this.state.starHover === 0) {
-      return n < this.state.star;
-    } else {
-      return n < this.state.starHover;
-    }
   };
 }

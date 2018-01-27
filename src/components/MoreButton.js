@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import { IconNavigationMore } from './icons';
 import { orange400 } from 'material-ui/styles/colors';
+import { IconNavigationMore } from './icons';
 
 const styles = {
   moreButton: {
@@ -15,15 +15,15 @@ type PropTypes = {
   onClick: () => void,
 };
 
-export default class MoreButton extends React.Component<PropTypes, {}> {
-  render = () => (
-    <div style={styles.moreButton}>
-      <FloatingActionButton
-        onClick={() => this.props.onClick()}
-        backgroundColor={orange400}
-      >
-        <IconNavigationMore />
-      </FloatingActionButton>
-    </div>
-  );
-}
+const MoreButton = ({ onClick }: PropTypes) => (
+  <div style={styles.moreButton}>
+    <FloatingActionButton
+      onClick={() => this.props.onClick()}
+      backgroundColor={orange400}
+    >
+      <IconNavigationMore />
+    </FloatingActionButton>
+  </div>
+);
+
+export default MoreButton;

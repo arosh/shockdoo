@@ -20,7 +20,7 @@ class Input extends React.Component<InputProps, {}> {
   render = () => (
     <TextField
       hintText="アカウントの表示名（20文字以内）"
-      fullWidth={true}
+      fullWidth
       value={this.props.name}
       ref="theInput"
       errorText={this.props.errorText}
@@ -54,7 +54,7 @@ class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
     const actions = [
       <FlatButton
         label="送信"
-        primary={true}
+        primary
         onClick={this.onClick}
         disabled={
           this.state.name.length === 0 || this.state.name.length > MAX_LENGTH
@@ -66,7 +66,7 @@ class NameDialog extends React.Component<NameDialogProps, NameDialogState> {
       <Dialog
         title="アカウントの表示名を入力してください。"
         actions={actions}
-        modal={true}
+        modal
         open={this.props.open}
       >
         <Input

@@ -27,7 +27,7 @@ export default withRouter(
       likeUsers: state.photo.likeUsers,
       deleteButton: false,
     }),
-    (dispatch, ownProps) => ({
+    dispatch => ({
       handleLikeClick: (photoID: string) => {
         dispatch(toggleLike(photoID));
       },

@@ -36,7 +36,7 @@ export default withRouter(
         likeMark: state.likes.includes(photo.photoID),
       })),
     }),
-    (dispatch, ownProps) => ({
+    dispatch => ({
       handleLikeClick: (photoID: string) => {
         dispatch(toggleLike(photoID));
       },

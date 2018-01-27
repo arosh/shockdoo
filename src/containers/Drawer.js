@@ -13,7 +13,7 @@ export default withRouter(
       open: state.drawerOpened,
       uid: state.uid,
     }),
-    (dispatch, ownProps) => ({
+    dispatch => ({
       onRequestChange: open => dispatch(toggleDrawer(open)),
       onClick: (name: string) => {
         dispatch(toggleDrawer(false));

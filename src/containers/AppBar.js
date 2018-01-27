@@ -10,7 +10,7 @@ export default withRouter(
     (state: State) => ({
       logged: state.uid !== null,
     }),
-    (dispatch, ownProps) => ({
+    dispatch => ({
       onLeftIconButtonClick: () => dispatch(toggleDrawer(true)),
       onSignIn: (providerName: string) => dispatch(signIn(providerName)),
       onSignOut: () => dispatch(signOut()),

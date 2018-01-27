@@ -45,7 +45,7 @@ const thumbUrls = [
 storiesOf('AddPhotoButton', module)
   .addDecorator(Decorator)
   .add('default', () => (
-    <AddPhotoButton display={true} onFileSelect={action('touch')} />
+    <AddPhotoButton display onFileSelect={action('touch')} />
   ));
 
 storiesOf('MoreButton', module)
@@ -65,7 +65,7 @@ storiesOf('AppBar', module)
   ))
   .add('logged', () => (
     <AppBar
-      logged={true}
+      logged
       onTitleClick={action('title')}
       onLeftIconButtonClick={action('left-icon')}
       onSignIn={linkTo('AppBar', 'logged')}
@@ -88,7 +88,7 @@ storiesOf('Detail', module)
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
-      likeMark={true}
+      likeMark
       likeUsers={users}
       handleLikeClick={action('like')}
       deleteButton={false}
@@ -118,10 +118,10 @@ storiesOf('Detail', module)
       uploadedAt="2017/07/21"
       starCount={4}
       likeCount={3}
-      likeMark={true}
+      likeMark
       likeUsers={users}
       handleLikeClick={action('like')}
-      deleteButton={true}
+      deleteButton
       onDelete={action('delete-photo')}
       triggerRefresh={action('refresh')}
     />
@@ -131,7 +131,7 @@ storiesOf('Drawer', module)
   .addDecorator(Decorator)
   .add('not logged', () => (
     <Drawer
-      open={true}
+      open
       onRequestChange={action('change')}
       logged={false}
       onClick={action('touch')}
@@ -140,9 +140,9 @@ storiesOf('Drawer', module)
   ))
   .add('logged', () => (
     <Drawer
-      open={true}
+      open
       onRequestChange={action('change')}
-      logged={true}
+      logged
       onClick={action('touch')}
       uid={123}
     />
