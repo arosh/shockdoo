@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import MaterialAppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -15,8 +16,10 @@ const styles = {
     top: 0,
     position: 'fixed',
   },
-  title: {
-    cursor: 'pointer',
+  linkTo: {
+    color: 'inherit',
+    textDecoration: 'none',
+    fontWeight: 'inherit',
   },
 };
 
@@ -119,24 +122,20 @@ SignOut.muiName = 'FlatButton';
 
 type PropTypes = {
   logged: boolean,
-  onTitleClick: () => void,
   onLeftIconButtonClick: () => void,
   onSignIn: (providerName: string) => void,
   onSignOut: () => void,
 };
 
 export default function AppBar(props: PropTypes) {
-  const {
-    logged,
-    onTitleClick,
-    onLeftIconButtonClick,
-    onSignIn,
-    onSignOut,
-  } = props;
+  const { logged, onLeftIconButtonClick, onSignIn, onSignOut } = props;
   return (
     <MaterialAppBar
-      title={<span style={styles.title}>Shockdoo</span>}
-      onTitleClick={() => onTitleClick()}
+      title={
+        <Link to="/" style={styles.linkTo}>
+          Shockdoo
+        </Link>
+      }
       onLeftIconButtonClick={() => onLeftIconButtonClick()}
       iconElementRight={
         logged ? (

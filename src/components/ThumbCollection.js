@@ -19,7 +19,6 @@ type PropTypes = {
     likeCount: number,
     likeMark: boolean,
   }[],
-  handleImageClick: (photoID: string) => void,
   handleLikeClick: (photoID: string) => void,
   onClickMore: () => void,
 };
@@ -33,9 +32,6 @@ class ThumbCollection extends React.Component<PropTypes, {}> {
             <div className="box" style={styles.card}>
               <ThumbItem
                 {...item}
-                handleImageClick={() =>
-                  this.props.handleImageClick(item.photoID)
-                }
                 handleLikeClick={() => this.props.handleLikeClick(item.photoID)}
               />
             </div>

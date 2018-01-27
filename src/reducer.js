@@ -8,7 +8,7 @@ const SET_DRAWER = 'SET_DRAWER';
 const SET_SUBMIT = 'SET_SUBMIT';
 const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
-const SET_A_PHOTO = 'SET_A_PHOTO';
+const SET_PHOTO = 'SET_PHOTO';
 const SET_PHOTOS = 'SET_PHOTOS';
 const SET_LOADING = 'SET_LOADING';
 const SET_LIKES = 'SET_LIKES';
@@ -260,7 +260,7 @@ export function refreshPhoto(photoID: string) {
     const photoPromise = firebase.getPhoto(photoID);
     const likesPromise = firebase.getLikes();
     dispatch({
-      type: SET_A_PHOTO,
+      type: SET_PHOTO,
       payload: {
         photo: await photoPromise,
       },
@@ -380,7 +380,7 @@ export default (state: State = initialState, action: Action): State => {
         loading: false,
         photos: payload.photos,
       };
-    case SET_A_PHOTO:
+    case SET_PHOTO:
       return {
         ...state,
         loading: false,
@@ -388,10 +388,7 @@ export default (state: State = initialState, action: Action): State => {
       };
     case ADD_LIKE: {
       const photos = updatePhotosLikes(state.photos, payload.photoID, 1);
-      if (
-        state.photo.photoID === payload.photoID &&
-        state.uid
-      ) {
+      if (state.photo.photoID === payload.photoID && state.uid) {
         const user: User = { uid: state.uid, userName: state.userName };
         return {
           ...state,

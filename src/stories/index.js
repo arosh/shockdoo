@@ -2,6 +2,7 @@
 import React from 'react';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MemoryRouter } from 'react-router-dom';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -19,10 +20,12 @@ import SubmitForm from '../components/SubmitForm';
 
 import '../bootstrap';
 
-const MuiDecorator = story => (
-  <MuiThemeProvider>
-    <div className="container-fluid">{story()}</div>
-  </MuiThemeProvider>
+const Decorator = story => (
+  <MemoryRouter>
+    <MuiThemeProvider>
+      <div className="container-fluid">{story()}</div>
+    </MuiThemeProvider>
+  </MemoryRouter>
 );
 
 const imageUrls = [
@@ -40,17 +43,17 @@ const thumbUrls = [
 ];
 
 storiesOf('AddPhotoButton', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => (
     <AddPhotoButton display={true} onFileSelect={action('touch')} />
   ));
 
 storiesOf('MoreButton', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => <MoreButton onClick={action('click')} />);
 
 storiesOf('AppBar', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('not logged', () => (
     <AppBar
       logged={false}
@@ -77,7 +80,7 @@ const users = [
 ];
 
 storiesOf('Detail', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => (
     <Detail
       photoID="114514"
@@ -125,7 +128,7 @@ storiesOf('Detail', module)
   ));
 
 storiesOf('Drawer', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('not logged', () => (
     <Drawer
       open={true}
@@ -146,7 +149,7 @@ storiesOf('Drawer', module)
   ));
 
 storiesOf('Loading', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => <Loading />);
 
 class NameDialogEnhance extends React.Component<{}, { open: boolean }> {
@@ -168,11 +171,11 @@ class NameDialogEnhance extends React.Component<{}, { open: boolean }> {
 }
 
 storiesOf('NameDialog', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => <NameDialogEnhance />);
 
 storiesOf('SubmitForm', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => (
     <SubmitForm
       imageUrl={imageUrls[2]}
@@ -194,7 +197,7 @@ const thumbnails = thumbUrls.map((url, index) => ({
 }));
 
 storiesOf('Thumbnails', module)
-  .addDecorator(MuiDecorator)
+  .addDecorator(Decorator)
   .add('default', () => (
     <ThumbCollection
       thumbs={thumbnails}

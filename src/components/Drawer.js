@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Divider from 'material-ui/Divider';
 import MaterialDrawer from 'material-ui/Drawer';
@@ -18,60 +19,59 @@ type PropTypes = {
   open: boolean,
   onRequestChange: boolean => void,
   logged: boolean,
-  onClick: (name: string, uid?: number) => void,
+  onClick: (name: string) => void,
   uid: number,
 };
 
-export default function Drawer(props: PropTypes) {
-  const { open, onRequestChange, logged, onClick, uid } = props;
-  return (
-    <MaterialDrawer
-      open={open}
-      docked={false}
-      onRequestChange={op => onRequestChange(op)}
-    >
-      <MenuItem leftIcon={<IconHome />} onClick={() => onClick('home')}>
-        ホーム
-      </MenuItem>
-      {logged ? (
-        <div>
-          <MenuItem
-            leftIcon={<IconPhotoCamera />}
-            onClick={() => onClick('photos', uid)}
-          >
-            写真
-          </MenuItem>
-          <MenuItem
-            leftIcon={<IconThumbUp />}
-            onClick={() => onClick('likes', uid)}
-          >
-            お気に入り
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            leftIcon={<IconSignOut />}
-            onClick={() => onClick('signout', uid)}
-          >
-            ログアウト
-          </MenuItem>
-        </div>
-      ) : (
-        <div>
-          <Divider />
-          <MenuItem
-            leftIcon={<IconTwitter />}
-            onClick={() => onClick('signin-twitter')}
-          >
-            Twitterでログイン
-          </MenuItem>
-          <MenuItem
-            leftIcon={<IconGoogle />}
-            onClick={() => onClick('signin-google')}
-          >
-            Googleでログイン
-          </MenuItem>
-        </div>
-      )}
-    </MaterialDrawer>
-  );
-}
+const Drawer = ({ open, onRequestChange, logged, onClick, uid }: PropTypes) => (
+  <MaterialDrawer
+    open={open}
+    docked={false}
+    onRequestChange={op => onRequestChange(op)}
+  >
+    <MenuItem
+      leftIcon={<IconHome />}
+      containerElement={<Link to="/" />}
+      primaryText="ホーム"
+      onClick={() => onRequestChange(false)}
+    />
+    {logged ? (
+      <div>
+        <MenuItem
+          leftIcon={<IconPhotoCamera />}
+          containerElement={<Link to={`/users/${uid}/photos`} />}
+          primaryText="写真"
+          onClick={() => onRequestChange(false)}
+        />
+        <MenuItem
+          leftIcon={<IconThumbUp />}
+          containerElement={<Link to={`/users/${uid}/likes`} />}
+          primaryText="お気に入り"
+          onClick={() => onRequestChange(false)}
+        />
+        <Divider />
+        <MenuItem
+          leftIcon={<IconSignOut />}
+          primaryText="ログアウト"
+          onClick={() => onClick('signout')}
+        />
+      </div>
+    ) : (
+      <div>
+        <Divider />
+        <MenuItem
+          leftIcon={<IconTwitter />}
+          primaryText="Twitterでログイン"
+          onClick={() => onClick('signin-twitter')}
+        />
+        <MenuItem
+          leftIcon={<IconGoogle />}
+          primaryText="Googleでログイン"
+          onClick={() => onClick('signin-google')}
+        />
+      </div>
+    )}
+  </MaterialDrawer>
+);
+
+export default Drawer;

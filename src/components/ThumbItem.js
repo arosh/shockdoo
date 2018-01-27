@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import * as range from 'lodash.range';
 
 import { Card, CardMedia, CardText } from 'material-ui/Card';
@@ -53,36 +53,33 @@ const styles = {
 };
 
 export type ThumbItemProps = {
+  photoID: string,
   thumbURL: string,
   userName: string,
   createdAt: string,
   star: number,
   likeCount: number,
   likeMark: boolean,
-  handleImageClick: () => void,
   handleLikeClick: () => void,
 };
 
 export default function ThumbItem(props: ThumbItemProps) {
   const {
+    photoID,
     thumbURL,
     userName,
     createdAt,
     star,
     likeCount,
     likeMark,
-    handleImageClick,
     handleLikeClick,
   } = props;
   return (
     <Card containerStyle={styles.cardContainer}>
       <CardMedia style={styles.cardMedia}>
-        <img
-          style={styles.img}
-          src={thumbURL}
-          alt=""
-          onClick={handleImageClick}
-        />
+        <Link to={`/photos/${photoID}`}>
+          <img style={styles.img} src={thumbURL} alt="" />
+        </Link>
       </CardMedia>
       <CardText>
         by <span style={styles.bold}>{userName}</span>

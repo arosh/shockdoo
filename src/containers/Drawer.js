@@ -15,25 +15,9 @@ export default withRouter(
     }),
     (dispatch, ownProps) => ({
       onRequestChange: open => dispatch(toggleDrawer(open)),
-      onClick: (name: string, uid?: number) => {
-        const { history } = ownProps;
+      onClick: (name: string) => {
         dispatch(toggleDrawer(false));
         switch (name) {
-          case 'home':
-            history.push('/');
-            break;
-          case 'photos':
-            if (uid === undefined) {
-              throw new Error('uid is undefined');
-            }
-            history.push(`/users/${uid}/photos`);
-            break;
-          case 'likes':
-            if (uid === undefined) {
-              throw new Error('uid is undefined');
-            }
-            history.push(`/users/${uid}/likes`);
-            break;
           case 'signin-twitter':
             dispatch(signIn('twitter'));
             break;
@@ -44,8 +28,7 @@ export default withRouter(
             dispatch(signOut());
             break;
           default:
-            console.log(`name = ${name}`);
-            break;
+            throw new Error(`Unknown name = ${name}`);
         }
       },
     })

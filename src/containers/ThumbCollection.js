@@ -37,10 +37,6 @@ export default withRouter(
       })),
     }),
     (dispatch, ownProps) => ({
-      handleImageClick: (photoID: number) => {
-        const { history } = ownProps;
-        history.push(`/photos/${photoID}`);
-      },
       handleLikeClick: (photoID: string) => {
         dispatch(toggleLike(photoID));
       },
