@@ -2,6 +2,7 @@
 import React from 'react';
 import * as classNames from 'classnames';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { orangeA700 } from 'material-ui/styles/colors';
 import { IconAddPhoto } from './icons';
 
 const styles = {
@@ -46,7 +47,7 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
       <FloatingActionButton
         onClick={() => this.refs.theUpload.click()}
         style={styles.floatingButton}
-        secondary
+        backgroundColor={orangeA700}
       >
         <IconAddPhoto />
       </FloatingActionButton>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as classNames from 'classnames';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { green400, orange500 } from 'material-ui/styles/colors';
+import { orange500 } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -74,7 +74,6 @@ type AppProps = {
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: orange500,
-    accent1Color: green400,
   },
 });
 
