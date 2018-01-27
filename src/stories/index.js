@@ -84,6 +84,7 @@ storiesOf('Detail', module)
   .add('default', () => (
     <Detail
       imageUrl={imageUrls[1]}
+      uid="114514"
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
@@ -98,6 +99,7 @@ storiesOf('Detail', module)
   .add('not popular', () => (
     <Detail
       imageUrl={imageUrls[2]}
+      uid="114514"
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={2}
@@ -113,6 +115,7 @@ storiesOf('Detail', module)
   .add('delete button', () => (
     <Detail
       imageUrl={imageUrls[1]}
+      uid="114514"
       userName="@shora_kujira16"
       uploadedAt="2017/07/21"
       starCount={4}
@@ -188,6 +191,7 @@ storiesOf('SubmitForm', module)
 const thumbnails = thumbUrls.map((url, index) => ({
   photoID: index.toFixed(),
   thumbURL: url,
+  uid: '114514',
   userName: '@shora_kujira16',
   createdAt: '2017/07/20',
   star: index % 5 + 1,

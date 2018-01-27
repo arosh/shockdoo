@@ -16,6 +16,9 @@ import { IconThumbUp, IconDelete } from './icons';
 import type { User } from '../types';
 
 const styles = {
+  card: {
+    marginBottom: '1em',
+  },
   bold: {
     fontWeight: 'bold',
   },
@@ -50,6 +53,11 @@ const styles = {
   cardContainer: {
     // CardActionsを設定していないと謎の空白ができてしまう
     paddingBottom: 0,
+  },
+  linkTo: {
+    color: 'inherit',
+    textDecoration: 'none',
+    fontWeight: 'bold',
   },
 };
 
@@ -87,12 +95,15 @@ type LikeChipProps = {
 const LikeChip = ({ uid, userName }: LikeChipProps) => (
   <Chip labelStyle={styles.bold} style={styles.chip}>
     <Avatar backgroundColor={blue500} color={white} icon={<IconThumbUp />} />
-    <Link to={`/users/${uid}`}>{userName}</Link>
+    <Link to={`/users/${uid}/photos`} style={styles.linkTo}>
+      {userName}
+    </Link>
   </Chip>
 );
 
 type PropsType = {
   imageUrl: string,
+  uid: string,
   userName: string,
   uploadedAt: string,
   starCount: number,
@@ -111,6 +122,7 @@ export default class Detail extends React.Component<PropsType, {}> {
   render = () => {
     const {
       imageUrl,
+      uid,
       userName,
       uploadedAt,
       starCount,
@@ -124,12 +136,15 @@ export default class Detail extends React.Component<PropsType, {}> {
       <div className="row">
         <div className="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
           <div className="box">
-            <Card containerStyle={styles.cardContainer}>
+            <Card style={styles.card} containerStyle={styles.cardContainer}>
               <CardMedia>
                 <img src={imageUrl} alt="" />
               </CardMedia>
               <CardText>
-                by <span style={styles.bold}>{userName}</span>
+                by{' '}
+                <Link to={`/users/${uid}/photos`} style={styles.linkTo}>
+                  {userName}
+                </Link>
                 <span style={styles.right}>{uploadedAt}</span>
                 <div style={styles.center}>
                   {range(5).map(i => (

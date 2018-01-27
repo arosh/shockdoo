@@ -44,17 +44,22 @@ const styles = {
   },
   img: {
     width: '100%',
-    cursor: 'pointer',
   },
   cardMedia: {
     // 改行文字による余白防止
     lineHeight: 0,
+  },
+  linkTo: {
+    color: 'inherit',
+    textDecoration: 'none',
+    fontWeight: 'bold',
   },
 };
 
 export type ThumbItemProps = {
   photoID: string,
   thumbURL: string,
+  uid: string,
   userName: string,
   createdAt: string,
   star: number,
@@ -67,6 +72,7 @@ export default function ThumbItem(props: ThumbItemProps) {
   const {
     photoID,
     thumbURL,
+    uid,
     userName,
     createdAt,
     star,
@@ -82,7 +88,10 @@ export default function ThumbItem(props: ThumbItemProps) {
         </Link>
       </CardMedia>
       <CardText>
-        by <span style={styles.bold}>{userName}</span>
+        by{' '}
+        <Link to={`/users/${uid}/photos`} style={styles.linkTo}>
+          {userName}
+        </Link>
         <span style={styles.right}>{createdAt}</span>
         <Clearfix />
         <div style={styles.starBox}>

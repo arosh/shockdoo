@@ -13,6 +13,7 @@ type PropTypes = {
   thumbs: {
     photoID: string,
     thumbURL: string,
+    uid: string,
     userName: string,
     createdAt: string,
     star: number,

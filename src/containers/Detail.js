@@ -12,6 +12,7 @@ export default compose(
   connect(
     (state: State) => ({
       imageUrl: state.photo.imageURL,
+      uid: state.photo.uid,
       userName: state.photo.userName,
       uploadedAt: state.photo.createdAt,
       starCount: state.photo.star,
