@@ -14,7 +14,7 @@ function createTodayString() {
 export default withRouter(
   connect(
     (state: State) => ({
-      display: state.logged,
+      display: state.uid !== null,
     }),
     (dispatch, ownProps) => ({
       onFileSelect: (file: File) => {

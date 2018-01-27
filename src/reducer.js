@@ -4,7 +4,7 @@ import type { Photo, PhotoDetail, User } from './types';
 
 const SIGN_IN = 'SIGN_IN';
 const SIGN_OUT = 'SIGN_OUT';
-const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
+const SET_DRAWER = 'SET_DRAWER';
 const SET_SUBMIT = 'SET_SUBMIT';
 const SET_NAME_DIALOG_OPEN = 'SET_NAME_DIALOG_OPEN';
 const SET_USER_NAME = 'SET_USER_NAME';
@@ -25,14 +25,14 @@ type Action = {
 type Dispatch = (Action | (Dispatch => void)) => void;
 
 export type State = {
-  logged: boolean,
+  uid: ?string,
+  userName: string,
   loading: boolean,
   drawerOpened: boolean,
-  uid: ?string,
-  userName: ?string,
   nameDialogOpen: boolean,
   photos: Photo[],
   photo: PhotoDetail,
+  likes: string[],
   submit: {
     imageURL: ?string,
     createdAt: ?string,
@@ -41,15 +41,13 @@ export type State = {
     message: string,
     timestamp: number,
   },
-  likes: string[],
 };
 
 const initialState: State = {
-  logged: false,
+  uid: null,
+  userName: '',
   loading: true,
   drawerOpened: false,
-  uid: null,
-  userName: null,
   nameDialogOpen: false,
   photos: [],
   photo: {
@@ -61,6 +59,7 @@ const initialState: State = {
     star: 0,
     likeUsers: [],
   },
+  likes: [],
   submit: {
     imageURL: null,
     createdAt: null,
@@ -69,7 +68,6 @@ const initialState: State = {
     message: '',
     timestamp: 0,
   },
-  likes: [],
 };
 
 export function signIn(providerName: string) {
@@ -135,7 +133,7 @@ export function setOnSignOutHandler() {
 
 export function toggleDrawer(open: boolean): Action {
   return {
-    type: TOGGLE_DRAWER,
+    type: SET_DRAWER,
     payload: {
       open,
     },
@@ -331,7 +329,6 @@ export default (state: State = initialState, action: Action): State => {
     case SIGN_IN:
       return {
         ...state,
-        logged: true,
         uid: payload.uid,
         userName: payload.userName,
         likes: payload.likes,
@@ -339,9 +336,8 @@ export default (state: State = initialState, action: Action): State => {
     case SIGN_OUT:
       return {
         ...state,
-        logged: false,
         uid: null,
-        userName: null,
+        userName: '',
         likes: [],
       };
     case SET_LIKES:
@@ -354,7 +350,7 @@ export default (state: State = initialState, action: Action): State => {
         ...state,
         userName: payload.userName,
       };
-    case TOGGLE_DRAWER:
+    case SET_DRAWER:
       return {
         ...state,
         drawerOpened: payload.open,
@@ -394,8 +390,7 @@ export default (state: State = initialState, action: Action): State => {
       const photos = updatePhotosLikes(state.photos, payload.photoID, 1);
       if (
         state.photo.photoID === payload.photoID &&
-        state.uid &&
-        state.userName
+        state.uid
       ) {
         const user: User = { uid: state.uid, userName: state.userName };
         return {

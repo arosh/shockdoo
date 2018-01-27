@@ -9,7 +9,7 @@ import type { State } from '../reducer';
 export default withRouter(
   connect(
     (state: State) => ({
-      logged: state.logged,
+      logged: state.uid !== null,
       open: state.drawerOpened,
       uid: state.uid,
     }),
