@@ -1,103 +1,108 @@
+import * as fs from 'fs';
+
+import * as Busboy from 'busboy';
 import * as functions from 'firebase-functions';
-import * as formidable from 'formidable';
+import * as tmp from 'tmp-promise';
 
-import * as logic from './logic';
+import * as ImageService from './ImageService';
+import * as Logic from './Logic';
 
-const MAX_FIELDS_SIZE = 5242880; // 5MiB
+const MAX_FILE_SIZE = 5242880; // 5MiB
+
+type AuthenticateHandler = (req: functions.Request, res: functions.Response, uid: string) => void;
 
 // tslint:disable-next-line:max-line-length
 // https://github.com/firebase/functions-samples/blob/ad2f47b88609713e9211363d0dccacd0a923472c/authenticated-json-api/functions/index.js#L29
-const authenticate = (req, res, next) => {
-  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-    res.status(403).send('Unauthorized');
+const authenticate = (next: AuthenticateHandler) => (req: functions.Request, res: functions.Response) => {
+  const authHeader = req.headers.authorization as string;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    res.sendStatus(401); // Unauthorized
     return;
   }
-  const idToken = req.headers.authorization.split('Bearer ')[1];
-  logic.verifyIdToken(idToken).then((decodedIdToken) => {
-    req.uid = decodedIdToken.uid;
-    next();
+  const idToken = authHeader.split('Bearer ')[1];
+  Logic.verifyIdToken(idToken).then((decodedIdToken) => {
+    const { uid } = decodedIdToken;
+    next(req, res, uid);
   }).catch((error) => {
-    res.status(403).send('Unauthorized');
+    res.sendStatus(401); // Unauthorized
   });
 };
 
-exports.set_user_name = functions.https.onRequest((req: any, res) => {
-  return new Promise((resolve, reject) => {
-    authenticate(req, res, async () => {
-      const MAX_LENGTH = 20;
-      const { uid } = req;
-      const userName: string = req.body.userName;
-      if (!userName || userName.length > MAX_LENGTH) {
-        res.status(400).send('Bad Request');
-        resolve();
-        return;
-      }
-      await logic.setUserName(uid, userName);
-      res.status(200).json({ ok: true });
-      resolve();
-    });
-  });
-});
+exports.set_user_name = functions.https.onRequest(
+  authenticate(async (req, res, uid) => {
+    const MAX_LENGTH = 20;
+    const userName: string = req.body.userName;
+    if (!userName || userName.length > MAX_LENGTH) {
+      res.sendStatus(400);
+      return;
+    }
+    await Logic.setUserName(uid, userName);
+    res.status(200).json({ ok: true });
+  }));
 
-exports.add_photo = functions.https.onRequest((req: any, res) => {
-  return new Promise((resolve, reject) => {
-    authenticate(req, res, () => {
-      const { uid } = req;
-      const form = new formidable.IncomingForm();
-      form.maxFieldsSize = MAX_FIELDS_SIZE;
-      form.parse(req, async (err, fields, files) => {
-        const f = async () => {
-          console.log('form.parse');
-          if (!fields.star || !files.image) {
-            console.log(`fields.star = ${fields.star}`);
-            console.log(`files.image = ${files.image}`);
-            res.status(400).send('Bad Request');
-            return;
-          }
-          const star = parseInt(fields.star, 10);
-          if (!(1 <= star && star <= 5)) {
-            console.log(`fields.star = ${fields.star}`);
-            res.status(400).send('Bad Request');
-            return;
-          }
-          const file = files.image;
-          const imagePath = file.path;
-          const mimeType = file.type;
-          if (!mimeType.startsWith('image/')) {
-            console.log(`mimeType = ${mimeType}`);
-            res.status(400).send('Bad Request');
-            return;
-          }
-          const photoID = await logic.addPhoto(uid, star, imagePath, mimeType);
-          res.status(200).json({ photoID });
-        };
-        await f();
-        resolve();
+exports.add_photo = functions.https.onRequest(
+  authenticate(async (req, res, uid) => {
+    const busboy = new Busboy({ headers: req.headers, limits: { fileSize: MAX_FILE_SIZE } });
+    const files: any = {};
+    const fields: any = {};
+
+    // This callback will be invoked for each file uploaded.
+    busboy.on('file', async (fieldname, file, filename, encoding, mimetype) => {
+      console.log('busboy.on(file)');
+      const option = { postfix: ImageService.getExtension(mimetype) };
+      const filepath: string = await tmp.tmpName(option);
+      files[fieldname] = new Promise((resolve, reject) => {
+        file.pipe(fs.createWriteStream(filepath));
+        file.on('finish', () => {
+          console.log('file.on(finish)');
+          resolve({ path: filepath, type: mimetype });
+        });
       });
     });
-  });
-});
 
-exports.add_like = functions.https.onRequest((req: any, res) => {
-  return new Promise((resolve, reject) => {
-    authenticate(req, res, async () => {
-      const { uid } = req;
-      const photoID = req.body.photoID;
-      const ok = await logic.addLike(uid, photoID);
-      res.status(200).json({ ok });
-      resolve();
+    busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
+      console.log('busboy.on(field)');
+      fields[fieldname] = val;
     });
-  });
-});
 
-exports.remove_like = functions.https.onRequest((req: any, res) => {
-  return new Promise((resolve, reject) => {
-    authenticate(req, res, async () => {
-      const { uid } = req;
-      const photoID = req.body.photoID;
-      const ok = await logic.removeLike(uid, photoID);
-      res.status(200).json({ ok });
-      resolve();
+    busboy.on('finish', async () => {
+      console.log('busboy.on(finish)');
+      if (!fields.star || !files.image) {
+        console.log(`fields.star = ${fields.star}`);
+        console.log(`files.image = ${files.image}`);
+        res.sendStatus(400); // Bad Request
+        return;
+      }
+      const star = parseInt(fields.star, 10);
+      if (!(1 <= star && star <= 5)) {
+        console.log(`fields.star = ${fields.star}`);
+        res.sendStatus(400); // Bad Request
+        return;
+      }
+      const file = await files.image;
+      const imagePath = file.path;
+      const mimeType = file.type;
+      if (!mimeType.startsWith('image/')) {
+        console.log(`mimeType = ${mimeType}`);
+        res.sendStatus(400); // Bad Request
+        return;
+      }
+      const photoID = await Logic.addPhoto(uid, star, imagePath, mimeType);
+      res.status(200).json({ photoID });
     });
-  });
-});
+    busboy.end((req as any).rawBody as Buffer);
+  }));
+
+exports.add_like = functions.https.onRequest(
+  authenticate(async (req, res, uid) => {
+    const photoID: string = req.body.photoID;
+    const ok = await Logic.addLike(uid, photoID);
+    res.status(200).json({ ok });
+  }));
+
+exports.remove_like = functions.https.onRequest(
+  authenticate(async (req, res, uid) => {
+    const photoID: string = req.body.photoID;
+    const ok = await Logic.removeLike(uid, photoID);
+    res.status(200).json({ ok });
+  }));
