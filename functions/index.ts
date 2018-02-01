@@ -49,15 +49,10 @@ exports.add_photo = functions.https.onRequest(
     // This callback will be invoked for each file uploaded.
     busboy.on('file', async (fieldname, file, filename, encoding, mimetype) => {
       console.log('busboy.on(file)');
-      const option = { postfix: ImageService.getExtension(mimetype) };
+      const option = { postfix: '.' + ImageService.getExtension(mimetype) };
       const filepath: string = await tmp.tmpName(option);
-      files[fieldname] = new Promise((resolve, reject) => {
-        file.pipe(fs.createWriteStream(filepath));
-        file.on('finish', () => {
-          console.log('file.on(finish)');
-          resolve({ path: filepath, type: mimetype });
-        });
-      });
+      file.pipe(fs.createWriteStream(filepath));
+      files[fieldname] = { path: filepath, type: mimetype };
     });
 
     busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
@@ -79,7 +74,7 @@ exports.add_photo = functions.https.onRequest(
         res.sendStatus(400); // Bad Request
         return;
       }
-      const file = await files.image;
+      const file = files.image;
       const imagePath = file.path;
       const mimeType = file.type;
       if (!mimeType.startsWith('image/')) {
