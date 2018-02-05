@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
-    "firebase": "^4.9.0",
+    "firebase": "^4.9.1",
     "flexboxgrid": "^6.3.1",
     "font-awesome": "^4.7.0",
     "lodash.range": "^3.2.0",
@@ -18,7 +18,9 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.11",
+    "@storybook/react": "^3.3.12",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "flow-bin": "^0.64.0",
     "node-sass-chokidar": "^0.0.3",
     "prettier": "^1.10.2",
