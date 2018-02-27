@@ -22,15 +22,20 @@ type PropTypes = {
 };
 
 export default class AddPhotoButton extends React.Component<PropTypes, {}> {
+  fileForm: ?HTMLInputElement;
+
   handleInputChanged = () => {
-    const fileForm = this.refs.theUpload;
-    // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
-    const file: File = fileForm.files[0];
-    if (!file) {
-      return;
+    if (this.fileForm) {
+      // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
+      const file: File = this.fileForm.files[0];
+      if (!file) {
+        return;
+      }
+      if (this.fileForm.form) {
+        this.fileForm.form.reset();
+      }
+      this.props.onFileSelect(file);
     }
-    fileForm.form.reset();
-    this.props.onFileSelect(file);
   };
 
   render = () => (
@@ -38,14 +43,16 @@ export default class AddPhotoButton extends React.Component<PropTypes, {}> {
       <form>
         <input
           type="file"
-          ref="theUpload"
+          ref={elem => {
+            this.fileForm = elem;
+          }}
           accept="image/*"
           style={styles.displayNone}
           onChange={() => this.handleInputChanged()}
         />
       </form>
       <FloatingActionButton
-        onClick={() => this.refs.theUpload.click()}
+        onClick={() => this.fileForm && this.fileForm.click()}
         style={styles.floatingButton}
         backgroundColor={orangeA700}
       >

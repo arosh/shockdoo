@@ -12,6 +12,9 @@
     "browser": true
   },
   "rules": {
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/no-multi-comp": "off",
+    "class-methods-use-this": "off"
   }
 }

@@ -140,6 +140,72 @@ export function toggleDrawer(open: boolean): Action {
   };
 }
 
+export function refreshPhoto(photoID: string) {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: SET_LOADING,
+      payload: {
+        loading: true,
+      },
+    });
+    const photoPromise = firebase.getPhoto(photoID);
+    const likesPromise = firebase.getLikes();
+    dispatch({
+      type: SET_PHOTO,
+      payload: {
+        photo: await photoPromise,
+      },
+    });
+    dispatch({
+      type: SET_LIKES,
+      payload: {
+        likes: await likesPromise,
+      },
+    });
+  };
+}
+
+// react-router-redux を使っていればこんな苦労はしなかったのになぁ…
+export function refreshPhotos(type: string, uid: string) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: SET_LOADING,
+      payload: {
+        loading: true,
+      },
+    });
+    (async () => {
+      let photosPromise;
+      switch (type) {
+        case 'root':
+          photosPromise = firebase.getPhotosRoot();
+          break;
+        case 'users/photos':
+          photosPromise = firebase.getPhotosUser(uid);
+          break;
+        case 'users/likes':
+          photosPromise = firebase.getPhotosUserLikes(uid);
+          break;
+        default:
+          throw new Error(`Unexpected type = ${type}`);
+      }
+      const likesPromise = firebase.getLikes();
+      dispatch({
+        type: SET_PHOTOS,
+        payload: {
+          photos: await photosPromise,
+        },
+      });
+      dispatch({
+        type: SET_LIKES,
+        payload: {
+          likes: await likesPromise,
+        },
+      });
+    })();
+  };
+}
+
 export function uploadImage(star: number) {
   return (dispatch: Dispatch, getState: () => State) => {
     const { submit } = getState();
@@ -203,72 +269,6 @@ export function setUserName(userName: string) {
       type: NOTIFY,
       payload: {
         message: 'アカウントの表示名を設定しました',
-      },
-    });
-  };
-}
-
-// react-router-redux を使っていればこんな苦労はしなかったのになぁ…
-export function refreshPhotos(type: string, uid: string) {
-  return (dispatch: Dispatch) => {
-    dispatch({
-      type: SET_LOADING,
-      payload: {
-        loading: true,
-      },
-    });
-    (async () => {
-      let photosPromise;
-      switch (type) {
-        case 'root':
-          photosPromise = firebase.getPhotosRoot();
-          break;
-        case 'users/photos':
-          photosPromise = firebase.getPhotosUser(uid);
-          break;
-        case 'users/likes':
-          photosPromise = firebase.getPhotosUserLikes(uid);
-          break;
-        default:
-          throw new Error(`Unexpected type = ${type}`);
-      }
-      const likesPromise = firebase.getLikes();
-      dispatch({
-        type: SET_PHOTOS,
-        payload: {
-          photos: await photosPromise,
-        },
-      });
-      dispatch({
-        type: SET_LIKES,
-        payload: {
-          likes: await likesPromise,
-        },
-      });
-    })();
-  };
-}
-
-export function refreshPhoto(photoID: string) {
-  return async (dispatch: Dispatch) => {
-    dispatch({
-      type: SET_LOADING,
-      payload: {
-        loading: true,
-      },
-    });
-    const photoPromise = firebase.getPhoto(photoID);
-    const likesPromise = firebase.getLikes();
-    dispatch({
-      type: SET_PHOTO,
-      payload: {
-        photo: await photoPromise,
-      },
-    });
-    dispatch({
-      type: SET_LIKES,
-      payload: {
-        likes: await likesPromise,
       },
     });
   };

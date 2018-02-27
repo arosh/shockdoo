@@ -15,14 +15,19 @@ type InputProps = {
 
 class Input extends React.Component<InputProps, {}> {
   componentDidMount() {
-    this.refs.theInput.focus();
+    if (this.inputRef) {
+      this.inputRef.focus();
+    }
   }
+  inputRef: ?HTMLInputElement;
   render = () => (
     <TextField
       hintText="アカウントの表示名（20文字以内）"
       fullWidth
       value={this.props.name}
-      ref="theInput"
+      ref={elem => {
+        this.inputRef = elem;
+      }}
       errorText={this.props.errorText}
       onChange={e => this.props.onChange(e.target.value)}
     />
