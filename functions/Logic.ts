@@ -24,7 +24,7 @@ async function getUserName(uid: string): Promise<string> {
 async function downloadToLocal(bucketPath: string, localPath: string) {
   console.log(`Download ${bucketPath} -> ${localPath}`);
   const bucket = admin.storage().bucket();
-  await bucket.file(bucketPath).download({destination: localPath});
+  await bucket.file(bucketPath).download({ destination: localPath });
 }
 
 async function uploadToBucket(localPath: string, bucketPath: string, contentType: string) {
@@ -56,7 +56,6 @@ export async function preparePhoto(uid: string, star: number) {
 
 export async function generateThumbnail(photoID: string, imagePath: string, thumbPath: string) {
   console.log(`generateThumbnail(photoID = ${photoID}, imagePath = ${imagePath}, thumbPath = ${thumbPath})`);
-  // write meta data
   const imageLocalPath = path.join(os.tmpdir(), path.basename(imagePath));
   const thumbLocalPath = path.join(os.tmpdir(), path.basename(thumbPath));
 
