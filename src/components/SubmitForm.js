@@ -14,7 +14,8 @@ import Star from './Star';
 
 const styles = {
   bold: {
-    fontWeight: 'bold',
+    // material-design-liteの<a>と合わせてみた
+    fontWeight: 500,
   },
   right: {
     float: 'right',

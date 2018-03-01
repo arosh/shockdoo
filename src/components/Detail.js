@@ -20,7 +20,8 @@ const styles = {
     marginBottom: '1em',
   },
   bold: {
-    fontWeight: 'bold',
+    // material-design-liteの<a>と合わせてみた
+    fontWeight: 500,
   },
   right: {
     float: 'right',
@@ -57,7 +58,6 @@ const styles = {
   linkTo: {
     color: 'inherit',
     textDecoration: 'none',
-    fontWeight: 'bold',
   },
 };
 

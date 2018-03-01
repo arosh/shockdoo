@@ -12,9 +12,6 @@ import { IconThumbUp } from './icons';
 import { starImageUrlYes, starImageUrlNo } from './resources';
 
 const styles = {
-  bold: {
-    fontWeight: 'bold',
-  },
   right: {
     float: 'right',
   },
@@ -52,7 +49,6 @@ const styles = {
   linkTo: {
     color: 'inherit',
     textDecoration: 'none',
-    fontWeight: 'bold',
   },
 };
 
