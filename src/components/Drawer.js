@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import Divider from 'material-ui/Divider';
@@ -36,7 +36,7 @@ const Drawer = ({ open, onRequestChange, logged, onClick, uid }: PropTypes) => (
       onClick={() => onRequestChange(false)}
     />
     {logged ? (
-      <div>
+      <React.Fragment>
         <MenuItem
           leftIcon={<IconPhotoCamera />}
           containerElement={<Link to={`/users/${uid}/photos`} />}
@@ -55,9 +55,9 @@ const Drawer = ({ open, onRequestChange, logged, onClick, uid }: PropTypes) => (
           primaryText="ログアウト"
           onClick={() => onClick('signout')}
         />
-      </div>
+      </React.Fragment>
     ) : (
-      <div>
+      <React.Fragment>
         <Divider />
         <MenuItem
           leftIcon={<IconTwitter />}
@@ -69,7 +69,7 @@ const Drawer = ({ open, onRequestChange, logged, onClick, uid }: PropTypes) => (
           primaryText="Googleでログイン"
           onClick={() => onClick('signin-google')}
         />
-      </div>
+      </React.Fragment>
     )}
   </MaterialDrawer>
 );

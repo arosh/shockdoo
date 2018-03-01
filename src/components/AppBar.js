@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
@@ -68,7 +68,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     const { onSignIn, ...otherProps } = this.props;
     // AppBar向けのスタイルを適用するためにFlatButtonにpropsを渡す必要がある
     return (
-      <div>
+      <React.Fragment>
         <FlatButton
           {...otherProps}
           label="ログイン"
@@ -95,7 +95,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
             />
           </Menu>
         </Popover>
-      </div>
+      </React.Fragment>
     );
   }
 }

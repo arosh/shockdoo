@@ -24,22 +24,17 @@ type PropTypes = {
 };
 
 const ThumbCollection = ({ thumbs, handleLikeClick }: PropTypes) => (
-  <div>
-    <div className="row">
-      {thumbs.map(item => (
-        <div
-          key={item.photoID}
-          className="col-xs-12 col-sm-6 col-md-4 col-lg-3"
-        >
-          <div className="box" style={styles.card}>
-            <ThumbItem
-              {...item}
-              handleLikeClick={() => handleLikeClick(item.photoID)}
-            />
-          </div>
+  <div className="row">
+    {thumbs.map(item => (
+      <div key={item.photoID} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div className="box" style={styles.card}>
+          <ThumbItem
+            {...item}
+            handleLikeClick={() => handleLikeClick(item.photoID)}
+          />
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
   </div>
 );
 

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Media from 'react-media';
 import { connect } from 'react-redux';
 import * as classNames from 'classnames';
@@ -22,10 +22,10 @@ import type { State } from '../reducer';
 
 const styles = {
   container: {
-    marginTop: 'calc(64px + 1em)',
+    paddingTop: 'calc(64px + 1em)',
   },
   containerSmall: {
-    marginTop: 'calc(64px + 1em)',
+    paddingTop: 'calc(64px + 1em)',
     paddingLeft: '1rem',
     paddingRight: '1rem',
   },
@@ -34,37 +34,33 @@ const styles = {
 const Root = () => <ThumbCollection type="root" />;
 
 const Photos = ({ match }) => (
-  <div>
-    <Switch>
-      <Route exact path={`${match.url}/new`} render={() => <SubmitForm />} />
-      <Route
-        exact
-        path={`${match.url}/:photoID`}
-        render={({ match }) => <Detail photoID={match.params.photoID} />}
-      />
-    </Switch>
-  </div>
+  <Switch>
+    <Route exact path={`${match.url}/new`} render={() => <SubmitForm />} />
+    <Route
+      exact
+      path={`${match.url}/:photoID`}
+      render={({ match }) => <Detail photoID={match.params.photoID} />}
+    />
+  </Switch>
 );
 
 const Users = ({ match }) => (
-  <div>
-    <Switch>
-      <Route
-        exact
-        path={`${match.url}/:uid/photos`}
-        render={({ match }) => (
-          <ThumbCollection type="users/photos" uid={match.params.uid} />
-        )}
-      />
-      <Route
-        exact
-        path={`${match.url}/:uid/likes`}
-        render={({ match }) => (
-          <ThumbCollection type="users/likes" uid={match.params.uid} />
-        )}
-      />
-    </Switch>
-  </div>
+  <Switch>
+    <Route
+      exact
+      path={`${match.url}/:uid/photos`}
+      render={({ match }) => (
+        <ThumbCollection type="users/photos" uid={match.params.uid} />
+      )}
+    />
+    <Route
+      exact
+      path={`${match.url}/:uid/likes`}
+      render={({ match }) => (
+        <ThumbCollection type="users/likes" uid={match.params.uid} />
+      )}
+    />
+  </Switch>
 );
 
 type AppProps = {
@@ -80,7 +76,7 @@ const muiTheme = getMuiTheme({
 const App = (props: AppProps) => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Router>
-      <div>
+      <React.Fragment>
         {props.loading && <Loading />}
         <Media query={{ minWidth: 768 }}>
           {matches => (
@@ -104,7 +100,7 @@ const App = (props: AppProps) => (
         <AddPhotoButton />
         <Notification />
         <NameDialog />
-      </div>
+      </React.Fragment>
     </Router>
   </MuiThemeProvider>
 );

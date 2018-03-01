@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { MemoryRouter } from 'react-router-dom';
@@ -165,10 +165,10 @@ class NameDialogEnhance extends React.Component<{}, { open: boolean }> {
     action('submit')(name);
   };
   render = () => (
-    <div>
+    <React.Fragment>
       <NameDialog open={this.state.open} onSubmit={this.onSubmit} />
       <button onClick={() => this.setState({ open: true })}>open</button>
-    </div>
+    </React.Fragment>
   );
 }
 
