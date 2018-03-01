@@ -1,16 +1,14 @@
 {
   "private": true,
   "dependencies": {
-    "busboy": "^0.2.14",
     "child-process-promise": "^2.2.1",
-    "firebase-admin": "^5.8.2",
+    "firebase-admin": "^5.9.1",
     "firebase-functions": "^0.8.1",
-    "tmp-promise": "^1.0.4"
+    "path-match": "^1.2.4"
   },
   "devDependencies": {
-    "@types/busboy": "^0.2.3",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.1"
+    "typescript": "^2.7.2"
   },
   "scripts": {
     "build": "tsc"

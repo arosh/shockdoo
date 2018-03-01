@@ -147,4 +147,4 @@ export default (props: Props) => {
       style={styles.appbar}
     />
   );
-}
+};

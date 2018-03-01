@@ -3,7 +3,7 @@
     "public": "build",
     "rewrites": [
       { "source": "/api/set_user_name", "function": "set_user_name" },
-      { "source": "/api/add_photo",     "function": "add_photo" },
+      { "source": "/api/prepare_photo", "function": "prepare_photo" },
       { "source": "/api/add_like",      "function": "add_like" },
       { "source": "/api/remove_like",   "function": "remove_like" },
       { "source": "**", "destination": "/index.html" }

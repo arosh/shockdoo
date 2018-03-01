@@ -2,11 +2,14 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
+import * as path from 'path';
 import type { Photo, PhotoDetail, User } from '../types';
 
 export class FirebaseUtils {
   auth: firebase.auth.Auth;
   db: firebase.firestore.Firestore;
+  storage: firebase.storage.Storage;
   initializerPromise: Promise<void>;
 
   constructor() {
@@ -20,6 +23,7 @@ export class FirebaseUtils {
     firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.db = firebase.firestore();
+    this.storage = firebase.storage();
   }
 
   createProvider(providerName: string) {
@@ -49,7 +53,7 @@ export class FirebaseUtils {
     return this.auth.signOut();
   }
 
-  async setOnSignInHandler(handler: (uid: number, userName: string) => void) {
+  async setOnSignInHandler(handler: (uid: number, userName: string) => any) {
     await this.initializerPromise;
     this.auth.onAuthStateChanged(async user => {
       if (user) {
@@ -99,32 +103,41 @@ export class FirebaseUtils {
     await this.postJson('/api/set_user_name', { userName });
   }
 
-  async postFormData(url: string, body: FormData) {
+  async waitPhotoPresence(photoID: string): Promise<void> {
     await this.initializerPromise;
-    const token = await this.auth.currentUser.getIdToken();
-    const method = 'POST';
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const init = {
-      method,
-      headers,
-      body,
-    };
-    const response = await fetch(url, init);
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response);
+    return new Promise(resolve => {
+      const unsubscribe = this.db
+        .collection('photos')
+        .doc(photoID)
+        .onSnapshot(snapshot => {
+          if (snapshot.exists && snapshot.get('presence')) {
+            unsubscribe();
+            resolve();
+          }
+        });
+    });
   }
 
-  async uploadImage(image: Blob, star: number): Promise<string> {
+  async uploadImage(
+    fileName: string,
+    image: Blob,
+    star: number,
+    onPrepareComplete: Function,
+    onUploadComplete: Function
+  ): Promise<string> {
     await this.initializerPromise;
-    const formData = new FormData();
-    formData.set('star', star.toFixed());
-    formData.set('image', image);
-    const resp = await this.postFormData('/api/add_photo', formData);
-    return resp.photoID;
+    const { photoID } = await this.postJson('/api/prepare_photo', { star });
+    onPrepareComplete();
+    const { uid } = this.auth.currentUser;
+    const basename = path.basename(fileName);
+    const ref = this.storage.ref(`${uid}/${photoID}/image/${basename}`);
+    await ref.put(image, {
+      contentType: image.type,
+      cacheControl: 'public, max-age=3600',
+    });
+    onUploadComplete();
+    await this.waitPhotoPresence(photoID);
+    return photoID;
   }
 
   dateString(at: Date): string {
@@ -138,6 +151,7 @@ export class FirebaseUtils {
     await this.initializerPromise;
     const snapshots = await this.db
       .collection('photos')
+      .where('presence', '==', true)
       .orderBy('createdAt', 'desc')
       .get();
     const photos = snapshots.docs.map(doc => {
@@ -161,6 +175,7 @@ export class FirebaseUtils {
     await this.initializerPromise;
     const snapshots = await this.db
       .collection('photos')
+      .where('presence', '==', true)
       .where('uid', '==', uid)
       .orderBy('createdAt', 'desc')
       .get();

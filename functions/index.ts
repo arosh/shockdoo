@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 
-import * as Busboy from 'busboy';
 import * as functions from 'firebase-functions';
-import * as tmp from 'tmp-promise';
+import * as pathMatch from 'path-match';
 
 import * as ImageService from './ImageService';
 import * as Logic from './Logic';
@@ -40,53 +39,50 @@ exports.set_user_name = functions.https.onRequest(
     res.status(200).json({ ok: true });
   }));
 
-exports.add_photo = functions.https.onRequest(
+exports.prepare_photo = functions.https.onRequest(
   authenticate(async (req, res, uid) => {
-    const busboy = new Busboy({ headers: req.headers, limits: { fileSize: MAX_FILE_SIZE } });
-    const files: any = {};
-    const fields: any = {};
-
-    // This callback will be invoked for each file uploaded.
-    busboy.on('file', async (fieldname, file, filename, encoding, mimetype) => {
-      console.log('busboy.on(file)');
-      const option = { postfix: '.' + ImageService.getExtension(mimetype) };
-      const filepath: string = await tmp.tmpName(option);
-      file.pipe(fs.createWriteStream(filepath));
-      files[fieldname] = { path: filepath, type: mimetype };
-    });
-
-    busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
-      console.log('busboy.on(field)');
-      fields[fieldname] = val;
-    });
-
-    busboy.on('finish', async () => {
-      console.log('busboy.on(finish)');
-      if (!fields.star || !files.image) {
-        console.log(`fields.star = ${fields.star}`);
-        console.log(`files.image = ${files.image}`);
-        res.sendStatus(400); // Bad Request
-        return;
-      }
-      const star = parseInt(fields.star, 10);
-      if (!(1 <= star && star <= 5)) {
-        console.log(`fields.star = ${fields.star}`);
-        res.sendStatus(400); // Bad Request
-        return;
-      }
-      const file = files.image;
-      const imagePath = file.path;
-      const mimeType = file.type;
-      if (!mimeType.startsWith('image/')) {
-        console.log(`mimeType = ${mimeType}`);
-        res.sendStatus(400); // Bad Request
-        return;
-      }
-      const photoID = await Logic.addPhoto(uid, star, imagePath, mimeType);
-      res.status(200).json({ photoID });
-    });
-    busboy.end((req as any).rawBody as Buffer);
+    const star: number = Math.trunc(req.body.star);
+    if (!(1 <= star && star <= 5)) {
+      console.log(`req.body.star = ${req.body.star}`);
+      res.sendStatus(400); // Bad Request
+      return;
+    }
+    const photoID = await Logic.preparePhoto(uid, star);
+    res.status(200).json({ photoID });
   }));
+
+exports.generateThumbnail = functions.storage.object().onChange(async (event) => {
+  const object = event.data;
+  // move of delete
+  if (object.resourceState === 'not_exists') {
+    console.log(`resourceState = ${object.resourceState}`);
+    return;
+  }
+  // metadata change
+  if (object.resourceState === 'exists' && object.metageneration > 1) {
+    console.log(`resourceState = ${object.resourceState} and metageneration = ${object.metageneration}`);
+    return;
+  }
+  if (!object.contentType.startsWith('image/')) {
+    console.log(`contentType = ${object.contentType}`);
+    return;
+  }
+  // sensitive : case sensitive (default: false)
+  // strict : does not ignore the trailing slash (default: false)
+  // end : add '$' to end of RegExp
+  const matchOptions = { sensitive: true, strict: true, end: true };
+  const match = pathMatch(matchOptions)(':uid/:photoID/image/:basename');
+  const params = match(object.name);
+  if (params === false) {
+    console.log(`object.name = ${object.name}`);
+    return;
+  }
+  const { uid, photoID, basename } = params;
+  const imagePath = object.name;
+  const thumbPath = `${uid}/${photoID}/thumb/${basename + '.jpg'}`;
+  await Logic.generateThumbnail(photoID, imagePath, thumbPath);
+  await Logic.completePhoto(photoID, imagePath, thumbPath);
+});
 
 exports.add_like = functions.https.onRequest(
   authenticate(async (req, res, uid) => {

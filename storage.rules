@@ -3,5 +3,11 @@ service firebase.storage {
     match /{allPaths=**} {
       allow read;
     }
+    match /{uid}/{photoID}/image/{basename} {
+      allow write: if request.auth.uid == uid
+                   && resource == null
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
   }
 }

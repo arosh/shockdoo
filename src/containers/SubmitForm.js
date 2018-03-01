@@ -12,7 +12,7 @@ export default compose(
   connect(
     (state: State) => ({
       userName: state.userName,
-      imageUrl: state.submit.imageURL,
+      imageUrl: state.submit.imageBlobURL,
       createdAt: state.submit.createdAt,
     }),
     (dispatch, ownProps) => ({

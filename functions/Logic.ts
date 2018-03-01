@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 
 import * as ImageService from './ImageService';
@@ -20,7 +21,14 @@ async function getUserName(uid: string): Promise<string> {
   return user.get('userName');
 }
 
+async function downloadToLocal(bucketPath: string, localPath: string) {
+  console.log(`Download ${bucketPath} -> ${localPath}`);
+  const bucket = admin.storage().bucket();
+  await bucket.file(bucketPath).download({destination: localPath});
+}
+
 async function uploadToBucket(localPath: string, bucketPath: string, contentType: string) {
+  console.log(`Upload ${localPath} -> ${bucketPath}`);
   const bucket = admin.storage().bucket();
   // https://firebase.google.com/docs/reference/js/firebase.storage.UploadMetadata?hl=ja
   const metadata = {
@@ -28,31 +36,49 @@ async function uploadToBucket(localPath: string, bucketPath: string, contentType
     contentType,
   };
   await bucket.upload(localPath, { destination: bucketPath, metadata });
-  await fs.unlinkSync(localPath);
-  // https://stackoverflow.com/questions/42956250/get-download-url-from-file-uploaded-with-cloud-functions-for-firebase
-  return `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(bucketPath)}?alt=media`;
 }
 
-export async function addPhoto(uid: string, star: number, imagePath: string, mimeType: string) {
-  console.log(`addPhoto(uid = ${uid}, star = ${star}, imagePath = ${imagePath}, mimeType = ${mimeType})`);
+export async function preparePhoto(uid: string, star: number) {
+  console.log(`reservePhoto(uid = ${uid}, star = ${star})`);
   const userNamePromise = getUserName(uid);
-  const thumbPathPromise = ImageService.generateThumbnail(imagePath);
   const photoRef = db.collection('photos').doc();
   const photoID = photoRef.id;
-  const imageBucketPath = path.join('image', photoID + '.' + ImageService.getExtension(mimeType));
-  const imageURLPromise = uploadToBucket(imagePath, imageBucketPath, mimeType);
-  const thumbBucketPath = path.join('thumb', photoID + '.jpg');
-  const thumbURLPromise = uploadToBucket(await thumbPathPromise, thumbBucketPath, 'image/jpeg');
   await photoRef.set({
     uid,
     userName: await userNamePromise,
     star,
-    imageURL: await imageURLPromise,
-    thumbURL: await thumbURLPromise,
     likes: 0,
     createdAt: FieldValue.serverTimestamp(),
+    presence: false,
   });
   return photoID;
+}
+
+export async function generateThumbnail(photoID: string, imagePath: string, thumbPath: string) {
+  console.log(`generateThumbnail(photoID = ${photoID}, imagePath = ${imagePath}, thumbPath = ${thumbPath})`);
+  // write meta data
+  const imageLocalPath = path.join(os.tmpdir(), path.basename(imagePath));
+  const thumbLocalPath = path.join(os.tmpdir(), path.basename(thumbPath));
+
+  await downloadToLocal(imagePath, imageLocalPath);
+  await ImageService.generateThumbnail(imageLocalPath, thumbLocalPath);
+  await uploadToBucket(thumbLocalPath, thumbPath, 'image/jpeg');
+}
+
+export function makePublicUrl(bucketPath: string) {
+  const bucket = admin.storage().bucket();
+  // https://stackoverflow.com/questions/42956250/get-download-url-from-file-uploaded-with-cloud-functions-for-firebase
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(bucketPath)}?alt=media`;
+}
+
+export async function completePhoto(photoID: string, imagePath: string, thumbPath: string) {
+  const imageURL = makePublicUrl(imagePath);
+  const thumbURL = makePublicUrl(thumbPath);
+  await db.collection('photos').doc(photoID).update({
+    imageURL,
+    thumbURL,
+    presence: true,
+  });
 }
 
 export function setUserName(uid: string, userName: string) {

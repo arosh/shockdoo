@@ -34,8 +34,9 @@ export type State = {
   photo: PhotoDetail,
   likes: string[],
   submit: {
-    imageURL: ?string,
-    createdAt: ?string,
+    fileName: string,
+    imageBlobURL: string,
+    createdAt: string,
   },
   notification: {
     message: string,
@@ -59,10 +60,12 @@ const initialState: State = {
     star: 0,
     likeUsers: [],
   },
+  // 写真のLikeボタンの状態を決めるために自分のlikesを格納しているが，これは本来はphotosに持たせるべきでは…？
   likes: [],
   submit: {
-    imageURL: null,
-    createdAt: null,
+    fileName: '',
+    imageBlobURL: '',
+    createdAt: '',
   },
   notification: {
     message: '',
@@ -92,18 +95,17 @@ export function signIn(providerName: string) {
 
 export function setOnSignInHandler() {
   return (dispatch: Dispatch) => {
-    firebase.setOnSignInHandler((uid, userName) => {
-      (async () => {
-        const likes = await firebase.getLikes();
-        dispatch({
-          type: SIGN_IN,
-          payload: {
-            uid,
-            userName,
-            likes,
-          },
-        });
-      })();
+    firebase.setOnSignInHandler(async (uid, userName) => {
+      // ログインしたらlikesを更新する (likesのコメント参照)
+      const likes = await firebase.getLikes();
+      dispatch({
+        type: SIGN_IN,
+        payload: {
+          uid,
+          userName,
+          likes,
+        },
+      });
     });
   };
 }
@@ -149,6 +151,7 @@ export function refreshPhoto(photoID: string) {
       },
     });
     const photoPromise = firebase.getPhoto(photoID);
+    // ページを遷移する毎にlikesを更新し直すのはアホでは…？
     const likesPromise = firebase.getLikes();
     dispatch({
       type: SET_PHOTO,
@@ -189,6 +192,7 @@ export function refreshPhotos(type: string, uid: string) {
         default:
           throw new Error(`Unexpected type = ${type}`);
       }
+      // ページを遷移する毎にlikesを更新し直すのはアホでは…？
       const likesPromise = firebase.getLikes();
       dispatch({
         type: SET_PHOTOS,
@@ -209,23 +213,48 @@ export function refreshPhotos(type: string, uid: string) {
 export function uploadImage(star: number) {
   return (dispatch: Dispatch, getState: () => State) => {
     const { submit } = getState();
-    if (!submit.imageURL) {
-      console.log('submit.imageURL is null.');
+    if (!submit.imageBlobURL) {
+      console.log('submit.imageBlobURL is null.');
+      return;
+    }
+    if (!submit.fileName) {
+      console.log('submit.fileName is null.');
       return;
     }
     // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
     // https://qiita.com/TypoScript/items/0d5b08cecf959b8b822c
     const xhr = new XMLHttpRequest();
     xhr.onload = async () => {
-      const result: Blob = xhr.response;
-      const uploadPromise = firebase.uploadImage(result, star);
+      const blob: Blob = xhr.response;
       dispatch({
         type: NOTIFY,
         payload: {
-          message: 'アップロードしています',
+          message: 'アップロードの準備をしています',
         },
       });
-      await uploadPromise;
+      const onPrepareComplete = () => {
+        dispatch({
+          type: NOTIFY,
+          payload: {
+            message: 'アップロードしています',
+          },
+        });
+      };
+      const onUploadComplete = () => {
+        dispatch({
+          type: NOTIFY,
+          payload: {
+            message: 'サムネイルを生成しています',
+          },
+        });
+      };
+      await firebase.uploadImage(
+        submit.fileName,
+        blob,
+        star,
+        onPrepareComplete,
+        onUploadComplete
+      );
       dispatch({
         type: NOTIFY,
         payload: {
@@ -235,16 +264,23 @@ export function uploadImage(star: number) {
       dispatch(refreshPhotos('root', ''));
     };
     xhr.responseType = 'blob';
-    xhr.open('GET', submit.imageURL);
+    xhr.open('GET', submit.imageBlobURL);
     xhr.send();
   };
 }
 
-export function setSubmit(imageURL: string, createdAt: string): Action {
+function createTodayString() {
+  const date = new Date();
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+export function setSubmit(fileName: string, imageBlobURL: string): Action {
+  const createdAt = createTodayString();
   return {
     type: SET_SUBMIT,
     payload: {
-      imageURL,
+      fileName,
+      imageBlobURL,
       createdAt,
     },
   };
@@ -283,6 +319,7 @@ export function hideLoading() {
   };
 }
 
+// Firestoreの遅延を隠蔽するため，先にstoreを変更しているが，完全に闇のもと
 export function toggleLike(photoID: string) {
   return (dispatch: Dispatch, getState: () => State) => {
     const state = getState();
@@ -359,8 +396,8 @@ export default (state: State = initialState, action: Action): State => {
       return {
         ...state,
         submit: {
-          ...state.submit,
-          imageURL: payload.imageURL,
+          fileName: payload.fileName,
+          imageBlobURL: payload.imageBlobURL,
           createdAt: payload.createdAt,
         },
       };
