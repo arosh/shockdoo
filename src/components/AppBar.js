@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import MaterialAppBar from 'material-ui/AppBar';
+import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -120,17 +120,17 @@ function SignOut(props: SignOutPropTypes) {
 // https://github.com/callemall/material-ui/issues/5053
 SignOut.muiName = 'FlatButton';
 
-type PropTypes = {
+type Props = {
   logged: boolean,
   onLeftIconButtonClick: () => void,
   onSignIn: (providerName: string) => void,
   onSignOut: () => void,
 };
 
-export default function AppBar(props: PropTypes) {
+export default (props: Props) => {
   const { logged, onLeftIconButtonClick, onSignIn, onSignOut } = props;
   return (
-    <MaterialAppBar
+    <AppBar
       title={
         <Link to="/" style={styles.linkTo}>
           Shockdoo
