@@ -6,8 +6,6 @@ import * as pathMatch from 'path-match';
 import * as ImageService from './ImageService';
 import * as Logic from './Logic';
 
-const MAX_FILE_SIZE = 5242880; // 5MiB
-
 type AuthenticateHandler = (req: functions.Request, res: functions.Response, uid: string) => void;
 
 // tslint:disable-next-line:max-line-length
