@@ -116,7 +116,9 @@ export default class SubmitForm extends React.Component<
                           }
                           onClick={() => this.onClick(i)}
                           onMouseOver={() => this.onMouseOver(i)}
+                          onFocus={() => this.onMouseOver(i)}
                           onMouseOut={() => this.onMouseOut()}
+                          onBlur={() => this.onMouseOut()}
                         >
                           <Star level={i} turnOn={this.starHighlight(i)} />
                         </IconButton>

@@ -70,7 +70,12 @@ type LikeButtonProps = {
 function LikeButton(props: LikeButtonProps) {
   const { handleLikeClick, likeMark, likeUsers } = props;
   return (
-    <span style={styles.likeBox} onClick={() => handleLikeClick()}>
+    <span
+      style={styles.likeBox}
+      onClick={() => handleLikeClick()}
+      role="button"
+      tabIndex={0}
+    >
       <Avatar
         size={28}
         backgroundColor={likeMark ? blue500 : grey400}

@@ -105,7 +105,12 @@ export default function ThumbItem(props: ThumbItemProps) {
           ))}
         </div>
         <span style={styles.right}>
-          <span style={styles.likeBox} onClick={handleLikeClick}>
+          <span
+            style={styles.likeBox}
+            onClick={handleLikeClick}
+            role="button"
+            tabIndex={0}
+          >
             <Avatar
               size={28}
               backgroundColor={likeMark ? blue500 : grey400}
