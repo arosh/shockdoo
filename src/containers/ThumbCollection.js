@@ -10,10 +10,10 @@ import type { State } from '../reducer';
 import type { Photo } from '../types';
 
 class ThumbCollectionManager extends React.Component<any, {}> {
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.triggerUpdate(this.props.type, this.props.uid);
   };
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     if (
       nextProps.type !== this.props.type ||
       nextProps.uid !== this.props.uid

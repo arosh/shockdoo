@@ -61,7 +61,7 @@ export default class SubmitForm extends React.Component<
     starHover: 0,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.hideLoading();
   }
 

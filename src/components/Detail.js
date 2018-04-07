@@ -121,7 +121,7 @@ type PropsType = {
 };
 
 export default class Detail extends React.Component<PropsType, {}> {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.triggerRefresh();
   }
   render = () => {

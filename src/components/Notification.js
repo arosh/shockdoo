@@ -20,7 +20,7 @@ class Notification extends React.Component<
     open: false,
   };
 
-  componentWillReceiveProps = (nextProps: NotificationProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps: NotificationProps) => {
     if (nextProps.message && nextProps.timestamp > this.props.timestamp) {
       this.setState({
         open: true,
