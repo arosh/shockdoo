@@ -61,10 +61,6 @@ export default class SubmitForm extends React.Component<
     starHover: 0,
   };
 
-  UNSAFE_componentWillMount() {
-    this.props.hideLoading();
-  }
-
   onClick = (n: number) => {
     this.setState({
       star: n + 1,
@@ -82,6 +78,10 @@ export default class SubmitForm extends React.Component<
       starHover: 0,
     });
   };
+
+  UNSAFE_componentWillMount() {
+    this.props.hideLoading();
+  }
 
   starHighlight = (n: number) => {
     if (this.state.starHover === 0) {

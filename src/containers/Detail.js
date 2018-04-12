@@ -25,7 +25,7 @@ export default compose(
         dispatch(toggleLike(ownProps.photoID));
       },
       handleDelete: () => {
-        console.log(`delete photoID = ${ownProps.photoID}`);
+        throw new Error(`delete photoID = ${ownProps.photoID}`);
       },
       triggerRefresh: () => {
         dispatch(refreshPhoto(ownProps.photoID));

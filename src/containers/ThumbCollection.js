@@ -46,9 +46,6 @@ export default compose(
       triggerUpdate: (type: string, uid: string) => {
         dispatch(refreshPhotos(type, uid));
       },
-      onClickMore: () => {
-        console.log('more');
-      },
     })
   )
 )(ThumbCollectionManager);

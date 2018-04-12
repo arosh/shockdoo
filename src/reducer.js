@@ -214,12 +214,10 @@ export function uploadImage(star: number) {
   return (dispatch: Dispatch, getState: () => State) => {
     const { submit } = getState();
     if (!submit.imageBlobURL) {
-      console.log('submit.imageBlobURL is null.');
-      return;
+      throw new Error('submit.imageBlobURL is null.');
     }
     if (!submit.fileName) {
-      console.log('submit.fileName is null.');
-      return;
+      throw new Error('submit.fileName is null.');
     }
     // https://qiita.com/minodisk/items/24e253bb9f2313621a6b
     // https://qiita.com/TypoScript/items/0d5b08cecf959b8b822c
