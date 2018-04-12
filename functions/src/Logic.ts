@@ -2,7 +2,6 @@ import { DocumentReference, Transaction } from '@google-cloud/firestore';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
